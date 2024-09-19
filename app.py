@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/home')
 def home_page():
-    return render_template('home.html')
+    return render_template('home.html.jinja')
 
 @app.route('/market')
 def market_page():
@@ -14,5 +14,5 @@ def market_page():
         {'id': 2, 'name': 'Laptop', 'barcode': '123985473165', 'price': 900},
         {'id': 3, 'name': 'Keyboard', 'barcode': '231985128446', 'price': 150}
     ]
-    return render_template('market.html', items=items)
+    return render_template('market.html.jinja', items=items)
 
