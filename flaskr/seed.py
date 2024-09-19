@@ -1,7 +1,8 @@
-from models import db, Item
+from flaskr import db
+from flaskr.models.item import Item
 
 
-def item_model(app):
+def seed_items(app):
     with app.app_context():
         item1 = Item(
             name="IPhone 10",
