@@ -9,6 +9,7 @@ Register Page
 <body>
     <div class="container">
         <form method="POST" class="form-register">
+            {{ form.hidden_tag() }}
             <br>
             {{ form.username.label() }}
             {{ form.username(class="form-control") }}
