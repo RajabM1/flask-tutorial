@@ -8,13 +8,13 @@ def seed_items(app):
         user1 = User(
             username="john_doe",
             email="john@example.com",
-            password="hashedpassword123",
+            password_hash="hashedpassword123",
             budget=1000,
         )
         user2 = User(
             username="jane_smith",
             email="jane@example.com",
-            password="hashedpassword456",
+            password_hash="hashedpassword456",
             budget=1500,
         )
 
