@@ -1,6 +1,7 @@
 from flaskr import app
 from flask import render_template
 from flaskr.models.item import Item
+from flaskr.models.user import User
 from flaskr.forms import RegisterForm
 
 
@@ -14,6 +15,12 @@ def home_page():
 def market_page():
     items = Item.query.all()
     return render_template("market.html.jinja", items=items)
+
+
+@app.route("/users")
+def users_page():
+    users = User.query.all()
+    return render_template("users.html.jinja", users=users)
 
 
 @app.route("/register")
