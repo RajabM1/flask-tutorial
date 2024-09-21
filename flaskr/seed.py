@@ -23,21 +23,21 @@ def seed_items(app):
 
         item1 = Item(
             name="IPhone 10",
-            price=500,
+            price=2000,
             barcode="893212299897",
             description="This is Phone",
-            owner=user1.id,
+            owner=None,
         )
         item2 = Item(
             name="Laptop",
             price=900,
             barcode="123985473165",
             description="This is Laptop",
-            owner=user2.id,
+            owner=None,
         )
         item3 = Item(
             name="Keyboard",
-            price=20.5,
+            price=100,
             barcode="231985128446",
             description="This is Keyboard",
             owner=None,

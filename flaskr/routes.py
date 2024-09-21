@@ -1,9 +1,9 @@
 from flaskr import app, db
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flaskr.models.item import Item
 from flaskr.models.user import User
-from flaskr.forms import RegisterForm, LoginForm
-from flask_login import login_user, logout_user, login_required
+from flaskr.forms import RegisterForm, LoginForm, PurchaseForm, SellForm
+from flask_login import login_user, logout_user, login_required, current_user
 
 
 @app.route("/")
@@ -12,11 +12,34 @@ def home_page():
     return render_template("home.html.jinja")
 
 
-@app.route("/market")
+@app.route("/market", methods=["GET", "POST"])
 @login_required
 def market_page():
-    items = Item.query.all()
-    return render_template("market.html.jinja", items=items)
+    purchase_form = PurchaseForm()
+    if request.method == "POST":
+        purchase_item = request.form.get("purchased_item")
+        purchase_item_object = Item.query.filter_by(name=purchase_item).first()
+        if purchase_item_object:
+            if current_user.can_buy(purchase_item_object.price):
+                purchase_item_object.buy(current_user)
+                flash(
+                    f"Congratulations! You purchased {purchase_item_object.name} for {purchase_item_object.price}$",
+                    category="success",
+                )
+            else:
+                flash(
+                    f"Unfortunately, you don't have enough money to purchase {purchase_item_object.name}!",
+                    category="danger",
+                )
+        else:
+            flash("Something went wrong!, Please try again", category="info")
+        return redirect(url_for("market_page"))
+
+    if request.method == "GET":
+        items = Item.query.filter_by(owner=None)
+        return render_template(
+            "market.html.jinja", items=items, purchase_form=purchase_form
+        )
 
 
 @app.route("/users")

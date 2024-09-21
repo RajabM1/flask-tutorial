@@ -8,3 +8,8 @@ class Item(db.Model):
     barcode = db.Column(db.String(length=12), nullable=False)
     description = db.Column(db.String(length=1024), nullable=False)
     owner = db.Column(db.Integer(), db.ForeignKey("user.id"))
+
+    def buy(self, current_user):
+        self.owner = current_user.id
+        current_user.budget -= self.price
+        db.session.commit()
