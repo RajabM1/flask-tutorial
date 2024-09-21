@@ -30,3 +30,6 @@ class User(db.Model, UserMixin):
 
     def can_buy(self, item_price):
         return self.budget >= item_price
+
+    def can_sell(self, item_owner_id):
+        return self.id == item_owner_id
