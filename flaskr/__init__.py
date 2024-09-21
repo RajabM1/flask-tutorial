@@ -10,5 +10,6 @@ app.config["SECRET_KEY"] = "4a90e28d582d5cce03ec50a5"
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-
+login_manager.login_view = "login_page"
+login_manager.login_message_category = "info"
 from flaskr import routes

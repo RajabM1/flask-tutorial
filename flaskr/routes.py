@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, flash
 from flaskr.models.item import Item
 from flaskr.models.user import User
 from flaskr.forms import RegisterForm, LoginForm
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required
 
 
 @app.route("/")
@@ -13,12 +13,14 @@ def home_page():
 
 
 @app.route("/market")
+@login_required
 def market_page():
     items = Item.query.all()
     return render_template("market.html.jinja", items=items)
 
 
 @app.route("/users")
+@login_required
 def users_page():
     users = User.query.all()
     return render_template("users.html.jinja", users=users)
@@ -35,6 +37,11 @@ def register_page():
         )
         db.session.add(user_to_create)
         db.session.commit()
+        login_user(user_to_create)
+        flash(
+            f"Account created successfully! You are now logged in as {user_to_create.username}",
+            category="success",
+        )
         return redirect(url_for("users_page"))
     if form.errors != {}:
         for err_msg in form.errors.values():
@@ -61,3 +68,10 @@ def login_page():
                 category="danger",
             )
     return render_template("login.html.jinja", form=form)
+
+
+@app.route("/logout")
+def logout_page():
+    logout_user()
+    flash("You have been logged out!", category="info")
+    return redirect(url_for("home_page"))
