@@ -16,4 +16,4 @@ login_manager.login_view = "login_page"
 login_manager.login_message_category = "info"
 ma = Marshmallow()
 from flaskr import routes
-from flaskr.views import item_views
+from flaskr.views import item_views, auth_views
