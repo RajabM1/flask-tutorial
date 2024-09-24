@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from flaskr import app, db, SQLAlchemyError
+from flaskr import app, db, SQLAlchemyError, jwt_required
 from flaskr.models.item import Item
 from flaskr.schemas.item_schema import ItemSchema
 from flaskr.views import PREFIX, ValidationError
@@ -9,6 +9,7 @@ items_schema = ItemSchema(many=True)
 
 
 @app.route(f"{PREFIX}/item", methods=["GET"])
+@jwt_required()
 def list_all_available_items():
     try:
         items = Item.query.filter_by(owner=None)
@@ -18,6 +19,7 @@ def list_all_available_items():
 
 
 @app.route(f"{PREFIX}/item/<int:id>", methods=["GET"])
+@jwt_required()
 def get_item(id):
     try:
         item = Item.query.get(id)
@@ -29,6 +31,7 @@ def get_item(id):
 
 
 @app.route(f"{PREFIX}/item", methods=["POST"])
+@jwt_required()
 def create_item():
     json_data = request.get_json()
 
@@ -47,6 +50,7 @@ def create_item():
 
 
 @app.route(f"{PREFIX}/item/<int:id>", methods=["DELETE"])
+@jwt_required()
 def delete_item(id):
     try:
         item = Item.query.get(id)
