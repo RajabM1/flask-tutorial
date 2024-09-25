@@ -1,8 +1,7 @@
-from flask import jsonify, request
-from flaskr import app, db, SQLAlchemyError, create_access_token, create_refresh_token
-from flaskr.models.user import User
-from flaskr.schemas.auth_schema import AuthSchema
-from flaskr.views import PREFIX, ValidationError
+from flaskr import app, db
+from . import *
+from ..models.user import User
+from ..schemas.auth_schema import AuthSchema
 
 auth_schema = AuthSchema()
 
@@ -44,3 +43,13 @@ def login():
             )
 
     return jsonify("Invalid email or Password"), 401
+
+
+@app.get(f"{PREFIX}/refresh")
+@jwt_required(refresh=True)
+def refresh_access():
+    identity = get_jwt_identity()
+    new_access_token = create_access_token(identity=identity)
+    return jsonify({"access_token": new_access_token})
+
+

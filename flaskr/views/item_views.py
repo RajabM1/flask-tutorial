@@ -1,8 +1,8 @@
-from flask import jsonify, request
-from flaskr import app, db, SQLAlchemyError, jwt_required
-from flaskr.models.item import Item
-from flaskr.schemas.item_schema import ItemSchema
-from flaskr.views import PREFIX, ValidationError
+from flaskr import app, db
+from . import PREFIX, ValidationError, SQLAlchemyError, jwt_required, jsonify, request
+from ..models.item import Item
+from ..schemas.item_schema import ItemSchema
+from flaskr.decorators import admin_required
 
 item_schema = ItemSchema()
 items_schema = ItemSchema(many=True)
@@ -32,6 +32,7 @@ def get_item(id):
 
 @app.route(f"{PREFIX}/item", methods=["POST"])
 @jwt_required()
+@admin_required()
 def create_item():
     json_data = request.get_json()
 
@@ -51,6 +52,7 @@ def create_item():
 
 @app.route(f"{PREFIX}/item/<int:id>", methods=["DELETE"])
 @jwt_required()
+@admin_required()
 def delete_item(id):
     try:
         item = Item.query.get(id)
