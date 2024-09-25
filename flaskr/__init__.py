@@ -17,8 +17,8 @@ login_manager.login_message_category = "info"
 ma = Marshmallow()
 jwt = JWTManager(app)
 
-import routes
-from views import item_views, auth_views
+from . import routes
+from .views import item_views, auth_views
 
 
 @jwt.additional_claims_loader
