@@ -1,6 +1,8 @@
 from flaskr import app, db
 from . import *
 from ..models.user import User
+from ..models.jwt import TokenBlacklist
+
 from ..schemas.auth_schema import AuthSchema
 
 auth_schema = AuthSchema()
@@ -15,7 +17,18 @@ def register():
     new_user.password = json_data["password_hash"]
     db.session.add(new_user)
     db.session.commit()
-    return jsonify(auth_schema.dump(new_user)), 201
+    access_token = create_access_token(identity=json_data["username"])
+    refresh_token = create_refresh_token(identity=json_data["username"])
+    return (
+        jsonify(
+            {
+                "user": auth_schema.dump(new_user),
+                "access_token": access_token,
+                "refresh_token": refresh_token,
+            }
+        ),
+        201,
+    )
 
 
 @app.route(f"{PREFIX}/auth/login", methods=["POST"])
@@ -48,3 +61,10 @@ def refresh_access():
     return jsonify({"access_token": new_access_token})
 
 
+@app.route(f"{PREFIX}/auth/logout", methods=["DELETE"])
+@jwt_required()
+def logout_user():
+    jti = get_jwt()["jti"]
+    identity = get_jwt_identity()
+    TokenBlacklist.insert_or_update(identity, jti)
+    return jsonify({"message": "Successfully logged out"}), 200

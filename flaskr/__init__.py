@@ -29,6 +29,16 @@ def make_additional_claims(identity):
     return {"is_admin": False}
 
 
+@jwt.token_in_blocklist_loader
+def check_if_token_revoked(jwt_header, jwt_payload):
+    jti = jwt_payload["jti"]
+    from .models.jwt import TokenBlacklist
+    jwt_obj = TokenBlacklist.query.filter_by(jti=jti).first()
+    if not jwt_obj:
+        return False
+    return jwt_obj.is_expired
+
+
 @app.errorhandler(SQLAlchemyError)
 def handle_sqlalchemy_error(err):
     return (jsonify({"error": "A database error occurred.", "message": str(err)}), 500)
