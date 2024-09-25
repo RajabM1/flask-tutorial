@@ -19,3 +19,10 @@ jwt = JWTManager(app)
 
 import routes
 from views import item_views, auth_views
+
+
+@jwt.additional_claims_loader
+def make_additional_claims(identity):
+    if identity == "user1":
+        return {"is_admin": True}
+    return {"is_admin": False}
