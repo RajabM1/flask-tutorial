@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager
+from .views import jsonify, SQLAlchemyError, ValidationError
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///market.db"
@@ -26,3 +27,13 @@ def make_additional_claims(identity):
     if identity == "user1":
         return {"is_admin": True}
     return {"is_admin": False}
+
+
+@app.errorhandler(SQLAlchemyError)
+def handle_sqlalchemy_error(err):
+    return (jsonify({"error": "A database error occurred.", "message": str(err)}), 500)
+
+
+@app.errorhandler(ValidationError)
+def handle_validation_error(err):
+    return jsonify({"error": "A Validation Error occurred.", "message": str(err)}), 400
