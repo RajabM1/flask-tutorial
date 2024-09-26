@@ -1,13 +1,13 @@
 from flaskr import ma
 from flaskr.models.user import User
-from flaskr.schemas import fields, Length, ValidationError, validates
+from . import *
 
 
 class AuthSchema(ma.SQLAlchemyAutoSchema):
     username = fields.Str(required=True, validate=Length(min=2, max=30))
-    email = fields.Str(required=True, validate=Length(min=5, max=60))
+    email = fields.Email(required=True)
     password_hash = fields.Str(required=True, validate=Length(min=6, max=60))
-    budget = fields.Integer(required=False)
+    budget = fields.Integer(required=False, validate=Range(min=0))
 
     @validates("username")
     def validates_username(self, username):
