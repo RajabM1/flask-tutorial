@@ -49,3 +49,26 @@ def delete_item(id):
     db.session.delete(item)
     db.session.commit()
     return jsonify({"message": "Item deleted successfully"}), 200
+
+
+@app.route(f"{PREFIX}/item/<int:id>", methods=["PATCH"])
+@jwt_required()
+@admin_required()
+def update_item(id):
+    item_schema = ItemSchema(partial=True)
+
+    item = Item.query.get(id)
+    json_data = request.get_json()
+    if not item:
+        return jsonify({"message": "Item not found"}), 404
+
+    if json_data:
+        item = item_schema.load(json_data, instance=item)
+        db.session.commit()
+
+    return (
+        jsonify(
+            {"message": "Item Updated successfully", "item": item_schema.dump(item)}
+        ),
+        200,
+    )
