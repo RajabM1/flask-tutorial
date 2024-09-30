@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 from .views import jsonify, SQLAlchemyError, ValidationError
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ login_manager.login_view = "login_page"
 login_manager.login_message_category = "info"
 ma = Marshmallow()
 jwt = JWTManager(app)
+CORS(app)
 
 from . import routes
 from .views import item_views, auth_views
@@ -33,6 +35,7 @@ def make_additional_claims(identity):
 def check_if_token_revoked(jwt_header, jwt_payload):
     jti = jwt_payload["jti"]
     from .models.jwt import TokenBlacklist
+
     jwt_obj = TokenBlacklist.query.filter_by(jti=jti).first()
     if not jwt_obj:
         return False
