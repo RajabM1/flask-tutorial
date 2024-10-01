@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HttpService from "../service/HttpService";
 import Root from "./Root";
+import FormInput from "../components/FormInput";
+import SubmitButton from "../components/SubmitButton";
+import ErrorMessage from "../components/ErrorMessage";
+import TextWithLink from "../components/TextWithLink";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
@@ -32,49 +36,32 @@ const LoginPage = () => {
     return (
         <Root>
             <form className="form-signin" onSubmit={handleLogin}>
-                {loginError && <div className="alert alert-danger">{loginError}</div>}
+                <ErrorMessage message={loginError} type="danger" />
+                <FormInput
+                    id="username"
+                    type="text"
+                    label="User Name"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
 
-                <div className="mb-3">
-                    <label htmlFor="username" className="form-label">
-                        Username
-                    </label>
-                    <input
-                        type="text"
-                        id="username"
-                        className="form-control"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
+                <FormInput
+                    id="password"
+                    type="password"
+                    label="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
 
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        className="form-control"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
+                <SubmitButton label="Create Account" color="primary" />
 
-                <button className="btn btn-primary w-100" type="submit">
-                    Sign in
-                </button>
-
-                <div className="mt-3">
-                    <h6 className="d-inline">Don't have an account?</h6>
-                    <Link
-                        to="/register"
-                        className="text-secondary ms-2 text-decoration-none"
-                    >
-                        Sign Up
-                    </Link>
-                </div>
+                <TextWithLink
+                    text="Don't have an account?"
+                    linkText="Sign Up"
+                    to="/register"
+                />
             </form>
         </Root>
     );

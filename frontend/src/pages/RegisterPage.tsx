@@ -1,7 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Root from "./Root";
 import { useState } from "react";
 import HttpService from "../service/HttpService";
+import TextWithLink from "../components/TextWithLink";
+import SubmitButton from "../components/SubmitButton";
+import FormInput from "../components/FormInput";
+import ErrorMessage from "../components/ErrorMessage";
 
 function RegisterPage() {
     const [registrationError, setRegistrationError] = useState("");
@@ -10,7 +14,7 @@ function RegisterPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const navigate = useNavigate();
-    
+
     const handleRegister = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         setRegistrationError("");
@@ -40,76 +44,47 @@ function RegisterPage() {
     return (
         <Root>
             <form className="form-signin" onSubmit={handleRegister}>
-                {registrationError && (
-                    <div className="alert alert-danger">{registrationError}</div>
-                )}
+                <ErrorMessage message={registrationError} type="danger" />
 
-                <div className="mb-3">
-                    <label htmlFor="username" className="form-label">
-                        User Name
-                    </label>
-                    <input
-                        type="text"
-                        id="username"
-                        className="form-control"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        className="form-control"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        className="form-control"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="confirmPassword" className="form-label">
-                        Confirm Password
-                    </label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        className="form-control"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                    />
-                </div>
+                <FormInput
+                    id="username"
+                    type="text"
+                    label="User Name"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+                <FormInput
+                    id="email"
+                    type="email"
+                    label="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <FormInput
+                    id="password"
+                    type="password"
+                    label="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                <FormInput
+                    id="confirmPassword"
+                    type="password"
+                    label="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                />
+                <SubmitButton label="Create Account" color="primary" />
 
-                <button className="btn btn-primary w-100" type="submit">
-                    Create Account
-                </button>
-
-                <div className="mt-3">
-                    <h6 className="d-inline">Already have an account?</h6>
-                    <Link
-                        to="/login"
-                        className="text-secondary ms-2 text-decoration-none"
-                    >
-                        Sign In
-                    </Link>
-                </div>
+                <TextWithLink
+                    text="Already have an account?"
+                    linkText="Sign In"
+                    to="/login"
+                />
             </form>
         </Root>
     );
