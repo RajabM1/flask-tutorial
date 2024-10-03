@@ -29,6 +29,16 @@ class HttpService {
 
         return xhr;
     }
+
+    public static deleteRequest(url: string) {
+        const xhr = axios({
+            method: "DELETE",
+            url: `${import.meta.env.VITE_BASE_URL}${url}`,
+            headers: HttpService.getHeader(),
+        }).then((res) => res.data);
+
+        return xhr;
+    }
 }
 
 export default HttpService;

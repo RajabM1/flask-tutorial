@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import NavBar from "../components/layout/NavBar";
+import NavBar from "../components/layout/navbar/NavBar";
 import Footer from "../components/layout/Footer";
 
 interface Props {

@@ -55,7 +55,7 @@ const LoginPage = () => {
                     required
                 />
 
-                <SubmitButton label="Create Account" color="primary" />
+                <SubmitButton label="Sign In" color="primary" />
 
                 <TextWithLink
                     text="Don't have an account?"
