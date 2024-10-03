@@ -3,6 +3,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import MarketPage from "../pages/MarketPage";
+import CreateItem from "../pages/CreateItem";
 
 const routes = [
     {
@@ -19,7 +20,11 @@ const routes = [
     },
     {
         path: '/market',
-        element: <MarketPage />
+        element: <MarketPage />,
+    },
+    {
+        path: '/market/add',
+        element: <CreateItem />
     },
     {
         path: "*",

@@ -23,6 +23,7 @@ class HttpService {
             url: `${import.meta.env.VITE_BASE_URL}${url}`,
             headers: {
                 "Content-Type": "application/json",
+                ...HttpService.getHeader(),
             },
             data: JSON.stringify(body)
         }).then((res) => res.data);

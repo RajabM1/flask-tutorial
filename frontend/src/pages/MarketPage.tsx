@@ -5,6 +5,7 @@ import HttpService from "../service/HttpService";
 import Root from "./Root";
 import ActionButton from "../components/button/ActionButton";
 import ErrorMessage from "../components/ErrorMessage";
+import { useNavigate } from "react-router-dom";
 
 interface Item {
     id: number;
@@ -19,6 +20,7 @@ const MarketPage = () => {
     const [items, setItems] = useState<Item[]>([]);
     const [marketError, setMarketError] = useState("");
     const [marketMessage, setMarketMessage] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -73,6 +75,7 @@ const MarketPage = () => {
                     )}
                 </tbody>
             </table>
+            <ActionButton label="Add Item" color="primary" onClick={()=>navigate('/market/add')}/>
         </Root>
     );
 };
