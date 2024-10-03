@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import HttpService from "../service/HttpService";
 import Root from "./Root";
 import FormInput from "../components/FormInput";
-import SubmitButton from "../components/SubmitButton";
+import SubmitButton from "../components/button/SubmitButton";
 import ErrorMessage from "../components/ErrorMessage";
 import TextWithLink from "../components/TextWithLink";
 

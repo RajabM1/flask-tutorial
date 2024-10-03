@@ -3,7 +3,7 @@ import Root from "./Root";
 import { useState } from "react";
 import HttpService from "../service/HttpService";
 import TextWithLink from "../components/TextWithLink";
-import SubmitButton from "../components/SubmitButton";
+import SubmitButton from "../components/button/SubmitButton";
 import FormInput from "../components/FormInput";
 import ErrorMessage from "../components/ErrorMessage";
 
