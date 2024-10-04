@@ -1,6 +1,7 @@
 from . import *
 from flaskr.models.user import User
-from flaskr.forms import RegisterForm, LoginForm
+from flaskr.forms.auth.login_form import *
+from flaskr.forms.auth.register_form import *
 from flask_login import login_user, logout_user, login_required
 
 

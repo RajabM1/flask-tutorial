@@ -1,7 +1,4 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import Length, EqualTo, DataRequired, Email, ValidationError
-from flaskr.models.user import User
+from .. import *
 
 
 class RegisterForm(FlaskForm):
@@ -31,17 +28,3 @@ class RegisterForm(FlaskForm):
         label="Confirm Password", validators=[EqualTo("password1"), DataRequired()]
     )
     submit = SubmitField(label="Create Account")
-
-
-class LoginForm(FlaskForm):
-    username = StringField(label="User Name", validators=[DataRequired()])
-    password = PasswordField(label="Password", validators=[DataRequired()])
-    submit = SubmitField(label="Sign In")
-
-
-class PurchaseForm(FlaskForm):
-    submit = SubmitField(label="Purchase Item!")
-
-
-class SellForm(FlaskForm):
-    submit = SubmitField(label="Sell Item!")

@@ -1,6 +1,6 @@
 from . import *
 from flaskr.models.item import Item
-from flaskr.forms import PurchaseForm, SellForm
+from flaskr.forms.item_form import *
 from flask_login import login_required, current_user
 
 
