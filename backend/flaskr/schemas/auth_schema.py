@@ -10,12 +10,12 @@ class AuthSchema(ma.SQLAlchemyAutoSchema):
     budget = fields.Integer(required=False, validate=Range(min=0))
 
     @validates("username")
-    def validates_username(self, username):
+    def validate_username(self, username):
         if User.query.filter(User.username == username).first():
             raise ValidationError("Name already exists! Please try a different Name")
 
     @validates("email")
-    def validates_email(self, email):
+    def validate_email(self, email):
         if User.query.filter(User.email == email).first():
             raise ValidationError("Email already exists! Please try a different Email")
 

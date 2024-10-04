@@ -1,5 +1,8 @@
 from flaskr import db
 
+# Manage and store blacklisted JWT,
+# The tokens are blacklisted if the user logout and the token is still valid (its expiration time hasn’t passed).
+
 
 class TokenBlacklist(db.Model):
     id = db.Column(db.Integer, primary_key=True)

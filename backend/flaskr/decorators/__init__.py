@@ -2,6 +2,7 @@ from flaskr.views import jsonify, get_jwt
 from functools import wraps
 
 
+# Custom decorator that checks if the user has admin privileges based on the JWT
 def admin_required():
     def wrapper(fn):
         @wraps(fn)
