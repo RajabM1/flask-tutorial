@@ -20,7 +20,9 @@ ma = Marshmallow()
 jwt = JWTManager(app)
 CORS(app)
 
-from . import routes
+from .routes import home_routes
+from .routes import auth_routes
+from .routes import item_routes
 from .views import item_views, auth_views
 
 
