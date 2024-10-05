@@ -6,6 +6,7 @@ import FormInput from "../components/FormInput";
 import SubmitButton from "../components/button/SubmitButton";
 import ErrorMessage from "../components/ErrorMessage";
 import TextWithLink from "../components/TextWithLink";
+import { setTokens } from "../utils/jwt_helpers";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
@@ -18,15 +19,9 @@ const LoginPage = () => {
         setLoginError("");
 
         try {
-            const body = {
-                username: username,
-                password_hash: password,
-            };
+            const response = await HttpService.postRequest("auth/login", { username, password });
+            setTokens(response.access_token, response.refresh_token)
 
-            const response = await HttpService.postRequest("auth/login", body);
-
-            localStorage.setItem("accessToken", response.access_token);
-            localStorage.setItem("refreshToken", response.refresh_token);
             navigate("/", { replace: true });
         } catch {
             setLoginError("Invalid email or password");

@@ -1,26 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HttpService from "../../../service/HttpService";
-
+import { removeTokens } from "../../../utils/jwt_helpers";
+import { getAccessToken } from "../../../utils/jwt_helpers";
 const AuthLinks = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
+        const token = getAccessToken();
         if (token) {
             setIsLoggedIn(true);
         }
     }, []);
 
-    const handleLogout =async () => {
-        try{
+    const handleLogout = async () => {
+        try {
             await HttpService.deleteRequest('auth/logout');
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
+            removeTokens()
+
             setIsLoggedIn(false);
-            navigate("/login", { replace: true }); 
-        }catch{
+            navigate("/login", { replace: true });
+        } catch {
             console.error("Failed to logout");
         }
     };

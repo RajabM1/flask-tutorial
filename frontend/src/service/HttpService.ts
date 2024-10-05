@@ -1,9 +1,9 @@
 import axios from "axios";
-
+import { getAccessToken } from "../utils/jwt_helpers";
 class HttpService {
     private static getHeader() {
         return {
-            Authorization: "Bearer " + window.localStorage.getItem("accessToken")
+            Authorization: "Bearer " + getAccessToken()
         }
     }
 

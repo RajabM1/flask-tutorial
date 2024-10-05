@@ -6,6 +6,7 @@ import TextWithLink from "../components/TextWithLink";
 import SubmitButton from "../components/button/SubmitButton";
 import FormInput from "../components/FormInput";
 import ErrorMessage from "../components/ErrorMessage";
+import { setTokens } from "../utils/jwt_helpers";
 
 function RegisterPage() {
     const [registrationError, setRegistrationError] = useState("");
@@ -24,16 +25,14 @@ function RegisterPage() {
             return;
         }
 
-        const body = {
-            username: username,
-            email: email,
-            password_hash: password,
-        };
-
         try {
-            const response = await HttpService.postRequest("auth/register", body);
-            localStorage.setItem("accessToken", response.access_token);
-            localStorage.setItem("refreshToken", response.refresh_token);
+            const response = await HttpService.postRequest("auth/register", {
+                username,
+                email,
+                password,
+            });
+            setTokens(response.access_token, response.refresh_token);
+
             navigate("/", { replace: true });
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
