@@ -16,7 +16,7 @@ def register():
         return jsonify({"message": "No input data provided"}), 400
 
     new_user = auth_schema.load(json_data)
-    new_user.password = json_data["password_hash"]
+    new_user.password = json_data["password"]
 
     db.session.add(new_user)
     db.session.commit()
@@ -41,7 +41,7 @@ def login():
 
     user = User.query.filter_by(username=json_data["username"]).first()
     if user:
-        if user.check_password(json_data["password_hash"]):
+        if user.check_password(json_data["password"]):
             [access_token, refresh_token] = generate_tokens(user.username)
             return (
                 jsonify(

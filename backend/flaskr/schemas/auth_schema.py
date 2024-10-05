@@ -6,7 +6,12 @@ from . import *
 class AuthSchema(ma.SQLAlchemyAutoSchema):
     username = fields.Str(required=True, validate=Length(min=2, max=30))
     email = fields.Email(required=True)
-    password_hash = fields.Str(required=True, validate=Length(min=6, max=60))
+    password_hash = fields.Str(
+        required=True,
+        validate=Length(min=6, max=60),
+        data_key="password",
+        load_only=True,
+    )
     budget = fields.Integer(required=False, validate=Range(min=0))
 
     @validates("username")
@@ -22,3 +27,4 @@ class AuthSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
         load_instance = True
+        exclude = ["id"]
