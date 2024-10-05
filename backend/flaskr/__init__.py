@@ -46,6 +46,7 @@ def check_if_token_revoked(jwt_header, jwt_payload):
 
 @app.errorhandler(SQLAlchemyError)
 def handle_sqlalchemy_error(err):
+    db.session.rollback()
     return (jsonify({"error": "A database error occurred.", "message": str(err)}), 500)
 
 

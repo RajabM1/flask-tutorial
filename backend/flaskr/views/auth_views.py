@@ -4,6 +4,7 @@ from ..models.user import User
 from ..models.jwt import TokenBlacklist
 
 from ..schemas.auth_schema import AuthSchema
+from ..utils.jwt_helpers import generate_tokens
 
 auth_schema = AuthSchema()
 
@@ -13,12 +14,13 @@ def register():
     json_data = request.get_json()
     if not json_data:
         return jsonify({"message": "No input data provided"}), 400
+
     new_user = auth_schema.load(json_data)
     new_user.password = json_data["password_hash"]
+
     db.session.add(new_user)
     db.session.commit()
-    access_token = create_access_token(identity=json_data["username"])
-    refresh_token = create_refresh_token(identity=json_data["username"])
+    [access_token, refresh_token] = generate_tokens(new_user.username)
     return (
         jsonify(
             {
@@ -36,11 +38,11 @@ def login():
     json_data = request.get_json()
     if not json_data:
         return jsonify({"message": "No input data provided"}), 400
+
     user = User.query.filter_by(username=json_data["username"]).first()
     if user:
         if user.check_password(json_data["password_hash"]):
-            access_token = create_access_token(identity=json_data["username"])
-            refresh_token = create_refresh_token(identity=json_data["username"])
+            [access_token, refresh_token] = generate_tokens(user.username)
             return (
                 jsonify(
                     message="Login Successful",
@@ -57,7 +59,7 @@ def login():
 @jwt_required(refresh=True)
 def refresh_access():
     identity = get_jwt_identity()
-    new_access_token = create_access_token(identity=identity)
+    new_access_token = generate_tokens(identity=identity)
     return jsonify({"access_token": new_access_token})
 
 
