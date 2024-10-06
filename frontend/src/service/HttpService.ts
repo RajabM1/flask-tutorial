@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessToken } from "../utils/jwt_helpers";
+import { getAccessToken } from "../utils/jwtHelpers";
 class HttpService {
     private static getHeader() {
         return {

@@ -1,57 +1,33 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import HttpService from "../service/HttpService";
 import Root from "./Root";
 import FormInput from "../components/FormInput";
 import SubmitButton from "../components/button/SubmitButton";
 import ErrorMessage from "../components/ErrorMessage";
 import TextWithLink from "../components/TextWithLink";
-import { setTokens } from "../utils/jwt_helpers";
+import { useLoginForm } from "../hooks/useLoginForm";
 
 const LoginPage = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [loginError, setLoginError] = useState("");
-    const navigate = useNavigate();
-
-    const handleLogin = async (event: { preventDefault: () => void }) => {
-        event.preventDefault();
-        setLoginError("");
-
-        try {
-            const response = await HttpService.postRequest("auth/login", { username, password });
-            setTokens(response.access_token, response.refresh_token)
-
-            navigate("/", { replace: true });
-        } catch {
-            setLoginError("Invalid email or password");
-        }
-    };
-
+    const { formData, formError, handleInputChange, handleLogin, loginError } = useLoginForm();
     return (
         <Root>
+            <ErrorMessage message={loginError} type="danger" />
             <form className="form-signin" onSubmit={handleLogin}>
-                <ErrorMessage message={loginError} type="danger" />
                 <FormInput
                     id="username"
                     type="text"
                     label="User Name"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
+                    value={formData.username}
+                    onChange={handleInputChange}
+                    error={formError.username}
                 />
-
                 <FormInput
                     id="password"
                     type="password"
                     label="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    error={formError.password}
                 />
-
                 <SubmitButton label="Sign In" color="primary" />
-
                 <TextWithLink
                     text="Don't have an account?"
                     linkText="Sign Up"

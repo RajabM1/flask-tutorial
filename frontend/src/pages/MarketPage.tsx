@@ -24,18 +24,24 @@ const MarketPage = () => {
 
     useEffect(() => {
         const fetchItems = async () => {
+            setMarketError("");
             try {
                 const response = await HttpService.getRequest('item');
                 setItems(response);
-            } catch (error) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            } catch (error: any) {
+                if (error.status === 422) {
+                    navigate("/login", { replace: true });
+                    return
+                }
                 setMarketError("Error fetching items");
-                console.error("Error fetching items:", error);
             }
         };
         fetchItems();
-    }, []);
+    }, [navigate]);
 
     const handleDelete = async (id: number) => {
+        setMarketError("");
         try {
             await HttpService.deleteRequest(`item/${id}`);
 
@@ -62,7 +68,7 @@ const MarketPage = () => {
                                 values={[item.id, item.name, item.barcode, `${item.price} $`, item.description]}
                                 actions={
                                     <>
-                                        <ActionButton label="Purchase" color="info" />
+                                        <ActionButton label="Purchase" color="info" onClick={() => setMarketMessage("Purchase feature is not available")} />
                                         <ActionButton label="Delete" color="danger" onClick={() => handleDelete(item.id)} />
                                     </>
                                 }
@@ -75,7 +81,7 @@ const MarketPage = () => {
                     )}
                 </tbody>
             </table>
-            <ActionButton label="Add Item" color="primary" onClick={()=>navigate('/market/add')}/>
+            <ActionButton label="Add Item" color="primary" onClick={() => navigate('/market/add')} />
         </Root>
     );
 };

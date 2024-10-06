@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HttpService from "../../../service/HttpService";
-import { removeTokens } from "../../../utils/jwt_helpers";
-import { getAccessToken } from "../../../utils/jwt_helpers";
+import { removeTokens } from "../../../utils/jwtHelpers";
+import { getAccessToken } from "../../../utils/jwtHelpers";
 const AuthLinks = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();

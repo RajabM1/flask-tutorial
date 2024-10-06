@@ -1,84 +1,50 @@
-import { useNavigate } from "react-router-dom";
 import Root from "./Root";
-import { useState } from "react";
-import HttpService from "../service/HttpService";
-import TextWithLink from "../components/TextWithLink";
+import { useRegisterForm } from "../hooks/useRegisterForm";
 import SubmitButton from "../components/button/SubmitButton";
 import FormInput from "../components/FormInput";
+import TextWithLink from "../components/TextWithLink";
 import ErrorMessage from "../components/ErrorMessage";
-import { setTokens } from "../utils/jwt_helpers";
 
-function RegisterPage() {
-    const [registrationError, setRegistrationError] = useState("");
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const navigate = useNavigate();
-
-    const handleRegister = async (event: { preventDefault: () => void }) => {
-        event.preventDefault();
-        setRegistrationError("");
-
-        if (password !== confirmPassword) {
-            setRegistrationError("Passwords do not match");
-            return;
-        }
-
-        try {
-            const response = await HttpService.postRequest("auth/register", {
-                username,
-                email,
-                password,
-            });
-            setTokens(response.access_token, response.refresh_token);
-
-            navigate("/", { replace: true });
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            setRegistrationError(error.response?.data?.message);
-        }
-    };
+const RegisterPage = () => {
+    const { formData, formError, handleInputChange, handleRegister, registerError } = useRegisterForm();
 
     return (
         <Root>
+            <ErrorMessage message={registerError} type="danger" />
             <form className="form-signin" onSubmit={handleRegister}>
-                <ErrorMessage message={registrationError} type="danger" />
-
                 <FormInput
                     id="username"
                     type="text"
                     label="User Name"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
+                    value={formData.username}
+                    onChange={handleInputChange}
+                    error={formError.username}
                 />
                 <FormInput
                     id="email"
                     type="email"
                     label="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    error={formError.email}
                 />
                 <FormInput
                     id="password"
                     type="password"
                     label="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    error={formError.password}
                 />
                 <FormInput
                     id="confirmPassword"
                     type="password"
                     label="Confirm Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    error={formError.confirmPassword}
                 />
                 <SubmitButton label="Create Account" color="primary" />
-
                 <TextWithLink
                     text="Already have an account?"
                     linkText="Sign In"

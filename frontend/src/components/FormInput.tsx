@@ -2,12 +2,12 @@ interface Props {
     id: string;
     type: string;
     label: string;
-    value: string;
+    value: string | number;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    required: boolean;
+    error?: string;
 }
 
-const FormInput = ({ id, type, label, value, onChange, required = false }: Props) => {
+const FormInput = ({ id, type, label, value, onChange, error = "" }: Props) => {
     return (
         <div className="mb-3">
             <label htmlFor={id} className="form-label">
@@ -16,11 +16,12 @@ const FormInput = ({ id, type, label, value, onChange, required = false }: Props
             <input
                 type={type}
                 id={id}
-                className="form-control"
+                name={id}
+                className={`form-control ${error ? 'is-invalid' : ''}`}
                 value={value}
                 onChange={onChange}
-                required={required}
             />
+            {error && <div className="invalid-feedback">{error}</div>}
         </div>
     );
 };
