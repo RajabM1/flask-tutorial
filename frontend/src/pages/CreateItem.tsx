@@ -3,8 +3,10 @@ import SubmitButton from "../components/button/SubmitButton";
 import FormInput from "../components/FormInput";
 import ErrorMessage from "../components/ErrorMessage";
 import { useCreateItemForm } from "../hooks/useCreateItemForm";
+import { useTranslation } from "react-i18next";
 
 const CreateItem = () => {
+    const { t } = useTranslation('create-item')
     const { formData, formError, handleInputChange, handleCreateItem, createItemError } = useCreateItemForm();
 
     return (
@@ -14,7 +16,7 @@ const CreateItem = () => {
                 <FormInput
                     id="name"
                     type="text"
-                    label="Item Name"
+                    label={t('name_label')}
                     value={formData.name}
                     onChange={handleInputChange}
                     error={formError.name}
@@ -22,7 +24,7 @@ const CreateItem = () => {
                 <FormInput
                     id="price"
                     type="number"
-                    label="Price"
+                    label={t('price_label')}
                     value={formData.price}
                     onChange={handleInputChange}
                     error={formError.price}
@@ -30,7 +32,7 @@ const CreateItem = () => {
                 <FormInput
                     id="barcode"
                     type="text"
-                    label="Barcode"
+                    label={t('barcode_label')}
                     value={formData.barcode}
                     onChange={handleInputChange}
                     error={formError.barcode}
@@ -38,12 +40,12 @@ const CreateItem = () => {
                 <FormInput
                     id="description"
                     type="text"
-                    label="Description"
+                    label={t('description_label')}
                     value={formData.description}
                     onChange={handleInputChange}
                     error={formError.description}
                 />
-                <SubmitButton label="Save" color="primary" />
+                <SubmitButton label={t('save_label')} color="primary" />
             </form>
         </Root>
     );

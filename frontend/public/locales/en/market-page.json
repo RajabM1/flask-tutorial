@@ -1,0 +1,16 @@
+{
+    "columns.id": "ID",
+    "columns.name": "Name",
+    "columns.barcode": "Barcode",
+    "columns.price": "Price",
+    "columns.description": "Description",
+    "columns.options": "Options",
+    "messages.error_fetching_items": "Error fetching items",
+    "messages.error_deleting_item": "Error deleting item with ID {{id}}",
+    "messages.item_deleted_success": "Item deleted successfully",
+    "messages.no_items_available": "No items available",
+    "messages.purchase_not_available": "Purchase feature is not available",
+    "btn.purchase": "Purchase",
+    "btn.delete": "Delete",
+    "btn.add_item": "Add Item"
+}

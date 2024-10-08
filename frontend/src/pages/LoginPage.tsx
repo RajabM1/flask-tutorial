@@ -4,8 +4,10 @@ import SubmitButton from "../components/button/SubmitButton";
 import ErrorMessage from "../components/ErrorMessage";
 import TextWithLink from "../components/TextWithLink";
 import { useLoginForm } from "../hooks/useLoginForm";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
+    const { t } = useTranslation('login-page');
     const { formData, formError, handleInputChange, handleLogin, loginError } = useLoginForm();
     return (
         <Root>
@@ -14,7 +16,7 @@ const LoginPage = () => {
                 <FormInput
                     id="username"
                     type="text"
-                    label="User Name"
+                    label={t('username_label')}
                     value={formData.username}
                     onChange={handleInputChange}
                     error={formError.username}
@@ -22,15 +24,15 @@ const LoginPage = () => {
                 <FormInput
                     id="password"
                     type="password"
-                    label="Password"
+                    label={t('password_label')}
                     value={formData.password}
                     onChange={handleInputChange}
                     error={formError.password}
                 />
-                <SubmitButton label="Sign In" color="primary" />
+                <SubmitButton label={t('sign_in')} color="primary" />
                 <TextWithLink
-                    text="Don't have an account?"
-                    linkText="Sign Up"
+                    text={t('do_not_have_account')}
+                    linkText={t('sign_up')}
                     to="/register"
                 />
             </form>

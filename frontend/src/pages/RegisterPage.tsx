@@ -4,8 +4,10 @@ import SubmitButton from "../components/button/SubmitButton";
 import FormInput from "../components/FormInput";
 import TextWithLink from "../components/TextWithLink";
 import ErrorMessage from "../components/ErrorMessage";
+import { useTranslation } from "react-i18next";
 
 const RegisterPage = () => {
+    const { t } = useTranslation('register-page');
     const { formData, formError, handleInputChange, handleRegister, registerError } = useRegisterForm();
 
     return (
@@ -15,7 +17,7 @@ const RegisterPage = () => {
                 <FormInput
                     id="username"
                     type="text"
-                    label="User Name"
+                    label={t('username_label')}
                     value={formData.username}
                     onChange={handleInputChange}
                     error={formError.username}
@@ -23,7 +25,7 @@ const RegisterPage = () => {
                 <FormInput
                     id="email"
                     type="email"
-                    label="Email"
+                    label={t('email_label')}
                     value={formData.email}
                     onChange={handleInputChange}
                     error={formError.email}
@@ -31,7 +33,7 @@ const RegisterPage = () => {
                 <FormInput
                     id="password"
                     type="password"
-                    label="Password"
+                    label={t('password_label')}
                     value={formData.password}
                     onChange={handleInputChange}
                     error={formError.password}
@@ -39,15 +41,15 @@ const RegisterPage = () => {
                 <FormInput
                     id="confirmPassword"
                     type="password"
-                    label="Confirm Password"
+                    label={t('confirm_password_label')}
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
                     error={formError.confirmPassword}
                 />
-                <SubmitButton label="Create Account" color="primary" />
+                <SubmitButton label={t('create_account_btn')} color="primary" />
                 <TextWithLink
-                    text="Already have an account?"
-                    linkText="Sign In"
+                    text={t('already_have_account')}
+                    linkText={t('sign_in')}
                     to="/login"
                 />
             </form>

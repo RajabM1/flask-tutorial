@@ -1,0 +1,7 @@
+{
+    "name_label": "Item Name",
+    "price_label": "Price",
+    "barcode_label": "Barcode",
+    "description_label": "Description",
+    "save_label": "Save"
+}

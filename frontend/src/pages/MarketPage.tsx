@@ -6,6 +6,7 @@ import Root from "./Root";
 import ActionButton from "../components/button/ActionButton";
 import ErrorMessage from "../components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface Item {
     id: number;
@@ -16,7 +17,15 @@ interface Item {
 }
 
 const MarketPage = () => {
-    const columns = ["ID", "Name", "Barcode", "Price", "Description", "Options"];
+    const { t } = useTranslation('market-page');
+    const columns = [
+        t('columns.id'),
+        t('columns.name'),
+        t('columns.barcode'),
+        t('columns.price'),
+        t('columns.description'),
+        t('columns.options')
+    ];
     const [items, setItems] = useState<Item[]>([]);
     const [marketError, setMarketError] = useState("");
     const [marketMessage, setMarketMessage] = useState("");
@@ -46,13 +55,12 @@ const MarketPage = () => {
             await HttpService.deleteRequest(`item/${id}`);
 
             setItems((items) => items.filter((item) => item.id !== id));
-            setMarketMessage("Item deleted successfully")
+            setMarketMessage(t('messages.item_deleted_success'))
         } catch (error) {
-            setMarketError(`Error deleting item with ID ${id}:`)
+            setMarketError(t('messages.error_deleting_item', { id }))
             console.error(`Error deleting item with ID ${id}:`, error);
         }
     };
-
 
     return (
         <Root>
@@ -68,20 +76,20 @@ const MarketPage = () => {
                                 values={[item.id, item.name, item.barcode, `${item.price} $`, item.description]}
                                 actions={
                                     <>
-                                        <ActionButton label="Purchase" color="info" onClick={() => setMarketMessage("Purchase feature is not available")} />
-                                        <ActionButton label="Delete" color="danger" onClick={() => handleDelete(item.id)} />
+                                        <ActionButton label={t('btn.purchase')} color="info" onClick={() => setMarketMessage(t('messages.purchase_not_available'))} />
+                                        <ActionButton label={t('btn.delete')} color="danger" onClick={() => handleDelete(item.id)} />
                                     </>
                                 }
                             />
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={columns.length}>No items available</td>
+                            <td colSpan={columns.length}>{t('messages.no_items_available')}</td>
                         </tr>
                     )}
                 </tbody>
             </table>
-            <ActionButton label="Add Item" color="primary" onClick={() => navigate('/market/add')} />
+            <ActionButton label={t('btn.add_item')} color="primary" onClick={() => navigate('/market/add')} />
         </Root>
     );
 };
