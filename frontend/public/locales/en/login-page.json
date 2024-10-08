@@ -3,5 +3,8 @@
     "password_label": "Password",
     "sign_in": "Sign In",
     "do_not_have_account": "Don't have an account?",
-    "sign_up": "Sign Up"
+    "sign_up": "Sign Up",
+    "username_required": "Username is required",
+    "password_required": "Password is required",
+    "invalid_data": "Invalid username or password."
 }

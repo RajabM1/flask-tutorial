@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import HttpService from "../service/HttpService";
 import { setTokens } from "../utils/jwtHelpers";
 import { errorFormatter } from "../utils/errorFormatter";
+import { useTranslation } from "react-i18next";
 
 interface FormData {
     username: string;
@@ -19,6 +20,7 @@ interface FormError {
 }
 
 export const useRegisterForm = () => {
+    const { t } = useTranslation('register-page');
     const [formData, setFormData] = useState<FormData>({
         username: "",
         email: "",
@@ -43,11 +45,11 @@ export const useRegisterForm = () => {
 
     const validateForm = (data: FormData): FormError => {
         const errors: FormError = {};
-        if (!data.username) errors.username = "Username is required";
-        if (!data.email) errors.email = "Email is required";
-        if (!data.password) errors.password = "Password is required";
+        if (!data.username) errors.username = t("username_required");
+        if (!data.email) errors.email = t("email_required");
+        if (!data.password) errors.password = t("password_required");
         if (data.password !== data.confirmPassword)
-            errors.confirmPassword = "Passwords do not match";
+            errors.confirmPassword = t("password_do_not_match");
         return errors;
     };
 
@@ -75,7 +77,7 @@ export const useRegisterForm = () => {
                 const errors = errorFormatter(error);
                 setFormError(errors)
             } else {
-                setRegisterError(error.response?.data?.message || "An unknown error occurred.");
+                setRegisterError(error.response?.data?.message || t("register_error"));
             }
         }
     };

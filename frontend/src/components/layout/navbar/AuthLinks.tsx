@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import HttpService from "../../../service/HttpService";
 import { removeTokens } from "../../../utils/jwtHelpers";
 import { getAccessToken } from "../../../utils/jwtHelpers";
+import { useTranslation } from "react-i18next";
 const AuthLinks = () => {
+    const { t } = useTranslation('root');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
@@ -30,15 +32,15 @@ const AuthLinks = () => {
         <ul className="navbar-nav">
             {isLoggedIn ? (
                 <li className="nav-item">
-                    <span className="nav-link" onClick={handleLogout} style={{ cursor: "pointer" }}>Logout</span>
+                    <span className="nav-link" onClick={handleLogout} style={{ cursor: "pointer" }}>{t('auth_links.logout')}</span>
                 </li>
             ) : (
                 <>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/login">Login</Link>
+                        <Link className="nav-link" to="/login">{t('auth_links.login')}</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/register">Register</Link>
+                        <Link className="nav-link" to="/register">{t('auth_links.register')}</Link>
                     </li>
                 </>
             )}

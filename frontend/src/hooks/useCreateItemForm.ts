@@ -2,6 +2,7 @@ import { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import HttpService from "../service/HttpService";
 import { errorFormatter } from "../utils/errorFormatter";
+import { useTranslation } from "react-i18next";
 
 interface FormData {
     name: string;
@@ -18,13 +19,14 @@ interface FormError {
 }
 
 export const useCreateItemForm = () => {
+    const { t } = useTranslation('create-item')
     const [formData, setFormData] = useState<FormData>({
         name: "",
         price: 0,
         barcode: "",
         description: ""
     });
-    const [formError, setFormError]= useState<FormError>({})
+    const [formError, setFormError] = useState<FormError>({})
     const [createItemError, setCreateItemError] = useState("");
     const navigate = useNavigate();
 
@@ -34,18 +36,18 @@ export const useCreateItemForm = () => {
             ...prevState,
             [name]: value
         }));
-        setFormError((prevState)=>({
+        setFormError((prevState) => ({
             ...prevState,
             [name]: ""
         }));
     };
 
-    const validateForm = (data: FormData) : FormError => {
+    const validateForm = (data: FormData): FormError => {
         const errors: FormError = {};
-        if (!data.name) errors.name = "Item name is required";
-        if (!data.price) errors.price = "Price is required";
-        if (!data.barcode) errors.barcode = "Barcode is required";
-        if (!data.description) errors.description = "Description is required";
+        if (!data.name) errors.name = t("name_required");
+        if (!data.price) errors.price = t("price_required");
+        if (!data.barcode) errors.barcode = t("barcode_required");
+        if (!data.description) errors.description = t("description_required");
         return errors;
     }
 
@@ -62,15 +64,15 @@ export const useCreateItemForm = () => {
         try {
             await HttpService.postRequest("item", formData);
             navigate("/market");
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-        if (error.status == 400) {
-            const errors = errorFormatter(error);
-            setFormError(errors);
-        } else {
-            setCreateItemError(error.response?.data?.message || "Error while creating item.");
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.status == 400) {
+                const errors = errorFormatter(error);
+                setFormError(errors);
+            } else {
+                setCreateItemError(error.response?.data?.message || t("create_item_error"));
+            }
         }
-    }
     };
 
     return {

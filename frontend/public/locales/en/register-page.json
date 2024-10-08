@@ -5,5 +5,10 @@
     "confirm_password_label": "Confirm Password",
     "create_account_btn": "Create Account",
     "already_have_account": "Already have an account?",
-    "sign_in": "Sign In"
+    "sign_in": "Sign In",
+    "username_required": "Username is required",
+    "email_required": "Email is required",
+    "password_required": "Password is required",
+    "password_do_not_match": "Passwords do not match",
+    "register_error": "An unknown error occurred."
 }

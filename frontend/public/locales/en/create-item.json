@@ -3,5 +3,10 @@
     "price_label": "Price",
     "barcode_label": "Barcode",
     "description_label": "Description",
-    "save_label": "Save"
+    "save_label": "Save",
+    "name_required": "Item name is required",
+    "price_required": "Price is required",
+    "barcode_required": "Barcode is required",
+    "description_required": "Description is required",
+    "create_item_error": "Error while creating item."
 }

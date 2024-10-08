@@ -2,6 +2,7 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import HttpService from "../service/HttpService";
 import { setTokens } from "../utils/jwtHelpers";
+import { useTranslation } from "react-i18next";
 
 interface FormData {
     username: string;
@@ -14,6 +15,7 @@ interface FormError {
 }
 
 export const useLoginForm = () => {
+    const { t } = useTranslation('login-page');
     const [formData, setFormData] = useState<FormData>({
         username: "",
         password: ""
@@ -39,8 +41,8 @@ export const useLoginForm = () => {
         setLoginError("");
 
         const errors: FormError = {};
-        if (!formData.username) errors.username = "Username is required";
-        if (!formData.password) errors.password = "Password is required";
+        if (!formData.username) errors.username = t("username_required");
+        if (!formData.password) errors.password = t("password_required");
 
         if (Object.keys(errors).length > 0) {
             setFormError(errors)
@@ -54,7 +56,7 @@ export const useLoginForm = () => {
             
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-            setLoginError(error.response?.data?.message || "Invalid username or password.");
+            setLoginError(error.response?.data?.message || t("invalid_data"));
         }
     };
     return {
