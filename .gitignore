@@ -42,6 +42,8 @@ frontend/node_modules/
 # Ignore build files from React
 frontend/build/
 
+# Ignore environment variables for React frontend
+frontend/.env
 
 # Ignore log files from npm or yarn
 npm-debug.log*
