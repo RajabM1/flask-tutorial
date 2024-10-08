@@ -29,13 +29,26 @@ cd backend
 pip install -r requirements.txt
 ```
 
-### Step 4: Run the Backend
+### Step 4: Set up .env file
+
+- **For Windows:**
+
+  ```bash
+  copy .env.example .env
+  ```
+
+- **For macOS/Linux:**
+  ```bash
+  cp .env.example .env
+  ```
+
+### Step 5: Run the Backend
 
 ```bash
 python run.py
 ```
 
-### Step 5: Deactivate the Virtual Environment
+### [Optional]: Deactivate the Virtual Environment
 
 To deactivate the virtual environment:
 
@@ -58,8 +71,20 @@ cd frontend
 ```bash
 npm i
 ```
+### Step 3: Set up .env file
 
-### Step 3: Run the Frontend
+- **For Windows:**
+
+  ```bash
+  copy .env.example .env
+  ```
+
+- **For macOS/Linux:**
+  ```bash
+  cp .env.example .env
+  ```
+
+### Step 4: Run the Frontend
 
 ```bash
 npm run dev
