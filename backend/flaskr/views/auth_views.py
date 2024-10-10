@@ -23,11 +23,9 @@ def register():
     [access_token, refresh_token] = generate_tokens(new_user.username)
     return (
         jsonify(
-            {
-                "user": auth_schema.dump(new_user),
-                "access_token": access_token,
-                "refresh_token": refresh_token,
-            }
+            current_user=auth_schema.dump(new_user),
+            access_token=access_token,
+            refresh_token=refresh_token,
         ),
         201,
     )
@@ -45,7 +43,7 @@ def login():
             [access_token, refresh_token] = generate_tokens(user.username)
             return (
                 jsonify(
-                    message="Login Successful",
+                    current_user=auth_schema.dump(user),
                     access_token=access_token,
                     refresh_token=refresh_token,
                 ),

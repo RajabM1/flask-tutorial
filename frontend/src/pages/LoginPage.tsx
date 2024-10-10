@@ -8,11 +8,11 @@ import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
     const { t } = useTranslation('login-page');
-    const { formData, formError, handleInputChange, handleLogin, loginError } = useLoginForm();
+    const { formData, formError, handleInputChange, handleSubmit, loginError } = useLoginForm();
     return (
         <Root>
             <ErrorMessage message={loginError} type="danger" />
-            <form className="form-signin" onSubmit={handleLogin}>
+            <form className="form-signin" onSubmit={handleSubmit}>
                 <FormInput
                     id="username"
                     type="text"

@@ -1,36 +1,20 @@
 import { useState, FormEvent, ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import HttpService from "../service/HttpService";
-import { setTokens } from "../utils/jwtHelpers";
-import { errorFormatter } from "../utils/errorFormatter";
 import { useTranslation } from "react-i18next";
-
-interface FormData {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-}
-
-interface FormError {
-    username?: string;
-    email?: string;
-    password?: string;
-    confirmPassword?: string;
-}
+import { useAuth } from "./useAuth";
+import { RegisterFormData, RegisterFormError } from "../types/registerForm";
 
 export const useRegisterForm = () => {
-    const { t } = useTranslation('register-page');
-    const [formData, setFormData] = useState<FormData>({
+    const { t } = useTranslation("register-page");
+    const [formData, setFormData] = useState<RegisterFormData>({
         username: "",
         email: "",
         password: "",
         confirmPassword: "",
     });
-    const [formError, setFormError] = useState<FormError>({});
+    const [formError, setFormError] = useState<RegisterFormError>({});
     const [registerError, setRegisterError] = useState("");
-    const navigate = useNavigate();
-
+    const { handleRegister } = useAuth();
+    
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -43,8 +27,8 @@ export const useRegisterForm = () => {
         }));
     };
 
-    const validateForm = (data: FormData): FormError => {
-        const errors: FormError = {};
+    const validateForm = (data: RegisterFormData): RegisterFormError => {
+        const errors: RegisterFormError = {};
         if (!data.username) errors.username = t("username_required");
         if (!data.email) errors.email = t("email_required");
         if (!data.password) errors.password = t("password_required");
@@ -53,7 +37,7 @@ export const useRegisterForm = () => {
         return errors;
     };
 
-    const handleRegister = async (event: FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         setRegisterError("");
 
@@ -63,30 +47,14 @@ export const useRegisterForm = () => {
             return;
         }
 
-        try {
-            const response = await HttpService.postRequest("auth/register", {
-                username: formData.username,
-                email: formData.email,
-                password: formData.password,
-            });
-            setTokens(response.access_token, response.refresh_token);
-            navigate("/", { replace: true });
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            if (error.status == 400) {
-                const errors = errorFormatter(error);
-                setFormError(errors)
-            } else {
-                setRegisterError(error.response?.data?.message || t("register_error"));
-            }
-        }
+        await handleRegister(formData);
     };
 
     return {
         formData,
         formError,
         handleInputChange,
-        handleRegister,
-        registerError
+        handleSubmit,
+        registerError,
     };
-}
+};

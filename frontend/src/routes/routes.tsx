@@ -1,3 +1,4 @@
+import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
 import NotFoundPage from "../pages/NotFoundPage";
 import LoginPage from "../pages/LoginPage";
@@ -32,4 +33,4 @@ const routes = [
     },
 ];
 
-export default routes;
+export const router = createBrowserRouter(routes);

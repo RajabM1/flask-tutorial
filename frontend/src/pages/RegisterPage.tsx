@@ -8,12 +8,12 @@ import { useTranslation } from "react-i18next";
 
 const RegisterPage = () => {
     const { t } = useTranslation('register-page');
-    const { formData, formError, handleInputChange, handleRegister, registerError } = useRegisterForm();
+    const { formData, formError, handleInputChange, handleSubmit, registerError } = useRegisterForm();
 
     return (
         <Root>
             <ErrorMessage message={registerError} type="danger" />
-            <form className="form-signin" onSubmit={handleRegister}>
+            <form className="form-signin" onSubmit={handleSubmit}>
                 <FormInput
                     id="username"
                     type="text"
