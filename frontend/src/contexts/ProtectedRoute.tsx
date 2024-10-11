@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { getUserRole } from '../utils/jwtHelpers';
+import UnauthorizedPage from '../pages/errors/UnauthorizedPage';
 
 type ProtectedRouteProps = PropsWithChildren & {
     allowedRoles?: Array<string>;
@@ -19,7 +20,7 @@ export default function ProtectedRoute({
     if (
         (allowedRoles && !allowedRoles.includes(getUserRole()))
     ) {
-        return <div>Permission denied</div>;
+        return <UnauthorizedPage />;
     }
 
     return children;
