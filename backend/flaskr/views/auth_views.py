@@ -68,3 +68,16 @@ def logout_user():
     identity = get_jwt_identity()
     TokenBlacklist.insert_or_update(identity, jti)
     return jsonify({"message": "Successfully logged out"}), 200
+
+
+@app.route(f"{PREFIX}/auth/me", methods=["GET"])
+@jwt_required()
+def get_current_user():
+    current_user = get_jwt_identity()
+
+    user_info = User.query.filter_by(username=current_user).first()
+
+    if user_info:
+        return jsonify(current_user=auth_schema.dump(user_info)), 200
+    else:
+        return jsonify({"message": "User not found"}), 404

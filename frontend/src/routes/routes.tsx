@@ -5,6 +5,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import MarketPage from "../pages/MarketPage";
 import CreateItem from "../pages/CreateItem";
+import ProtectedRoute from "../contexts/ProtectedRoute";
 
 const routes = [
     {
@@ -13,19 +14,35 @@ const routes = [
     },
     {
         path: "/login",
-        element: <LoginPage />
+        element: (
+            <ProtectedRoute allowedRoles={["guest"]}>
+                <LoginPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: "/register",
-        element: <RegisterPage />
+        element: (
+            <ProtectedRoute allowedRoles={["guest"]}>
+                <RegisterPage />
+            </ProtectedRoute>
+        ),
     },
     {
-        path: '/market',
-        element: <MarketPage />,
+        path: "/market",
+        element: (
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+                <MarketPage />
+            </ProtectedRoute>
+        ),
     },
     {
-        path: '/market/add',
-        element: <CreateItem />
+        path: "/market/add",
+        element: (
+            <ProtectedRoute allowedRoles={["admin"]}>
+                <CreateItem />
+            </ProtectedRoute>
+        ),
     },
     {
         path: "*",

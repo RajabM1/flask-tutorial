@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useState } from "react";
+import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import HttpService from "../service/HttpService";
 import { User } from "../types/user";
 import { LoginFormData } from "../types/loginForm";
@@ -22,6 +22,27 @@ const AuthProvider = ({ children }: Props) => {
     const [authToken, setAuthToken] = useState<string | null>(getAccessToken());
     const [currentUser, setCurrentUser] = useState<User | null>();
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            if (!authToken) {
+                setCurrentUser(null);
+                return;
+            }
+
+            try {
+                const response = await HttpService.getRequest("auth/me");
+                setCurrentUser(response.current_user);
+            } catch (error) {
+                console.error("Failed to fetch user", error);
+                setCurrentUser(null);
+                setAuthToken(null);
+                removeTokens();
+            }
+        };
+
+        fetchUser();
+    }, [authToken]);
+
     const handleLogin = async (formData: LoginFormData) => {
         try {
             const response = await HttpService.postRequest("auth/login", formData);
@@ -42,7 +63,7 @@ const AuthProvider = ({ children }: Props) => {
                 password: formData.password,
             });
             setAuthToken(response.access_token);
-            setCurrentUser(response.current_user);            
+            setCurrentUser(response.current_user);
             setTokens(response.access_token, response.refresh_token);
             router.navigate("/", { replace: true });
         } catch {
@@ -53,12 +74,13 @@ const AuthProvider = ({ children }: Props) => {
     const handleLogout = async () => {
         try {
             await HttpService.deleteRequest("auth/logout");
+        } catch {
+            console.error("Failed to logout");
+        } finally {
             setAuthToken(null);
             setCurrentUser(null);
             removeTokens();
             router.navigate("/login", { replace: true });
-        } catch {
-            console.error("Failed to logout");
         }
     };
 

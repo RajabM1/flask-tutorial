@@ -15,3 +15,11 @@ export const getAccessToken = () => {
 export const getRefreshToken = () => {
     return localStorage.getItem("refreshToken");
 };
+
+export const getUserRole = () => {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+        return "guest";
+    }
+    return "user";
+};

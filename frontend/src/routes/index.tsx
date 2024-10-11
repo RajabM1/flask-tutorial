@@ -5,7 +5,7 @@ import AuthProvider from "../contexts/AuthProvider";
 const AppRoutes = () => {
     return (
         <AuthProvider>
-            <RouterProvider router={router} />;
+            <RouterProvider router={router} />
         </AuthProvider>
     );
 };
