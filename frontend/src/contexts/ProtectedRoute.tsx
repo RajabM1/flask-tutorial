@@ -17,9 +17,7 @@ export default function ProtectedRoute({
         return <div>Loading...</div>;
     }
 
-    if (
-        (allowedRoles && !allowedRoles.includes(getUserRole()))
-    ) {
+    if (allowedRoles && !allowedRoles.includes(getUserRole())) {
         return <UnauthorizedPage />;
     }
 

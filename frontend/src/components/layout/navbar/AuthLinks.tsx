@@ -5,10 +5,22 @@ import { useAuth } from "../../../hooks/useAuth";
 const AuthLinks = () => {
     const { t } = useTranslation('root');
 
-    const { handleLogout, authToken } = useAuth();
+    const { handleLogout, authToken, currentUser } = useAuth();
 
     return (
         <ul className="navbar-nav">
+            {currentUser && (
+                <li className="nav-item">
+                    <span className="nav-link text-success fw-bold">
+                        {currentUser.budget}$
+                    </span>
+                </li>
+            )}
+            <li className="nav-item">
+                <span className="nav-link fw-bold">
+                {t('auth_links.welcome')}, {currentUser ? currentUser.username : t('auth_links.guest')}
+                </span>
+            </li>
             {(authToken) ? (
                 <li className="nav-item">
                     <span className="nav-link" onClick={handleLogout} style={{ cursor: "pointer" }}>{t('auth_links.logout')}</span>

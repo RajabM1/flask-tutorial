@@ -77,10 +77,10 @@ const AuthProvider = ({ children }: Props) => {
         } catch {
             console.error("Failed to logout");
         } finally {
+            router.navigate("/login", { replace: true });
             setAuthToken(null);
             setCurrentUser(null);
             removeTokens();
-            router.navigate("/login", { replace: true });
         }
     };
 
