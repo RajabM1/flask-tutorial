@@ -3,30 +3,17 @@ import { useNavigate } from "react-router-dom";
 import HttpService from "../service/HttpService";
 import { errorFormatter } from "../utils/errorFormatter";
 import { useTranslation } from "react-i18next";
-
-interface FormData {
-    name: string;
-    price: number;
-    barcode: string;
-    description: string;
-}
-
-interface FormError {
-    name?: string;
-    price?: string;
-    barcode?: string;
-    description?: string;
-}
+import { Item, ItemFormError } from "../types/item";
 
 export const useCreateItemForm = () => {
     const { t } = useTranslation('create-item')
-    const [formData, setFormData] = useState<FormData>({
+    const [formData, setFormData] = useState<Item>({
         name: "",
         price: 0,
         barcode: "",
         description: ""
     });
-    const [formError, setFormError] = useState<FormError>({})
+    const [formError, setFormError] = useState<ItemFormError>({})
     const [createItemError, setCreateItemError] = useState("");
     const navigate = useNavigate();
 
@@ -42,8 +29,8 @@ export const useCreateItemForm = () => {
         }));
     };
 
-    const validateForm = (data: FormData): FormError => {
-        const errors: FormError = {};
+    const validateForm = (data: Item): ItemFormError => {
+        const errors: ItemFormError = {};
         if (!data.name) errors.name = t("name_required");
         if (!data.price) errors.price = t("price_required");
         if (!data.barcode) errors.barcode = t("barcode_required");

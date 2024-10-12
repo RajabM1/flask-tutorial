@@ -1,66 +1,21 @@
-import { useEffect, useState } from "react";
 import TableHeader from "../components/table/TableHeader";
 import TableRow from "../components/table/TableRow";
-import HttpService from "../service/HttpService";
 import Root from "./Root";
 import ActionButton from "../components/button/ActionButton";
 import ErrorMessage from "../components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-interface Item {
-    id: number;
-    name: string;
-    barcode: string;
-    price: number;
-    description: string;
-}
+import { useMarketPage } from "../hooks/useMarketPage";
+import { getUserRole } from "../utils/jwtHelpers";
 
 const MarketPage = () => {
     const { t } = useTranslation('market-page');
-    const columns = [
-        t('columns.id'),
-        t('columns.name'),
-        t('columns.barcode'),
-        t('columns.price'),
-        t('columns.description'),
-        t('columns.options')
-    ];
-    const [items, setItems] = useState<Item[]>([]);
-    const [marketError, setMarketError] = useState("");
-    const [marketMessage, setMarketMessage] = useState("");
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchItems = async () => {
-            setMarketError("");
-            try {
-                const response = await HttpService.getRequest('item');
-                setItems(response);
-            } catch {
-                setMarketError("Error fetching items");
-            }
-        };
-        fetchItems();
-    }, [navigate]);
-
-    const handleDelete = async (id: number) => {
-        setMarketError("");
-        try {
-            await HttpService.deleteRequest(`item/${id}`);
-
-            setItems((items) => items.filter((item) => item.id !== id));
-            setMarketMessage(t('messages.item_deleted_success'))
-        } catch (error) {
-            setMarketError(t('messages.error_deleting_item', { id }))
-            console.error(`Error deleting item with ID ${id}:`, error);
-        }
-    };
-
+    const { columns, items, marketMessage, handlePurchase, handleDelete } = useMarketPage();
+    const role = getUserRole() === 'admin';
     return (
         <Root>
-            <ErrorMessage message={marketError} type="danger" />
-            <ErrorMessage message={marketMessage} type="success" />
+            <ErrorMessage message={marketMessage.message} type={marketMessage.type} />
             <table className="table table-hover table-dark">
                 <TableHeader columns={columns} />
                 <tbody>
@@ -68,11 +23,11 @@ const MarketPage = () => {
                         items.map((item) => (
                             <TableRow
                                 key={item.id}
-                                values={[item.id, item.name, item.barcode, `${item.price} $`, item.description]}
+                                values={[item.id ?? 0, item.name, item.barcode, `${item.price} $`, item.description]}
                                 actions={
                                     <>
-                                        <ActionButton label={t('btn.purchase')} color="info" onClick={() => setMarketMessage(t('messages.purchase_not_available'))} />
-                                        <ActionButton label={t('btn.delete')} color="danger" onClick={() => handleDelete(item.id)} />
+                                        <ActionButton label={t('btn.purchase')} color="info" onClick={() => handlePurchase(item.id ?? 0)} />
+                                        {role && <ActionButton label={t('btn.delete')} color="danger" onClick={() => handleDelete(item.id ?? 0)} />}
                                     </>
                                 }
                             />
@@ -84,7 +39,8 @@ const MarketPage = () => {
                     )}
                 </tbody>
             </table>
-            <ActionButton label={t('btn.add_item')} color="primary" onClick={() => navigate('/market/add')} />
+
+            {role && <ActionButton label={t('btn.add_item')} color="primary" onClick={() => navigate('/market/add')} />}
         </Root>
     );
 };
