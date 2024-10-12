@@ -22,7 +22,7 @@ jwt = JWTManager(app)
 CORS(app)
 
 from .routes import home_routes, auth_routes, item_routes
-from .views import item_views, auth_views
+from .views import item_views, auth_views, user_views
 
 
 @jwt.additional_claims_loader

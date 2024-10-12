@@ -27,4 +27,3 @@ class AuthSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
         load_instance = True
-        exclude = ["id"]

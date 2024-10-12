@@ -6,6 +6,7 @@ import RegisterPage from "../pages/RegisterPage";
 import MarketPage from "../pages/MarketPage";
 import CreateItem from "../pages/CreateItem";
 import ProtectedRoute from "../contexts/ProtectedRoute";
+import UsersPage from "../pages/UsersPage";
 
 const routes = [
     {
@@ -41,6 +42,14 @@ const routes = [
         element: (
             <ProtectedRoute allowedRoles={["admin"]}>
                 <CreateItem />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: "/users",
+        element: (
+            <ProtectedRoute allowedRoles={["admin"]}>
+                <UsersPage />
             </ProtectedRoute>
         ),
     },

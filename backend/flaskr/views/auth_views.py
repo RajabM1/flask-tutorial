@@ -6,7 +6,7 @@ from ..models.jwt import TokenBlacklist
 from ..schemas.auth_schema import AuthSchema
 from ..utils.jwt_helpers import generate_tokens
 
-auth_schema = AuthSchema()
+auth_schema = AuthSchema(exclude=['id'])
 
 
 @app.route(f"{PREFIX}/auth/register", methods=["POST"])
