@@ -9,8 +9,8 @@ import { getAccessToken, removeTokens, setTokens } from "../utils/jwtHelpers";
 type AuthContext = {
     authToken?: string | null;
     currentUser?: User | null;
-    handleRegister: (formData: RegisterFormData) => Promise<void>;
-    handleLogin: (formData: LoginFormData) => Promise<void>;
+    handleRegister: (formData: RegisterFormData) => Promise<unknown | void>;
+    handleLogin: (formData: LoginFormData) => Promise<unknown | void>;
     handleLogout: () => Promise<void>;
 };
 
@@ -32,8 +32,7 @@ const AuthProvider = ({ children }: Props) => {
             try {
                 const response = await HttpService.getRequest("auth/me");
                 setCurrentUser(response.current_user);
-            } catch (error) {
-                console.error("Failed to fetch user", error);
+            } catch {
                 setCurrentUser(null);
                 setAuthToken(null);
                 removeTokens();
@@ -50,8 +49,8 @@ const AuthProvider = ({ children }: Props) => {
             setCurrentUser(response.current_user);
             setTokens(response.access_token, response.refresh_token);
             router.navigate("/", { replace: true });
-        } catch {
-            console.error("Login Error");
+        } catch (error) {
+            return error;
         }
     };
 
@@ -66,8 +65,8 @@ const AuthProvider = ({ children }: Props) => {
             setCurrentUser(response.current_user);
             setTokens(response.access_token, response.refresh_token);
             router.navigate("/", { replace: true });
-        } catch {
-            console.error("Register Error");
+        } catch (error) {
+            return error;
         }
     };
 

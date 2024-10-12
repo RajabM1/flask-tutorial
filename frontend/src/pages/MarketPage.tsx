@@ -37,12 +37,7 @@ const MarketPage = () => {
             try {
                 const response = await HttpService.getRequest('item');
                 setItems(response);
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } catch (error: any) {
-                if (error.status === 422) {
-                    navigate("/login", { replace: true });
-                    return
-                }
+            } catch {
                 setMarketError("Error fetching items");
             }
         };

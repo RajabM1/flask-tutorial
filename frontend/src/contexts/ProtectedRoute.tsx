@@ -4,7 +4,7 @@ import { getUserRole } from '../utils/jwtHelpers';
 import UnauthorizedPage from '../pages/errors/UnauthorizedPage';
 
 type ProtectedRouteProps = PropsWithChildren & {
-    allowedRoles?: Array<string>;
+    allowedRoles: Array<string>;
 };
 
 export default function ProtectedRoute({
@@ -17,7 +17,7 @@ export default function ProtectedRoute({
         return <div>Loading...</div>;
     }
 
-    if (allowedRoles && !allowedRoles.includes(getUserRole())) {
+    if (allowedRoles && allowedRoles.length > 0 && !allowedRoles.includes(getUserRole())) {
         return <UnauthorizedPage />;
     }
 

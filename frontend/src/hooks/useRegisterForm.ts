@@ -2,6 +2,7 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "./useAuth";
 import { RegisterFormData, RegisterFormError } from "../types/registerForm";
+import { errorFormatter } from "../utils/errorFormatter";
 
 export const useRegisterForm = () => {
     const { t } = useTranslation("register-page");
@@ -14,7 +15,7 @@ export const useRegisterForm = () => {
     const [formError, setFormError] = useState<RegisterFormError>({});
     const [registerError, setRegisterError] = useState("");
     const { handleRegister } = useAuth();
-    
+
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -47,7 +48,10 @@ export const useRegisterForm = () => {
             return;
         }
 
-        await handleRegister(formData);
+        const response = await handleRegister(formData);
+        if (response) {
+            setFormError(errorFormatter(response));
+        }
     };
 
     return {

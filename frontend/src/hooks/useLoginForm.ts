@@ -38,7 +38,10 @@ export const useLoginForm = () => {
             return;
         }
 
-        await handleLogin(formData);
+        const response = await handleLogin(formData);
+        if (response) {
+            setLoginError(t("invalid_data"));
+        }
     };
     return {
         formData,
