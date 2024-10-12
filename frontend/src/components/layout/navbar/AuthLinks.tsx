@@ -10,15 +10,15 @@ const AuthLinks = () => {
     return (
         <ul className="navbar-nav">
             {currentUser && (
-                <li className="nav-item">
+                <li className="nav-item d-none d-md-block">
                     <span className="nav-link text-success fw-bold">
                         {currentUser.budget}$
                     </span>
                 </li>
             )}
-            <li className="nav-item">
+            <li className="nav-item d-none d-md-block">
                 <span className="nav-link fw-bold">
-                {t('auth_links.welcome')}, {currentUser ? currentUser.username : t('auth_links.guest')}
+                    {t('auth_links.welcome')}, {currentUser ? currentUser.username : t('auth_links.guest')}
                 </span>
             </li>
             {(authToken) ? (
