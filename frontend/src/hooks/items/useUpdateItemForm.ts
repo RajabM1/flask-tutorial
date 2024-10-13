@@ -1,8 +1,8 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import HttpService from "../service/HttpService";
-import { Item, ItemFormError } from "../types/item";
+import HttpService from "../../service/HttpService";
+import { Item, ItemFormError } from "../../types/item";
 import { useNavigate } from "react-router-dom";
-import { errorFormatter } from "../utils/errorFormatter";
+import { errorFormatter } from "../../utils/errorFormatter";
 
 export const useUpdateItemForm = (id: number) => {
     const navigate = useNavigate();

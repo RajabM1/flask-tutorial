@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../../hooks/auth/useAuth";
 
 const AuthLinks = () => {
     const { t } = useTranslation('root');

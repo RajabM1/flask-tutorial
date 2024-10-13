@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Item } from "../types/item";
-import HttpService from "../service/HttpService";
+import { Item } from "../../types/item";
+import HttpService from "../../service/HttpService";
 
 export const useMarketPage = () => {
     const { t } = useTranslation('market-page');

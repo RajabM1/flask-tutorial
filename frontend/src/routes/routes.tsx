@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
 import NotFoundPage from "../pages/errors/NotFoundPage";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
-import MarketPage from "../pages/MarketPage";
-import CreateItem from "../pages/CreateItem";
+import LoginPage from "../pages/auth/LoginPage";
+import RegisterPage from "../pages/auth/RegisterPage";
+import MarketPage from "../pages/items/MarketPage";
+import CreateItemPage from "../pages/items/CreateItemPage";
 import ProtectedRoute from "../contexts/ProtectedRoute";
-import UsersPage from "../pages/UsersPage";
-import UpdateItemPage from "../pages/UpdateItemPage";
+import UsersPage from "../pages/users/UsersPage";
+import UpdateItemPage from "../pages/items/UpdateItemPage";
 
 const routes = [
     {
@@ -42,7 +42,7 @@ const routes = [
         path: "/market/add",
         element: (
             <ProtectedRoute allowedRoles={["admin"]}>
-                <CreateItem />
+                <CreateItemPage />
             </ProtectedRoute>
         ),
     },

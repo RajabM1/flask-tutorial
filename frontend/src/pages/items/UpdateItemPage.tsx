@@ -1,18 +1,24 @@
-import Root from "./Root";
-import SubmitButton from "../components/button/SubmitButton";
-import FormInput from "../components/FormInput";
-import ErrorMessage from "../components/ErrorMessage";
-import { useCreateItemForm } from "../hooks/useCreateItemForm";
+import Root from "../Root";
+import SubmitButton from "../../components/button/SubmitButton";
+import FormInput from "../../components/FormInput";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { useUpdateItemForm } from "../../hooks/items/useUpdateItemForm";
 
-const CreateItem = () => {
+const UpdateItemPage = () => {
+    const { id } = useParams();
     const { t } = useTranslation('create-item')
-    const { formData, formError, handleInputChange, handleCreateItem, createItemError } = useCreateItemForm();
+    const { formData, handleInputChange, handleItemUpdate, formError } = useUpdateItemForm(Number(id));
+
+    if (!formData) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <Root>
-            <ErrorMessage message={createItemError} type="danger" />
-            <form className="form-signin" onSubmit={handleCreateItem}>
+            {/* <Message message={createItemError} type="danger" /> */}
+            <form className="form-signin" onSubmit={handleItemUpdate}>
+
                 <FormInput
                     id="name"
                     type="text"
@@ -51,4 +57,4 @@ const CreateItem = () => {
     );
 };
 
-export default CreateItem;
+export default UpdateItemPage;

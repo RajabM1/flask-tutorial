@@ -1,9 +1,9 @@
-import Root from "./Root";
-import FormInput from "../components/FormInput";
-import SubmitButton from "../components/button/SubmitButton";
-import ErrorMessage from "../components/ErrorMessage";
-import TextWithLink from "../components/TextWithLink";
-import { useLoginForm } from "../hooks/useLoginForm";
+import Root from "../Root";
+import FormInput from "../../components/FormInput";
+import SubmitButton from "../../components/button/SubmitButton";
+import Message from "../../components/Message";
+import TextWithLink from "../../components/TextWithLink";
+import { useLoginForm } from "../../hooks/auth/useLoginForm";
 import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
@@ -11,7 +11,7 @@ const LoginPage = () => {
     const { formData, formError, handleInputChange, handleSubmit, loginError } = useLoginForm();
     return (
         <Root>
-            <ErrorMessage message={loginError} type="danger" />
+            <Message message={loginError} type="danger" />
             <form className="form-signin" onSubmit={handleSubmit}>
                 <FormInput
                     id="username"

@@ -3,10 +3,10 @@ interface Props {
     type: string;
 }
 
-const ErrorMessage = ({ message, type }: Props) => {
+const Message = ({ message, type }: Props) => {
     return (
         <>{message && <div className={`alert alert-${type}`}>{message}</div>}</>
     );
 };
 
-export default ErrorMessage;
+export default Message;

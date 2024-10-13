@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { User } from "../types/user";
+import { User } from "../../types/user";
 import { useEffect, useState } from "react";
-import HttpService from "../service/HttpService";
+import HttpService from "../../service/HttpService";
 
 export const useUsersPage = () => {
     const { t } = useTranslation('users-page');

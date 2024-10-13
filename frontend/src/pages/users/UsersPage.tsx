@@ -1,17 +1,17 @@
 import { useTranslation } from "react-i18next";
-import ErrorMessage from "../components/ErrorMessage";
-import TableHeader from "../components/table/TableHeader";
-import TableRow from "../components/table/TableRow";
-import Root from "./Root";
-import { useUsersPage } from "../hooks/useUsersPage";
-import ActionButton from "../components/button/ActionButton";
+import Message from "../../components/Message";
+import TableHeader from "../../components/table/TableHeader";
+import TableRow from "../../components/table/TableRow";
+import Root from "../Root";
+import { useUsersPage } from "../../hooks/users/useUsersPage";
+import ActionButton from "../../components/button/ActionButton";
 
 const UsersPage = () => {
     const { t } = useTranslation('users-page');
     const { columns, users, pageMessage, handleUpdate, handleDelete } = useUsersPage();
     return (
         <Root>
-            <ErrorMessage message={pageMessage.message} type={pageMessage.type} />
+            <Message message={pageMessage.message} type={pageMessage.type} />
             <table className="table table-hover table-dark">
                 <TableHeader columns={columns} />
                 <tbody>
