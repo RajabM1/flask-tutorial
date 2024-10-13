@@ -11,6 +11,7 @@
     "messages.no_items_available": "No items available",
     "messages.purchase_not_available": "Purchase feature is not available",
     "btn.purchase": "Purchase",
+    "btn.edit": "Edit",
     "btn.delete": "Delete",
     "btn.add_item": "Add Item"
 }

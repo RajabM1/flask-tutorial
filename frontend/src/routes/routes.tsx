@@ -7,6 +7,7 @@ import MarketPage from "../pages/MarketPage";
 import CreateItem from "../pages/CreateItem";
 import ProtectedRoute from "../contexts/ProtectedRoute";
 import UsersPage from "../pages/UsersPage";
+import UpdateItemPage from "../pages/UpdateItemPage";
 
 const routes = [
     {
@@ -42,6 +43,14 @@ const routes = [
         element: (
             <ProtectedRoute allowedRoles={["admin"]}>
                 <CreateItem />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: "/market/edit/:id",
+        element: (
+            <ProtectedRoute allowedRoles={["admin"]}>
+                <UpdateItemPage />
             </ProtectedRoute>
         ),
     },

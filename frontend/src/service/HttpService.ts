@@ -31,6 +31,20 @@ class HttpService {
         return xhr;
     }
 
+    public static patchRequest(url: string, body: object) {
+        const xhr = axios({
+            method: "PATCH",
+            url: `${import.meta.env.VITE_BASE_URL}${url}`,
+            headers: {
+                "Content-Type": "application/json",
+                ...HttpService.getHeader(),
+            },
+            data: JSON.stringify(body)
+        }).then((res) => res.data);
+
+        return xhr;
+    }
+
     public static deleteRequest(url: string) {
         const xhr = axios({
             method: "DELETE",
