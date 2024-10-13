@@ -1,6 +1,8 @@
+from flask_jwt_extended import get_jwt_identity
 from flaskr import app, db
 from . import PREFIX, jwt_required, jsonify, request
 from ..models.item import Item
+from ..models.user import User
 from ..schemas.item_schema import ItemSchema
 from flaskr.decorators import admin_required
 
@@ -69,6 +71,32 @@ def update_item(id):
     return (
         jsonify(
             {"message": "Item Updated successfully", "item": item_schema.dump(item)}
+        ),
+        200,
+    )
+
+
+@app.route(f"{PREFIX}/item/<int:id>", methods=["POST"])
+@jwt_required()
+def buy_item(id):
+    username = get_jwt_identity()
+
+    user = User.query.filter_by(username=username).first()
+    item = Item.query.get(id)
+
+    if not item:
+        return jsonify({"message": "Item not found"}), 404
+
+    if item.owner is not None:
+        return jsonify({"message": "Something went wrong please try again"}), 400
+
+    if not user.can_buy(item.price):
+        return jsonify({"message": "You don't have enough money to purchase"}), 403
+
+    item.buy(user)
+    return (
+        jsonify(
+            {"message": "Item purchased successfully", "item": item_schema.dump(item)}
         ),
         200,
     )

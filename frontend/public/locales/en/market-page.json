@@ -10,6 +10,7 @@
     "messages.item_deleted_success": "Item deleted successfully",
     "messages.no_items_available": "No items available",
     "messages.purchase_not_available": "Purchase feature is not available",
+    "messages.error_purchase_item": "Error While trying to purchase item with ID {{id}}",
     "btn.purchase": "Purchase",
     "btn.edit": "Edit",
     "btn.delete": "Delete",

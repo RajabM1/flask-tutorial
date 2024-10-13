@@ -33,7 +33,14 @@ export const useMarketPage = () => {
     }, [t]);
 
     const handlePurchase = async (id: number) => {
-        setMarketMessage({ message: `${t('messages.purchase_not_available')} ${id}`, type: "info" });
+        try {
+            await HttpService.postRequest(`item/${id}`, {});
+            setItems((items) => items.filter((item) => item.id !== id));
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            const message = error?.response?.data?.message || t('messages.error_purchase_item', { id });
+            setMarketMessage({ message, type: "danger" });
+        }
     };
 
     const handleDelete = async (id: number) => {
