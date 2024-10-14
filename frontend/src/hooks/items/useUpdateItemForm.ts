@@ -13,7 +13,7 @@ export const useUpdateItemForm = (id: number) => {
     useEffect(() => {
         const fetchItemData = async () => {
             try {
-                const response = await HttpService.getRequest(`item/${id}`);
+                const response = await HttpService.getRequest(`items/${id}`);
                 setFormData(response);
             } catch {
                 console.log('Error fetching item');
@@ -41,13 +41,13 @@ export const useUpdateItemForm = (id: number) => {
     const handleItemUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!updatedData) {
-            navigate('/market');
+            navigate('/admin/market');
             return
         };
 
         try {
-            await HttpService.patchRequest(`item/${id}`, updatedData);
-            navigate('/market');
+            await HttpService.patchRequest(`items/${id}`, updatedData);
+            navigate('/admin/market');
         } catch (error) {
             setFormError(errorFormatter(error));
         }

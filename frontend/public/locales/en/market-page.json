@@ -14,5 +14,11 @@
     "btn.purchase": "Purchase",
     "btn.edit": "Edit",
     "btn.delete": "Delete",
-    "btn.add_item": "Add Item"
+    "btn.add_item": "Add Item",
+    "btn.sell_item": "Sell this item",
+    "headings.market_items": "Available Items on the Market", 
+    "instructions.market_items": "Click on one of the items to start buying", 
+    "headings.owned_items": "Owned Items", 
+    "instructions.owned_items": "Click on \"Sell this item\" to put it back on the Market",
+    "messages.item_costs": "This item costs {{price}} $"
 }

@@ -49,8 +49,8 @@ export const useCreateItemForm = () => {
         }
 
         try {
-            await HttpService.postRequest("item", formData);
-            navigate("/market");
+            await HttpService.postRequest("items", formData);
+            navigate("/admin/market");
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error.status == 400) {

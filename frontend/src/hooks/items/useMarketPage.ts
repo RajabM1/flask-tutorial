@@ -14,6 +14,7 @@ export const useMarketPage = () => {
         t('columns.options')
     ];
     const [items, setItems] = useState<Item[]>([]);
+    const [ownedItems, setOwnedItems] = useState<Item[]>([]);
     const [marketMessage, setMarketMessage] = useState({
         message: "",
         type: ""
@@ -23,19 +24,33 @@ export const useMarketPage = () => {
         const fetchItems = async () => {
             setMarketMessage({ message: "", type: "" });
             try {
-                const response = await HttpService.getRequest('item');
+                const response = await HttpService.getRequest('items');
                 setItems(response);
             } catch {
                 setMarketMessage({ message: t('messages.error_fetching_items'), type: "danger" });
             }
         };
+        const fetchOwnedItems = async () => {
+            setMarketMessage({ message: "", type: "" });
+            try {
+                const response = await HttpService.getRequest('users/me/items');
+                setOwnedItems(response);
+            } catch {
+                setMarketMessage({ message: t('messages.error_fetching_items'), type: "danger" });
+            }
+        };
         fetchItems();
+        fetchOwnedItems();
     }, [t]);
 
     const handlePurchase = async (id: number) => {
         try {
-            await HttpService.postRequest(`item/${id}`, {});
+            await HttpService.patchRequest(`items/${id}/buy`, {});
             setItems((items) => items.filter((item) => item.id !== id));
+            const purchasedItem = items.find((item) => item.id === id);
+            if (purchasedItem) {
+                setOwnedItems((prevOwnedItems) => [...prevOwnedItems, purchasedItem]);
+            }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             const message = error?.response?.data?.message || t('messages.error_purchase_item', { id });
@@ -46,7 +61,7 @@ export const useMarketPage = () => {
     const handleDelete = async (id: number) => {
         setMarketMessage({ message: "", type: "" });
         try {
-            await HttpService.deleteRequest(`item/${id}`);
+            await HttpService.deleteRequest(`items/${id}`);
 
             setItems((items) => items.filter((item) => item.id !== id));
             setMarketMessage({ message: t('messages.item_deleted_success'), type: "success" });
@@ -55,12 +70,30 @@ export const useMarketPage = () => {
             console.error(`Error deleting item with ID ${id}:`, error);
         }
     };
+
+    const handleSell =async (id: number) => {
+        try{
+            await HttpService.patchRequest(`items/${id}/sell`,{});
+            setOwnedItems((items) => items.filter((item) => item.id !== id));
+            const soldItem = ownedItems.find((item) => item.id === id);
+            if (soldItem) {
+                setItems((prevItems) => [...prevItems, soldItem]);
+            }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        }catch(error:any){
+            console.log("Error",error);
+            
+        }
+    }
+
     return {
         columns,
         items,
         marketMessage,
         handlePurchase,
-        handleDelete
+        handleDelete,
+        ownedItems,
+        handleSell
     }
 }
 

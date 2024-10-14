@@ -4,7 +4,8 @@ from ..models.user import User
 from ..schemas.auth_schema import AuthSchema
 from flaskr.decorators import admin_required
 
-user_schema = AuthSchema(many=True)
+user_schema = AuthSchema()
+users_schema = AuthSchema(many=True)
 
 
 @app.route(f"{PREFIX}/users", methods=["GET"])
@@ -12,4 +13,4 @@ user_schema = AuthSchema(many=True)
 @admin_required()
 def get_all_users():
     users = User.query.all()
-    return jsonify(user_schema.dump(users)), 200
+    return jsonify(users_schema.dump(users)), 200

@@ -8,6 +8,7 @@ import CreateItemPage from "../pages/items/CreateItemPage";
 import ProtectedRoute from "../contexts/ProtectedRoute";
 import UsersPage from "../pages/users/UsersPage";
 import UpdateItemPage from "../pages/items/UpdateItemPage";
+import MarketDashboard from "../pages/items/MarketDashboard";
 
 const routes = [
     {
@@ -33,8 +34,16 @@ const routes = [
     {
         path: "/market",
         element: (
-            <ProtectedRoute allowedRoles={["user", "admin"]}>
+            <ProtectedRoute allowedRoles={["user"]}>
                 <MarketPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: "/admin/market",
+        element: (
+            <ProtectedRoute allowedRoles={["admin"]}>
+                <MarketDashboard />
             </ProtectedRoute>
         ),
     },
@@ -55,7 +64,7 @@ const routes = [
         ),
     },
     {
-        path: "/users",
+        path: "/admin/users",
         element: (
             <ProtectedRoute allowedRoles={["admin"]}>
                 <UsersPage />
