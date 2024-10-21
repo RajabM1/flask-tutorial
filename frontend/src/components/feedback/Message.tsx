@@ -1,9 +1,4 @@
-interface Props {
-    message: string;
-    type: string;
-}
-
-const Message = ({ message, type }: Props) => {
+const Message = ({ message, type }: { message: string; type: string }) => {
     return (
         <>{message && <div className={`alert alert-${type}`}>{message}</div>}</>
     );

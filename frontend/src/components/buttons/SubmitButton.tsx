@@ -1,9 +1,4 @@
-interface Props {
-    label: string;
-    color: string;
-}
-
-const SubmitButton = ({ label, color }: Props) => {
+const SubmitButton = ({ label, color }: { label: string; color: string }) => {
     return (
         <button className={`btn btn-${color} w-100`} type="submit">
             {label}

@@ -17,7 +17,7 @@ const FormInput = ({ id, type, label, value, onChange, error = "" }: Props) => {
                 type={type}
                 id={id}
                 name={id}
-                className={`form-control ${error ? 'is-invalid' : ''}`}
+                className={`form-control ${error ? "is-invalid" : ""}`}
                 value={value}
                 onChange={onChange}
             />

@@ -1,8 +1,4 @@
-interface Props {
-    columns: string[];
-}
-
-const TableHeader = ({ columns }: Props) => {
+const TableHeader = ({ columns }: { columns: string[] }) => {
     return (
         <thead>
             <tr>
@@ -13,7 +9,7 @@ const TableHeader = ({ columns }: Props) => {
                 ))}
             </tr>
         </thead>
-    )
-}
+    );
+};
 
-export default TableHeader
+export default TableHeader;

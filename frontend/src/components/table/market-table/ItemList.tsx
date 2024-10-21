@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import Message from "../../Message";
-import TableHeader from "../TableHeader";
-import TableRow from "../TableRow";
-import ActionButton from "../../button/ActionButton";
+import Message from "../../feedback/Message";
+import TableHeader from "../shared/TableHeader";
+import TableRow from "../shared/TableRow";
+import ActionButton from "../../buttons/ActionButton";
 import { Item } from "../../../types/item";
 
 interface Props {

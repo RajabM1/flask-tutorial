@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 
-
 interface Props {
     text: string;
     linkText: string;

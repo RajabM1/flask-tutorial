@@ -1,5 +1,5 @@
 import { Item } from "../../../types/item";
-import ActionButton from "../../button/ActionButton";
+import ActionButton from "../../buttons/ActionButton";
 import { useTranslation } from "react-i18next";
 
 interface Props {

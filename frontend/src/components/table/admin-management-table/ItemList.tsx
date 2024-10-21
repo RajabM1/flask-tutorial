@@ -1,11 +1,12 @@
-import TableHeader from "../TableHeader";
-import TableRow from "../TableRow";
+import React from "react";
+import TableHeader from "../shared/TableHeader";
+import TableRow from "../shared/TableRow";
 
 interface Props {
     columns: string[];
     data: Array<{
         id: number;
-        values: (string | number)[];
+        values: (string | number | React.ReactNode)[];
         actions?: React.ReactNode;
     }>;
     noDataMessage: string;
@@ -14,7 +15,7 @@ interface Props {
 const ItemList = ({ columns, data, noDataMessage }: Props) => {
     return (
         <div className="table-responsive">
-            <table className="table table-hover table-dark">
+            <table className="table table-hover">
                 <TableHeader columns={columns} />
                 <tbody>
                     {data.length > 0 ? (
