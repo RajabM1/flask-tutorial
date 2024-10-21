@@ -1,12 +1,18 @@
 {
-    "footer.copyright": "2024 FourMed. All rights reserved.",
-    "auth_links.login": "Login",
-    "auth_links.register": "Register",
-    "auth_links.logout": "Logout",
-    "auth_links.welcome": "Welcome",
-    "auth_links.guest": "Guest",
-    "nav_links.home": "Home",
-    "nav_links.market": "Market",
-    "nav_links.users": "Users",
-    "nav_links.app_name": "FourMed"
+    "footer": {
+        "copyright": "2024 FourMed. All rights reserved."
+    },
+    "auth_links": {
+        "login": "Login",
+        "register": "Register",
+        "logout": "Logout",
+        "welcome": "Welcome",
+        "guest": "Guest"
+    },
+    "nav_links": {
+        "home": "Home",
+        "market": "Market",
+        "users": "Users",
+        "app_name": "FourMed"
+    }
 }

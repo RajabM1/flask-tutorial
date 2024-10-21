@@ -1,24 +1,37 @@
 {
-    "columns.id": "ID",
-    "columns.name": "Name",
-    "columns.barcode": "Barcode",
-    "columns.price": "Price",
-    "columns.description": "Description",
-    "columns.options": "Options",
-    "messages.error_fetching_items": "Error fetching items",
-    "messages.error_deleting_item": "Error deleting item with ID {{id}}",
-    "messages.item_deleted_success": "Item deleted successfully",
-    "messages.no_items_available": "No items available",
-    "messages.purchase_not_available": "Purchase feature is not available",
-    "messages.error_purchase_item": "Error While trying to purchase item with ID {{id}}",
-    "btn.purchase": "Purchase",
-    "btn.edit": "Edit",
-    "btn.delete": "Delete",
-    "btn.add_item": "Add Item",
-    "btn.sell_item": "Sell this item",
-    "headings.market_items": "Available Items on the Market", 
-    "instructions.market_items": "Click on one of the items to start buying", 
-    "headings.owned_items": "Owned Items", 
-    "instructions.owned_items": "Click on \"Sell this item\" to put it back on the Market",
-    "messages.item_costs": "This item costs {{price}} $"
+    "columns": {
+        "id": "ID",
+        "image": "Image",
+        "name": "Name",
+        "barcode": "Barcode",
+        "price": "Price",
+        "description": "Description",
+        "quantity": "Quantity",
+        "options": "Options"
+    },
+    "messages": {
+        "error_fetching_items": "Error fetching items",
+        "item_purchase_success": "Item purchase successfully",
+        "error_deleting_item": "Error deleting item with ID {{id}}",
+        "item_deleted_success": "Item deleted successfully",
+        "no_items_available": "No items available",
+        "purchase_not_available": "Purchase feature is not available",
+        "error_purchase_item": "Error while trying to purchase item with ID {{id}}",
+        "item_costs": "This item costs {{price}} $"
+    },
+    "btn": {
+        "purchase": "Purchase",
+        "edit": "Edit",
+        "delete": "Delete",
+        "add_item": "Add Item",
+        "sell_item": "Sell this item"
+    },
+    "headings": {
+        "market_items": "Available Items on the Market",
+        "owned_items": "Owned Items"
+    },
+    "instructions": {
+        "market_items": "Click on one of the items to start buying",
+        "owned_items": "Click on \"Sell this item\" to put it back on the Market"
+    }
 }
