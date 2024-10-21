@@ -1,0 +1,18 @@
+{
+    "columns": {
+        "id": "ID",
+        "username": "User Name",
+        "email": "Email",
+        "budget": "Budget",
+        "options": "Options"
+    },
+    "btn": {
+        "edit": "Edit",
+        "delete": "Delete"
+    },
+    "messages": {
+        "error_fetching_users": "Error fetching users",
+        "no_users_available": "No users available",
+        "feature_not_available": "This Feature Unavailable"
+    }
+}
