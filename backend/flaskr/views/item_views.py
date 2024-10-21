@@ -13,7 +13,7 @@ items_schema = ItemSchema(many=True)
 @app.route(f"{PREFIX}/items", methods=["GET"])
 @jwt_required()
 def list_all_available_items():
-    items = Item.query.filter_by(owner=None)
+    items = Item.query.filter(Item.quantity > 0).all()
     return jsonify(items_schema.dump(items)), 200
 
 
@@ -83,24 +83,26 @@ def buy_item(id):
 
     user = User.query.filter_by(username=username).first()
     item = Item.query.get(id)
+    quantity = request.get_json()["quantity"]
+
+    if not quantity:
+        return jsonify({"message": "No input data provided"}), 400
 
     if not item:
         return jsonify({"message": "Item not found"}), 404
 
-    if item.owner is not None:
-        return jsonify({"message": "Something went wrong please try again"}), 400
-
-    if not user.can_buy(item.price):
+    if not user.can_buy(item.price, quantity):
         return jsonify({"message": "You don't have enough money to purchase"}), 403
 
-    item.buy(user)
-    db.session.commit()
+    item.buy(user, quantity)
+
     return (
         jsonify(
             {"message": "Item purchased successfully", "item": item_schema.dump(item)}
         ),
         200,
     )
+
 
 @app.route(f"{PREFIX}/items/<int:id>/sell", methods=["PATCH"])
 @jwt_required()
@@ -124,6 +126,7 @@ def sell_item(id):
         ),
         200,
     )
+
 
 @app.route(f"{PREFIX}/users/me/items", methods=["GET"])
 @jwt_required()

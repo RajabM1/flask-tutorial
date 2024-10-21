@@ -1,3 +1,4 @@
+from .user_item import UserItem
 from flaskr import db, bcrypt, login_manager
 from flask_login import UserMixin
 
@@ -13,7 +14,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(length=60), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
     budget = db.Column(db.Integer(), nullable=False, default=1000)
-    items = db.relationship("Item", backref="owned_user", lazy=True)
+
+    items = db.relationship("Item", secondary=UserItem.__tablename__, backref="users")
 
     @property
     def password(self):
@@ -28,8 +30,8 @@ class User(db.Model, UserMixin):
     def check_password(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
-    def can_buy(self, item_price):
-        return self.budget >= item_price
+    def can_buy(self, item_price, quantity):
+        return self.budget >= (item_price * quantity)
 
     def can_sell(self, item_owner_id):
         return self.id == item_owner_id

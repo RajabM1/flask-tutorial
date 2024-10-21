@@ -8,6 +8,8 @@ class ItemSchema(ma.SQLAlchemyAutoSchema):
     price = fields.Float(required=True, validate=Range(min=0))
     barcode = fields.Str(required=True, validate=Length(max=12))
     description = fields.Str(required=True, validate=Length(min=2, max=1024))
+    image = fields.Str(required=True)
+    quantity = fields.Integer(required=True, validate=Range(min=1))
     owner = fields.Integer(required=False)
 
     @validates("name")

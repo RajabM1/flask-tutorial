@@ -52,3 +52,8 @@ def handle_sqlalchemy_error(err):
 @app.errorhandler(ValidationError)
 def handle_validation_error(err):
     return jsonify({"error": "A Validation Error occurred.", "message": str(err)}), 400
+
+
+@app.errorhandler(ValueError)
+def handle_value_error(err):
+    return jsonify({"error": "A validation error occurred.", "message": str(err)}), 400

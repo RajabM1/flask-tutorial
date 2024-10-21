@@ -1,3 +1,4 @@
+from .user_item import UserItem
 from flaskr import db
 
 
@@ -7,14 +8,33 @@ class Item(db.Model):
     price = db.Column(db.Float(), nullable=False)
     barcode = db.Column(db.String(length=12), nullable=False)
     description = db.Column(db.String(length=1024), nullable=False)
-    owner = db.Column(db.Integer(), db.ForeignKey("user.id"))
+    image = db.Column(db.String(), nullable=False)
+    quantity = db.Column(db.Integer(), nullable=False)
 
-    def buy(self, current_user):
-        self.owner = current_user.id
-        current_user.budget -= self.price
-        db.session.commit()
+    owners = db.relationship(
+        "User", secondary=UserItem.__tablename__, backref="owned_items"
+    )
 
-    def sell(self, current_user):
-        self.owner = None
-        current_user.budget += self.price
+    def buy(self, current_user, quantity):
+        if quantity <= 0:
+            raise ValueError("Quantity must be greater than zero.")
+
+        if self.quantity < quantity:
+            raise ValueError("Not enough stock available.")
+
+        item_owner = UserItem.query.filter_by(
+            user_id=current_user.id, item_id=self.id
+        ).first()
+
+        if item_owner:
+            item_owner.quantity += quantity
+        else:
+            new_item_owner = UserItem(
+                user_id=current_user.id, item_id=self.id, quantity=quantity
+            )
+            db.session.add(new_item_owner)
+
+        current_user.budget -= quantity * self.price
+        self.quantity -= quantity
+
         db.session.commit()
