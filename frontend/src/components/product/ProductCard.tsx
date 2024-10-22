@@ -36,7 +36,8 @@ const ProductCard = ({ id, name, price, imgUrl, purchase }: Props) => {
                 <img
                     src={imgUrl}
                     alt={name}
-                    className="img-fluid"
+                    className="img-fluid rounded"
+                    style={{ width: "250px", height: "200px", objectFit: "cover" }}
                     loading="lazy"
                 />
             </div>

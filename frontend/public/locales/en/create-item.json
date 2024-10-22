@@ -1,12 +1,23 @@
 {
-    "name_label": "Item Name",
-    "price_label": "Price",
-    "barcode_label": "Barcode",
-    "description_label": "Description",
-    "save_label": "Save",
-    "name_required": "Item name is required",
-    "price_required": "Price is required",
-    "barcode_required": "Barcode is required",
-    "description_required": "Description is required",
-    "create_item_error": "Error while creating item."
+    "labels": {
+        "name": "Item Name",
+        "price": "Price",
+        "barcode": "Barcode",
+        "description": "Description",
+        "image": "Image",
+        "quantity": "Quantity",
+        "save": "Save"
+    },
+    "required": {
+        "name": "Item name is required",
+        "price": "Price is required",
+        "barcode": "Barcode is required",
+        "description": "Description is required",
+        "image":"Image is required",
+        "quantity": "Quantity is required"
+    },
+    "error": {
+        "create": "Error while creating item.",
+        "image_upload":"Error while uploading image."
+    }
 }

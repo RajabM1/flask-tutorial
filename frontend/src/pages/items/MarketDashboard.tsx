@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import ItemList from "../../components/table/admin-management-table/ItemList";
-import ActionButton from "../../components/button/ActionButton";
+import ActionButton from "../../components/buttons/ActionButton";
 import Root from "../Root";
-import Message from "../../components/Message";
+import Message from "../../components/feedback/Message";
 import { useMarketPage } from "../../hooks/items/useMarketPage";
 import { useNavigate } from "react-router-dom";
 
@@ -15,10 +15,16 @@ const MarketDashboard = () => {
         id: item.id ?? 0,
         values: [
             item.id ?? 0,
+            <img
+                src={item.image ?? ""}
+                alt={item.name}
+                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+            />,
             item.name,
             item.barcode,
             `${item.price} $`,
             item.description,
+            item.quantity
         ],
         actions: (
             <>

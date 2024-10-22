@@ -1,31 +1,31 @@
 import Root from "../Root";
 import { useMarketPage } from "../../hooks/items/useMarketPage";
-import ItemList from "../../components/table/market-table/ItemList";
-import OwnedItemsList from "../../components/table/market-table/OwnedItemList";
+import ProductCard from "../../components/product/ProductCard";
+import Message from "../../components/feedback/Message";
 
 const MarketPage = () => {
-    const {
-        columns,
-        items,
-        marketMessage,
-        handlePurchase,
-        ownedItems,
-        handleSell,
-    } = useMarketPage();
+    const { items, handlePurchase, marketMessage } = useMarketPage();
 
     return (
         <Root>
-            <div className="row mx-3 mt-3">
-                <div className="col-lg-8 col-md-12 mb-4">
-                    <ItemList
-                        columns={columns}
-                        items={items}
-                        marketMessage={marketMessage}
-                        handlePurchase={handlePurchase}
-                    />
-                </div>
-                <div className="col-lg-4 col-md-12">
-                    <OwnedItemsList ownedItems={ownedItems} handleSell={handleSell} />
+            <Message message={marketMessage.message} type={marketMessage.type} />
+            <div className="container mt-4">
+                <div className="row gx-4 gy-4">
+                    {items.length > 0 ? (
+                        items.map((item) => (
+                            <div key={item.id} className="col-md-4 col-sm-6 col-lg-3 d-flex">
+                                <ProductCard
+                                    id={item.id ?? 0}
+                                    name={item.name}
+                                    price={item.price}
+                                    imgUrl={item.image ?? ""}
+                                    purchase={handlePurchase}
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-center">No items available at the moment.</p>
+                    )}
                 </div>
             </div>
         </Root>

@@ -4,6 +4,8 @@ export type Item = {
     barcode: string;
     price: number;
     description: string;
+    image?: string;
+    quantity: number
 };
 
 export type ItemFormError = {
@@ -11,4 +13,6 @@ export type ItemFormError = {
     price?: string;
     barcode?: string;
     description?: string;
+    image?: string;
+    quantity?: string;
 }

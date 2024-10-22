@@ -1,8 +1,8 @@
 import Root from "../Root";
-import FormInput from "../../components/FormInput";
-import SubmitButton from "../../components/button/SubmitButton";
-import Message from "../../components/Message";
-import TextWithLink from "../../components/TextWithLink";
+import FormInput from "../../components/form/FormInput";
+import SubmitButton from "../../components/buttons/SubmitButton";
+import Message from "../../components/feedback/Message";
+import TextWithLink from "../../components/navigation/TextWithLink";
 import { useLoginForm } from "../../hooks/auth/useLoginForm";
 import { useTranslation } from "react-i18next";
 

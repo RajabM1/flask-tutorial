@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import Message from "../../components/Message";
+import Message from "../../components/feedback/Message";
 import Root from "../Root";
 import { useUsersPage } from "../../hooks/users/useUsersPage";
-import ActionButton from "../../components/button/ActionButton";
+import ActionButton from "../../components/buttons/ActionButton";
 import ItemList from "../../components/table/admin-management-table/ItemList";
 
 const UsersPage = () => {

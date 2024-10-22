@@ -11,12 +11,7 @@ const Root = ({ children }: Props) => {
     <>
       <div className="d-flex flex-column min-vh-100">
         <NavBar />
-        <div
-          className="flex-grow-1 px-2 px-md-4 py-2 py-md-3"
-          style={{ backgroundColor: "#212121", color: "white" }}
-        >
-          {children}
-        </div>
+        <div className="flex-grow-1 px-2 px-md-4 py-2 py-md-3">{children}</div>
         <Footer />
       </div>
     </>

@@ -1,6 +1,6 @@
 import Root from "../Root";
-import SubmitButton from "../../components/button/SubmitButton";
-import FormInput from "../../components/FormInput";
+import SubmitButton from "../../components/buttons/SubmitButton";
+import FormInput from "../../components/form/FormInput";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { useUpdateItemForm } from "../../hooks/items/useUpdateItemForm";

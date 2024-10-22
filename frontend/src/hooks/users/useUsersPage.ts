@@ -32,11 +32,11 @@ export const useUsersPage = () => {
     }, [t]);
 
     const handleUpdate = async (id: number) => {
-        setPageMessage({ message: `${t('messages.feature_not_available')} ${id}`, type: "info" });
+        setPageMessage({ message: `${t('messages.feature_not_available')} ${id}`, type: "danger" });
     };
 
     const handleDelete = async (id: number) => {
-        setPageMessage({ message: `${t('messages.feature_not_available')} ${id}`, type: "info" });
+        setPageMessage({ message: `${t('messages.feature_not_available')} ${id}`, type: "danger" });
     };
     return {
         columns,

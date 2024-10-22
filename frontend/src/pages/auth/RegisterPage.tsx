@@ -1,9 +1,9 @@
 import Root from "../Root";
 import { useRegisterForm } from "../../hooks/auth/useRegisterForm";
-import SubmitButton from "../../components/button/SubmitButton";
-import FormInput from "../../components/FormInput";
-import TextWithLink from "../../components/TextWithLink";
-import Message from "../../components/Message";
+import SubmitButton from "../../components/buttons/SubmitButton";
+import FormInput from "../../components/form/FormInput";
+import TextWithLink from "../../components/navigation/TextWithLink";
+import Message from "../../components/feedback/Message";
 import { useTranslation } from "react-i18next";
 
 const RegisterPage = () => {

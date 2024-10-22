@@ -7,10 +7,12 @@ export const useMarketPage = () => {
     const { t } = useTranslation('market-page');
     const columns = [
         t('columns.id'),
+        t('columns.image'),
         t('columns.name'),
         t('columns.barcode'),
         t('columns.price'),
         t('columns.description'),
+        t('columns.quantity'),
         t('columns.options')
     ];
     const [items, setItems] = useState<Item[]>([]);
@@ -43,14 +45,11 @@ export const useMarketPage = () => {
         fetchOwnedItems();
     }, [t]);
 
-    const handlePurchase = async (id: number) => {
+    const handlePurchase = async (id: number, quantity: number) => {
         try {
-            await HttpService.patchRequest(`items/${id}/buy`, {});
-            setItems((items) => items.filter((item) => item.id !== id));
-            const purchasedItem = items.find((item) => item.id === id);
-            if (purchasedItem) {
-                setOwnedItems((prevOwnedItems) => [...prevOwnedItems, purchasedItem]);
-            }
+            await HttpService.patchRequest(`items/${id}/buy`, { quantity });
+
+            setMarketMessage({ message: t('messages.item_purchase_success'), type: "success" });
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             const message = error?.response?.data?.message || t('messages.error_purchase_item', { id });
@@ -71,18 +70,18 @@ export const useMarketPage = () => {
         }
     };
 
-    const handleSell =async (id: number) => {
-        try{
-            await HttpService.patchRequest(`items/${id}/sell`,{});
+    const handleSell = async (id: number) => {
+        try {
+            await HttpService.patchRequest(`items/${id}/sell`, {});
             setOwnedItems((items) => items.filter((item) => item.id !== id));
             const soldItem = ownedItems.find((item) => item.id === id);
             if (soldItem) {
                 setItems((prevItems) => [...prevItems, soldItem]);
             }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        }catch(error:any){
-            console.log("Error",error);
-            
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            console.log("Error", error);
+
         }
     }
 
