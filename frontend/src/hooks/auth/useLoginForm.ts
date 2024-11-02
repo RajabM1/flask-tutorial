@@ -30,8 +30,8 @@ export const useLoginForm = () => {
         setLoginError("");
 
         const errors: LoginFormError = {};
-        if (!formData.username) errors.username = t("username_required");
-        if (!formData.password) errors.password = t("password_required");
+        if (!formData.username) errors.username = t("required.username");
+        if (!formData.password) errors.password = t("required.password");
 
         if (Object.keys(errors).length > 0) {
             setFormError(errors);
@@ -40,7 +40,7 @@ export const useLoginForm = () => {
 
         const response = await handleLogin(formData);
         if (response) {
-            setLoginError(t("invalid_data"));
+            setLoginError(t("messages.invalid_data"));
         }
     };
     return {

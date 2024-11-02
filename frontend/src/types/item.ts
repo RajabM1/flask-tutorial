@@ -1,11 +1,13 @@
 export type Item = {
     id?: number;
     name: string;
-    barcode: string;
+    barcode?: string;
     price: number;
-    description: string;
+    description?: string;
     image?: string;
-    quantity: number
+    quantity?: number;
+    discount?: number;
+    category?: number | string;
 };
 
 export type ItemFormError = {
@@ -15,4 +17,6 @@ export type ItemFormError = {
     description?: string;
     image?: string;
     quantity?: string;
-}
+    discount?: string;
+    category?: string;
+};

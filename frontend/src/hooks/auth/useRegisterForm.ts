@@ -30,9 +30,9 @@ export const useRegisterForm = () => {
 
     const validateForm = (data: RegisterFormData): RegisterFormError => {
         const errors: RegisterFormError = {};
-        if (!data.username) errors.username = t("username_required");
-        if (!data.email) errors.email = t("email_required");
-        if (!data.password) errors.password = t("password_required");
+        if (!data.username) errors.username = t("required.username");
+        if (!data.email) errors.email = t("required.email");
+        if (!data.password) errors.password = t("required.password");
         if (data.password !== data.confirmPassword)
             errors.confirmPassword = t("password_do_not_match");
         return errors;

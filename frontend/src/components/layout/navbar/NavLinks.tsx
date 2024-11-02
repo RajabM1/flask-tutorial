@@ -35,6 +35,11 @@ const NavLinks = () => {
                             {t("nav_links.users")}
                         </Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/admin/categories">
+                            {t("nav_links.categories")}
+                        </Link>
+                    </li>
                 </>
             )}
         </ul>

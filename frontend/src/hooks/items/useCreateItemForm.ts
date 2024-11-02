@@ -1,9 +1,10 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HttpService from "../../service/HttpService";
 import { errorFormatter } from "../../utils/errorFormatter";
 import { useTranslation } from "react-i18next";
 import { Item, ItemFormError } from "../../types/item";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 export const useCreateItemForm = () => {
     const { t } = useTranslation("create-item");
@@ -14,14 +15,34 @@ export const useCreateItemForm = () => {
         description: "",
         quantity: 0,
         image: "",
+        category: 0,
     });
     const [formError, setFormError] = useState<ItemFormError>({});
     const [pageMessage, setPageMessage] = useState({
         message: "",
-        type: ""
+        type: "",
     });
     const [selectedFile, setSelectedFile] = useState<File | string | null>(null);
+    const [categories, setCategories] = useState<
+        Array<{ id: number; name: string }>
+    >([]);
 
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await HttpService.getRequest("categories");
+                setCategories(response);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+                setPageMessage({
+                    message: t("error.fetch_categories"),
+                    type: "danger",
+                });
+            }
+        };
+
+        fetchCategories();
+    }, []);
     const navigate = useNavigate();
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +68,18 @@ export const useCreateItemForm = () => {
         }));
     };
 
+    const handleCategoryChange = (e: SelectChangeEvent<number>) => {
+        const { value } = e.target;
+        setFormData((prevState) => ({
+            ...prevState,
+            category: Number(value),
+        }));
+        setFormError((prevState) => ({
+            ...prevState,
+            category: "",
+        }));
+    };
+
     const validateForm = (data: Item): ItemFormError => {
         const errors: ItemFormError = {};
         if (!data.name) errors.name = t("required.name");
@@ -54,6 +87,7 @@ export const useCreateItemForm = () => {
         if (!data.barcode) errors.barcode = t("required.barcode");
         if (!data.description) errors.description = t("required.description");
         if (!data.quantity) errors.quantity = t("required.quantity");
+        if (!data.category) errors.category = t("required.category");
         return errors;
     };
 
@@ -105,7 +139,7 @@ export const useCreateItemForm = () => {
                 const errors = errorFormatter(error);
                 setFormError(errors);
             } else {
-                const message = error.response?.data?.message || t("error.create")
+                const message = error.response?.data?.message || t("error.create");
                 setPageMessage({ message, type: "danger" });
             }
         }
@@ -117,6 +151,8 @@ export const useCreateItemForm = () => {
         handleInputChange,
         handleCreateItem,
         handleFileChange,
+        handleCategoryChange,
         pageMessage,
+        categories,
     };
 };

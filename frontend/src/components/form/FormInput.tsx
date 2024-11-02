@@ -1,3 +1,6 @@
+import { Box } from "@mui/material";
+import TextField from "@mui/material/TextField";
+
 interface Props {
     id: string;
     type: string;
@@ -9,20 +12,19 @@ interface Props {
 
 const FormInput = ({ id, type, label, value, onChange, error = "" }: Props) => {
     return (
-        <div className="mb-3">
-            <label htmlFor={id} className="form-label">
-                {label}
-            </label>
-            <input
+        <Box mt={3}>
+            <TextField
                 type={type}
                 id={id}
                 name={id}
-                className={`form-control ${error ? "is-invalid" : ""}`}
+                label={label}
                 value={value}
                 onChange={onChange}
+                error={!!error}
+                helperText={error}
+                fullWidth
             />
-            {error && <div className="invalid-feedback">{error}</div>}
-        </div>
+        </Box>
     );
 };
 

@@ -1,14 +1,16 @@
 import { useTranslation } from "react-i18next";
-import ItemList from "../../components/table/admin-management-table/ItemList";
-import ActionButton from "../../components/buttons/ActionButton";
-import Root from "../Root";
-import Message from "../../components/feedback/Message";
-import { useMarketPage } from "../../hooks/items/useMarketPage";
+import ItemList from "../../../components/table/admin-management-table/ItemList";
+import ActionButton from "../../../components/buttons/ActionButton";
+import Message from "../../../components/feedback/Message";
+import { useMarketPage } from "../../../hooks/items/useMarketPage";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../../../components/layout/navbar/NavBar";
+import { useAdminMarketPage } from "../../../hooks/items/useAdminMarketPage";
 
 const MarketDashboard = () => {
     const { t } = useTranslation("market-page");
-    const { columns, items, marketMessage, handleDelete } = useMarketPage();
+    const { items } = useMarketPage();
+    const { columns, pageMessage, handleDelete } = useAdminMarketPage();
     const navigate = useNavigate();
 
     const tableData = items.map((item) => ({
@@ -18,13 +20,14 @@ const MarketDashboard = () => {
             <img
                 src={item.image ?? ""}
                 alt={item.name}
-                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                style={{ width: "50px", height: "50px", objectFit: "cover" }}
             />,
             item.name,
             item.barcode,
             `${item.price} $`,
             item.description,
-            item.quantity
+            item.quantity,
+            item.category,
         ],
         actions: (
             <>
@@ -43,8 +46,9 @@ const MarketDashboard = () => {
     }));
 
     return (
-        <Root>
-            <Message message={marketMessage.message} type={marketMessage.type} />
+        <>
+            <NavBar />
+            <Message message={pageMessage.message} type={pageMessage.type} />
 
             <ItemList
                 columns={columns}
@@ -57,7 +61,7 @@ const MarketDashboard = () => {
                 color="primary"
                 onClick={() => navigate("/market/add")}
             />
-        </Root>
+        </>
     );
 };
 
