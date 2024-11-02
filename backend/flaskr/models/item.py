@@ -10,10 +10,12 @@ class Item(db.Model):
     description = db.Column(db.String(length=1024), nullable=False)
     image = db.Column(db.String(), nullable=False)
     quantity = db.Column(db.Integer(), nullable=False)
-
+    discount = db.Column(db.Float(), nullable=True)
     owners = db.relationship(
         "User", secondary=UserItem.__tablename__, backref="owned_items"
     )
+
+    category_id = db.Column(db.Integer, db.ForeignKey("category.id"), nullable=False)
 
     def buy(self, current_user, quantity):
         if quantity <= 0:

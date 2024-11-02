@@ -3,6 +3,7 @@ from flaskr import app, db
 from . import PREFIX, jwt_required, jsonify, request
 from ..models.item import Item
 from ..models.user import User
+from ..models.category import Category
 from ..schemas.item_schema import ItemSchema
 from flaskr.decorators import admin_required
 
@@ -126,6 +127,13 @@ def sell_item(id):
         ),
         200,
     )
+
+
+@app.route(f"{PREFIX}/items/<string:category>", methods=["GET"])
+@jwt_required()
+def get_items_by_category(category):
+    category = Category.query.filter_by(name=category).first()
+    return jsonify(items_schema.dump(category.items)), 200
 
 
 @app.route(f"{PREFIX}/users/me/items", methods=["GET"])

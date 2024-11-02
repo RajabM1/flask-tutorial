@@ -10,7 +10,9 @@ class ItemSchema(ma.SQLAlchemyAutoSchema):
     description = fields.Str(required=True, validate=Length(min=2, max=1024))
     image = fields.Str(required=True)
     quantity = fields.Integer(required=True, validate=Range(min=1))
+    discount = fields.Float(required=False, validate=Range(min=0))
     owner = fields.Integer(required=False)
+    category_id = fields.Integer(required=True, data_key="category")
 
     @validates("name")
     def validate_name(self, name):
