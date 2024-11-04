@@ -4,6 +4,8 @@ import ProtectedRoute from "../contexts/ProtectedRoute";
 import Home from "../pages/market/Home";
 import ProductPage from "../pages/market/items/ProductPage";
 import ItemByCategoryPage from "../pages/market/categories/ItemByCategoryPage";
+import Cart from "../pages/market/cart/Cart";
+import ConfirmationPage from "../pages/market/cart/ConfirmationPage";
 
 const userRoutes = [
     {
@@ -43,6 +45,22 @@ const userRoutes = [
         element: (
             <ProtectedRoute allowedRoles={["user"]}>
                 <ItemByCategoryPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: "/cart",
+        element: (
+            <ProtectedRoute allowedRoles={["user"]}>
+                <Cart />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: "/cart/confirm",
+        element: (
+            <ProtectedRoute allowedRoles={["user"]}>
+                <ConfirmationPage />
             </ProtectedRoute>
         ),
     },

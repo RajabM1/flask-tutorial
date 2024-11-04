@@ -13,7 +13,7 @@ const QuantitySelector = ({ quantity, setQuantity }: Props) => {
     };
 
     return (
-        <Box display="flex" alignItems="center" gap={1}>
+        <Box>
             <Button
                 variant="contained"
                 onClick={() => handleQuantityChange(-1)}
@@ -26,7 +26,7 @@ const QuantitySelector = ({ quantity, setQuantity }: Props) => {
             >
                 -
             </Button>
-            <span style={{ padding: "0 12px", fontSize: "1.2rem" }}>{quantity}</span>
+            <span style={{ padding: "0 12px", fontSize: "1rem" }}>{quantity}</span>
             <Button
                 variant="contained"
                 onClick={() => handleQuantityChange(1)}

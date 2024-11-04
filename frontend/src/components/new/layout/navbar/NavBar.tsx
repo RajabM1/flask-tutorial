@@ -12,7 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useAuth } from "../../../../hooks/auth/useAuth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useCategoryPage } from "../../../../hooks/category/useCategoryPage";
 import SearchAppBar from "../../search/SearchBar";
@@ -22,7 +22,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 function NavBar() {
     const { handleLogout } = useAuth();
     const { categories } = useCategoryPage();
-
+    const navigate = useNavigate();
     const settings = [
         { label: "Profile", to: "#" },
         { label: "Whish List", to: "#" },
@@ -41,6 +41,10 @@ function NavBar() {
     };
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
+    };
+
+    const handleOpenCart = () => {
+        navigate("/cart");
     };
 
     const handleCloseNavMenu = () => {
@@ -206,6 +210,7 @@ function NavBar() {
                         >
                             <Tooltip title="Open Cart">
                                 <IconButton
+                                    onClick={handleOpenCart}
                                     sx={{
                                         p: { xs: 0.5, sm: 1 },
                                     }}
