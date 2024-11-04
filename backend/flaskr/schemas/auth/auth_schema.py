@@ -1,6 +1,6 @@
 from flaskr import ma
-from flaskr.models.user import User
-from . import *
+from flaskr.models.user.user import User
+from flaskr.schemas import fields, Length, validates, ValidationError
 
 
 class AuthSchema(ma.SQLAlchemyAutoSchema):
@@ -8,11 +8,10 @@ class AuthSchema(ma.SQLAlchemyAutoSchema):
     email = fields.Email(required=True)
     password_hash = fields.Str(
         required=True,
-        validate=Length(min=6, max=60),
+        validate=Length(min=6, max=128),
         data_key="password",
         load_only=True,
     )
-    budget = fields.Integer(required=False, validate=Range(min=0))
 
     @validates("username")
     def validate_username(self, username):
