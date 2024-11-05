@@ -1,12 +1,11 @@
 from flaskr import app, db
-from . import *
-from ..models.user import User
-from ..models.jwt import TokenBlacklist
+from flaskr.views import *
+from flaskr.models.user.user import User
+from flaskr.models.auth.jwt import TokenBlacklist
+from flaskr.schemas.auth.auth_schema import AuthSchema
+from flaskr.utils.jwt_helpers import generate_tokens
 
-from ..schemas.auth_schema import AuthSchema
-from ..utils.jwt_helpers import generate_tokens
-
-auth_schema = AuthSchema(exclude=['id'])
+auth_schema = AuthSchema(exclude=["id"])
 
 
 @app.route(f"{PREFIX}/auth/register", methods=["POST"])
@@ -57,8 +56,8 @@ def login():
 @jwt_required(refresh=True)
 def refresh_access():
     identity = get_jwt_identity()
-    new_access_token = generate_tokens(identity=identity)
-    return jsonify({"access_token": new_access_token})
+    [access_token] = generate_tokens(identity=identity)
+    return jsonify(access_token=access_token)
 
 
 @app.route(f"{PREFIX}/auth/logout", methods=["DELETE"])

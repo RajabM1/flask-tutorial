@@ -11,4 +11,4 @@ class Category(db.Model):
     created_at = db.Column(db.DateTime, default=func.now())
     updated_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
 
-    items = db.relationship("Item", backref="category", lazy=True)
+    items = db.relationship("Item", backref="item_category", lazy=True)

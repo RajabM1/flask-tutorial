@@ -1,8 +1,9 @@
 from flaskr import app
-from . import PREFIX, jwt_required, jsonify
-from ..models.user import User
-from ..schemas.auth_schema import AuthSchema
+from flaskr.views import PREFIX, jwt_required, jsonify
+from flaskr.models.user.user import User
+from flaskr.schemas.auth.auth_schema import AuthSchema
 from flaskr.decorators import admin_required
+
 
 user_schema = AuthSchema()
 users_schema = AuthSchema(many=True)

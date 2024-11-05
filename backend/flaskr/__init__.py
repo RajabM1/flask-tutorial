@@ -21,9 +21,6 @@ ma = Marshmallow()
 jwt = JWTManager(app)
 CORS(app)
 
-from .routes import home_routes, auth_routes, item_routes
-from .views import item_views, auth_views, user_views, category_views
-
 
 @jwt.additional_claims_loader
 def make_additional_claims(identity):
@@ -35,7 +32,7 @@ def make_additional_claims(identity):
 @jwt.token_in_blocklist_loader
 def check_if_token_revoked(jwt_header, jwt_payload):
     jti = jwt_payload["jti"]
-    from .models.jwt import TokenBlacklist
+    from .models.auth.jwt import TokenBlacklist
 
     jwt_obj = TokenBlacklist.query.filter_by(jti=jti).first()
     if not jwt_obj:

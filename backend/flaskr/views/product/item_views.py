@@ -1,10 +1,10 @@
 from flask_jwt_extended import get_jwt_identity
 from flaskr import app, db
-from . import PREFIX, jwt_required, jsonify, request
-from ..models.item import Item
-from ..models.user import User
-from ..models.category import Category
-from ..schemas.item_schema import ItemSchema
+from flaskr.views import PREFIX, jwt_required, jsonify, request
+from flaskr.models.product.item import Item
+from flaskr.models.user.user import User
+from flaskr.models.product.category import Category
+from flaskr.schemas.product.item_schema import ItemSchema
 from flaskr.decorators import admin_required
 
 item_schema = ItemSchema()
