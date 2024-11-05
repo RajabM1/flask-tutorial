@@ -1,6 +1,7 @@
 from flaskr import app, db
-from flaskr.views import PREFIX, jwt_required, jsonify, request
+from flaskr.views import PREFIX, jwt_required, jsonify, request, get_jwt_identity
 from flaskr.models.cart.cart import Cart
+from flaskr.models.user.user import User
 from flaskr.models.cart.cart_item import CartItem
 from flaskr.schemas.cart.cart_item_schema import CartItemSchema
 
@@ -11,14 +12,19 @@ cart_item_schema = CartItemSchema()
 @jwt_required()
 def add_cart_item():
     json_data = request.get_json()
+    identity = get_jwt_identity()
 
     if not json_data:
         return jsonify({"message": "No input data provided"}), 400
 
-    user_cart = Cart.query.filter_by(user_id=2).first()
+    user = User.query.filter_by(username=identity).first()
+    if not user:
+        return jsonify({"message": "Something went wrong, Please try again"}), 400
+
+    user_cart = Cart.query.filter_by(user_id=user.id).first()
 
     if not user_cart:
-        new_cart = Cart(user_id=2)
+        new_cart = Cart(user_id=user.id)
         db.session.add(new_cart)
         db.session.flush()
         json_data["cartId"] = new_cart.id
@@ -34,7 +40,13 @@ def add_cart_item():
 @app.route(f"{PREFIX}/cart/item/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_cart_item(id):
-    item_to_delete = CartItem.query.filter_by(item_id=id, cart_id=2).first()
+    identity = get_jwt_identity()
+    user = User.query.filter_by(username=identity).first()
+    if not user:
+        return jsonify({"message": "Something went wrong, Please try again"}), 400
+
+    cart = Cart.query.filter_by(user_id=user.id).first()
+    item_to_delete = CartItem.query.filter_by(item_id=id, cart_id=cart.id).first()
 
     if not item_to_delete:
         return jsonify({"message": "Item not found in cart"}), 404
