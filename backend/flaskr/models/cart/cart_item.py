@@ -11,3 +11,5 @@ class CartItem(db.Model):
 
     created_at = db.Column(db.DateTime, default=func.now())
     updated_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
+
+    item = db.relationship("Item", backref="cart_items", lazy=True)

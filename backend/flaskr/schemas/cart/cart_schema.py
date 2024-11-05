@@ -1,6 +1,6 @@
 from flaskr import ma
 from flaskr.models.cart.cart import Cart
-from flaskr.schemas import fields
+from flaskr.schemas import fields, validates, ValidationError
 
 
 class CartSchema(ma.SQLAlchemyAutoSchema):
@@ -8,6 +8,11 @@ class CartSchema(ma.SQLAlchemyAutoSchema):
 
     created_at = fields.DateTime(dump_only=True, data_key="createdAt")
     updated_at = fields.DateTime(dump_only=True, data_key="updatedAt")
+
+    @validates("user_id")
+    def validate_user_id(self, user_id):
+        if Cart.query.filter(Cart.user_id == user_id).first():
+            raise ValidationError("Id already exist")
 
     class Meta:
         model = Cart

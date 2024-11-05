@@ -1,6 +1,7 @@
 from flaskr import ma
 from flaskr.models.product.item import Item
-from flaskr.schemas import fields, Length, validates, ValidationError, Range
+from flaskr.schemas import fields, Length, validates, ValidationError, Range, OneOf
+from flaskr.enum.ItemStatus import ItemStatus
 
 
 class ItemSchema(ma.SQLAlchemyAutoSchema):
@@ -13,8 +14,10 @@ class ItemSchema(ma.SQLAlchemyAutoSchema):
     image = fields.Str(required=True)
     quantity = fields.Integer(required=True, validate=Range(min=1))
     discount = fields.Float(required=False, validate=Range(min=0))
-    status = fields.Str(required=False, dump_only=True)
-
+    status = fields.Str(
+        required=False,
+        validate=OneOf([status.name for status in ItemStatus]),
+    )
     created_at = fields.DateTime(dump_only=True, data_key="createdAt")
     updated_at = fields.DateTime(dump_only=True, data_key="updatedAt")
 

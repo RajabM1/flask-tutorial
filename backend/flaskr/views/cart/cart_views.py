@@ -1,27 +1,32 @@
 from flaskr import app, db
 from flaskr.views import PREFIX, jwt_required, jsonify, request
 from flaskr.models.cart.cart import Cart
-from flaskr.schemas.cart.cart_schema import CartSchema
+from flaskr.schemas.product.item_schema import ItemSchema
 
-cart_schema = CartSchema()
-carts_schema = CartSchema(many=True)
+items_schema = ItemSchema(many=True)
 
 
 @app.route(f"{PREFIX}/cart", methods=["GET"])
 @jwt_required()
-def get_cart():
-    carts = Cart.query.all()
-    return jsonify(carts_schema.dump(carts)), 200
+def get_cart_items():
+    cart = Cart.query.filter_by(user_id=2).first()
 
+    if not cart:
+        return jsonify({"error": "Cart not found"}), 404
 
-@app.route(f"{PREFIX}/cart", methods=["Post"])
-@jwt_required()
-def add_cart():
-    json_data = request.get_json()
+    cart_items = cart.cart_items
 
-    if not json_data:
-        return jsonify({"message": "No input data provided"}), 400
-    new_cart = cart_schema.load(json_data)
-    db.session.add(new_cart)
-    db.session.commit()
-    return jsonify(cart_schema.dump(new_cart)), 201
+    cart_items_data = [
+        {
+            "id": cart_item.item.id,
+            "name": cart_item.item.name,
+            "price": cart_item.item.price,
+            "quantity": cart_item.quantity,
+            "description": cart_item.item.description,
+            "image": cart_item.item.image,
+            "discount": cart_item.item.discount,
+            "category_id": cart_item.item.category_id,
+        }
+        for cart_item in cart_items
+    ]
+    return jsonify(items_schema.dump(cart_items_data)), 200
