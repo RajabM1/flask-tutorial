@@ -11,6 +11,7 @@ import Grid from "@mui/material/Grid2";
 import { useNavigate } from "react-router-dom";
 import { Item } from "../../../types/item";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
+import { formatCurrency } from "../../../utils/formatCurrency";
 
 const theme = createTheme({
     components: {
@@ -118,19 +119,19 @@ const ProductCard = ({ id, name, price, image, category, discount }: Item) => {
                                                 mr: 1,
                                             }}
                                         >
-                                            ${price}
+                                            {formatCurrency(price)}
                                         </Typography>
                                         <Typography
                                             variant="h5"
                                             color="#d32f2f"
                                             fontWeight={"bold"}
                                         >
-                                            ${discount}
+                                            {formatCurrency(discount)}
                                         </Typography>
                                     </>
                                 ) : (
                                     <Typography variant="h5" fontWeight={"bold"}>
-                                        ${price}
+                                        {formatCurrency(price)}
                                     </Typography>
                                 )}
                             </Box>

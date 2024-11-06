@@ -42,7 +42,7 @@ export const useCreateItemForm = () => {
         };
 
         fetchCategories();
-    }, []);
+    }, [t]);
     const navigate = useNavigate();
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

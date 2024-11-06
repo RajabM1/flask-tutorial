@@ -10,7 +10,7 @@ import { memo } from "react";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 
 const Cart = memo(() => {
-    const { cartItems } = useShoppingCart();
+    const { cartItems,cartSummary } = useShoppingCart();
     const { itemsOnDiscount } = useMarketPage();
     const navigate = useNavigate();
     return (
@@ -35,7 +35,7 @@ const Cart = memo(() => {
                             <Grid2 size={{ xs: 12, md: 4 }}>
                                 <Box>
                                     <OrderSummary
-                                        orderPrice={{ subTotal: 0, saved: 0 }}
+                                        cartSummary={cartSummary}
                                         itemCount={cartItems.length}
                                     />
                                     <DeliverySummary />

@@ -4,6 +4,7 @@ import HttpService from "../service/HttpService";
 
 type ShoppingCartContextType = {
     cartQuantity: number;
+    cartSummary: { subTotal: number, saved: number };
     cartItems: Item[];
     addToCart: (
         id: number,
@@ -19,6 +20,10 @@ export const ShoppingCartContext = createContext({} as ShoppingCartContextType);
 export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
     const [cartItems, setCartItems] = useState<Item[]>([]);
     const cartQuantity = cartItems.length;
+    const [cartSummary, setCartSummary] = useState({
+        subTotal: 0,
+        saved: 0
+    });
 
     const fetchCartItems = async () => {
         try {
@@ -94,6 +99,16 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
         }
     };
 
+    useEffect(() => {
+        let subTotal: number = 0;
+        let saved: number = 0;
+        cartItems.map((item) => {
+            subTotal += item.price * (item.quantity ?? 1);
+            saved += item.discount ? (item.price - (item.discount)) * (item.quantity ?? 1) : 0;
+        });
+        setCartSummary({ subTotal, saved });
+    }, [cartItems]);
+
     return (
         <ShoppingCartContext.Provider
             value={{
@@ -102,6 +117,7 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
                 addToCart,
                 removeFromCart,
                 updateCartItemQuantity,
+                cartSummary
             }}
         >
             {children}

@@ -8,6 +8,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useNavigate } from "react-router-dom";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useState } from "react";
+import { formatCurrency } from "../../../utils/formatCurrency";
 
 const ProductList = ({ data }: { data: Item[] }) => {
     const navigate = useNavigate();
@@ -96,7 +97,7 @@ const ProductList = ({ data }: { data: Item[] }) => {
                                         mt: 1,
                                     }}
                                 >
-                                    ${row.price}
+                                    {formatCurrency(row.price)}
                                 </Typography>
                                 <Typography
                                     variant="body1"
@@ -104,12 +105,12 @@ const ProductList = ({ data }: { data: Item[] }) => {
                                     sx={{ mt: 1 }}
                                     color="#d32f2f"
                                 >
-                                    ${row.discount.toFixed(2)}
+                                    {formatCurrency(row.discount)}
                                 </Typography>
                             </Box>
                         ) : (
                             <Typography variant="body1" fontWeight="bold" sx={{ mt: 1 }}>
-                                ${row.price.toFixed(2)}
+                                {formatCurrency(row.price)}
                             </Typography>
                         )}
                     </Box>
