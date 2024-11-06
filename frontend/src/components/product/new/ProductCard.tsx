@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useNavigate } from "react-router-dom";
 import { Item } from "../../../types/item";
+import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 
 const theme = createTheme({
     components: {
@@ -58,11 +59,7 @@ const theme = createTheme({
 const ProductCard = ({ id, name, price, image, category, discount }: Item) => {
     const navigate = useNavigate();
     const onCardClick = () => navigate(`/market/product/${id}`);
-    const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation();
-        alert("Hr");
-    };
-
+    const { addToCart } = useShoppingCart();
     return (
         <ThemeProvider theme={theme}>
             <Grid>
@@ -140,7 +137,10 @@ const ProductCard = ({ id, name, price, image, category, discount }: Item) => {
                         </Box>
                     </CardContent>
                     <CardActions sx={{ paddingBottom: 2 }}>
-                        <Button variant="outlined" onClick={handleAddToCart}>
+                        <Button
+                            variant="outlined"
+                            onClick={(e) => addToCart(id ?? 0, 1, e)}
+                        >
                             Add to Cart
                         </Button>
                         <Button variant="contained">See Preview</Button>

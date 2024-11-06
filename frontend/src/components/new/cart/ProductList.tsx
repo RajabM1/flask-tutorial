@@ -1,15 +1,39 @@
-import { Box, Checkbox, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { Item } from "../../../types/item";
 import { useCategoryPage } from "../../../hooks/category/useCategoryPage";
 import QuantitySelector from "../../product/QuantitySelector";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
-import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useNavigate } from "react-router-dom";
+import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
+import { useState } from "react";
 
 const ProductList = ({ data }: { data: Item[] }) => {
+    const navigate = useNavigate();
     const { categories } = useCategoryPage();
+    const { removeFromCart, updateCartItemQuantity } = useShoppingCart();
+
+    const [, setItemQuantities] = useState(
+        data.reduce(
+            (acc, item) => ({ ...acc, [Number(item.id)]: item.quantity || 1 }),
+            {}
+        )
+    );
+    const setQuantity = (id: number, quantity: number) => {
+        setItemQuantities((prev) => ({ ...prev, [id]: quantity }));
+        updateCartItemQuantity(id, quantity);
+    };
+
     const getCategoryById = (id: number) =>
         categories.find((category) => category.id === id);
+    const handleNavigate = (id: number) => navigate(`/market/product/${id}`);
+    const handleSimilarItem = (id: number) => {
+        const category = getCategoryById(id)?.name;
+        navigate(`/market/${category}`);
+    };
+    const handleWishList = (id: number) =>
+        alert(`This feature does not available for item_id ${id}`);
 
     return (
         <Box
@@ -38,17 +62,6 @@ const ProductList = ({ data }: { data: Item[] }) => {
                         ":last-child": { borderBottom: "none" },
                     }}
                 >
-                    <Checkbox
-                        checked={true}
-                        inputProps={{ "aria-label": "controlled" }}
-                        sx={{
-                            color: "grey.500",
-                            "&.Mui-checked": {
-                                color: "black",
-                            },
-                        }}
-                    />
-
                     <Box
                         component="img"
                         src={row.image ?? ""}
@@ -56,10 +69,17 @@ const ProductList = ({ data }: { data: Item[] }) => {
                         width={100}
                         height={100}
                         borderRadius={1}
+                        onClick={() => handleNavigate(row.id ?? 0)}
+                        sx={{ cursor: "pointer" }}
                     />
 
                     <Box sx={{ flex: 1 }}>
-                        <Typography variant="h6" fontWeight="medium">
+                        <Typography
+                            variant="h6"
+                            fontWeight="medium"
+                            onClick={() => handleNavigate(row.id ?? 0)}
+                            sx={{ cursor: "pointer" }}
+                        >
                             {row.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -101,15 +121,32 @@ const ProductList = ({ data }: { data: Item[] }) => {
                             gap: 1,
                         }}
                     >
-                        <QuantitySelector quantity={1} />
+                        <QuantitySelector
+                            quantity={row.quantity ?? 1}
+                            setQuantity={(quantity: number) =>
+                                setQuantity(row.id ?? 1, quantity)
+                            }
+                        />
                         <Box>
-                            <IconButton aria-label="View" color="default">
+                            <IconButton
+                                aria-label="View"
+                                color="default"
+                                onClick={() => handleSimilarItem(Number(row.category))}
+                            >
                                 <SearchRoundedIcon fontSize="small" />
                             </IconButton>
-                            <IconButton aria-label="Favorite" color="default">
-                                <FavoriteBorderRoundedIcon fontSize="small" />
+                            <IconButton
+                                aria-label="Favorite"
+                                color="default"
+                                onClick={() => handleWishList(row.id ?? 0)}
+                            >
+                                <FavoriteBorderIcon fontSize="small" />
                             </IconButton>
-                            <IconButton aria-label="Delete" color="default">
+                            <IconButton
+                                aria-label="Delete"
+                                color="default"
+                                onClick={() => removeFromCart(row.id ?? 0)}
+                            >
                                 <DeleteOutlineRoundedIcon fontSize="small" />
                             </IconButton>
                         </Box>

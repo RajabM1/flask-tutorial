@@ -18,9 +18,12 @@ import { useCategoryPage } from "../../../../hooks/category/useCategoryPage";
 import SearchAppBar from "../../search/SearchBar";
 import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Badge from "@mui/material/Badge";
+import { useShoppingCart } from "../../../../hooks/cart/useShoppingCart";
 
 function NavBar() {
     const { handleLogout } = useAuth();
+    const { cartQuantity } = useShoppingCart();
     const { categories } = useCategoryPage();
     const navigate = useNavigate();
     const settings = [
@@ -55,11 +58,11 @@ function NavBar() {
         setAnchorElUser(null);
     };
 
-    const [searchQuery, setSearchQuery] = useState("");
+    const [, setSearchQuery] = useState("");
 
     return (
         <AppBar
-            position="static"
+            position="sticky"
             sx={{
                 color: "black",
                 boxShadow: 3,
@@ -215,14 +218,16 @@ function NavBar() {
                                         p: { xs: 0.5, sm: 1 },
                                     }}
                                 >
-                                    <Avatar
-                                        sx={{
-                                            width: { xs: 24, sm: 32 },
-                                            height: { xs: 24, sm: 32 },
-                                        }}
-                                    >
-                                        <AddShoppingCartIcon fontSize="small" />
-                                    </Avatar>
+                                    <Badge color="secondary" badgeContent={cartQuantity}>
+                                        <Avatar
+                                            sx={{
+                                                width: { xs: 24, sm: 32 },
+                                                height: { xs: 24, sm: 32 },
+                                            }}
+                                        >
+                                            <AddShoppingCartIcon fontSize="small" />
+                                        </Avatar>
+                                    </Badge>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Open settings">

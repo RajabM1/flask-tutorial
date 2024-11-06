@@ -9,10 +9,11 @@ import { useState } from "react";
 import Message from "../../../components/feedback/Message";
 import { Box, Button, Container, Typography } from "@mui/material";
 import ProductSlider from "../../../components/new/slider/ProductSlider";
+import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 
 const ProductPage = () => {
     const { id } = useParams();
-
+    const { addToCart } = useShoppingCart();
     const { formData } = useUpdateItemForm(Number(id));
     const { pageMessage, itemsOnDiscount } = useMarketPage();
     const [quantity, setQuantity] = useState(1);
@@ -66,13 +67,20 @@ const ProductPage = () => {
                                         >
                                             ${formData.price}
                                         </Typography>
-                                        <Typography variant="h5" sx={{ color: "#d32f2f", fontWeight: "bold" }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ color: "#d32f2f", fontWeight: "bold" }}
+                                        >
                                             ${formData.discount}
                                         </Typography>
                                     </>
                                 ) : (
-                                    <Typography variant="h5"
-                                        sx={{ color: "#333", fontWeight: "bold" }}>${formData.price}</Typography>
+                                    <Typography
+                                        variant="h5"
+                                        sx={{ color: "#333", fontWeight: "bold" }}
+                                    >
+                                        ${formData.price}
+                                    </Typography>
                                 )}
                             </Box>
                             <Rating rating={"5.0"} />
@@ -100,17 +108,20 @@ const ProductPage = () => {
                                     borderRadius: "8px",
                                     backgroundColor: "black",
                                 }}
+                                onClick={() => addToCart(formData.id ?? 0, quantity)}
                             >
                                 Add to Cart
                             </Button>
                         </Box>
 
-                        
-                        <Link to={"#"} style={{
-                            fontWeight: "bold",
-                            color: "black",
-                            textDecoration:"none"
-                        }}>
+                        <Link
+                            to={"#"}
+                            style={{
+                                fontWeight: "bold",
+                                color: "black",
+                                textDecoration: "none",
+                            }}
+                        >
                             Add to Wishlist
                         </Link>
                     </Box>
