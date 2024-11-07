@@ -10,8 +10,11 @@ import Message from "../../../components/feedback/Message";
 import { Box, Button, Container, Typography } from "@mui/material";
 import ProductSlider from "../../../components/new/slider/ProductSlider";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
+import { useTranslation } from "react-i18next";
+import { formatCurrency } from "../../../utils/formatCurrency";
 
 const ProductPage = () => {
+    const { t } = useTranslation("product-page");
     const { id } = useParams();
     const { addToCart } = useShoppingCart();
     const { formData } = useUpdateItemForm(Number(id));
@@ -65,13 +68,13 @@ const ProductPage = () => {
                                                 mr: 1,
                                             }}
                                         >
-                                            ${formData.price}
+                                            {formatCurrency(formData.price)}
                                         </Typography>
                                         <Typography
                                             variant="h5"
                                             sx={{ color: "#d32f2f", fontWeight: "bold" }}
                                         >
-                                            ${formData.discount}
+                                            {formatCurrency(formData.discount)}
                                         </Typography>
                                     </>
                                 ) : (
@@ -79,11 +82,11 @@ const ProductPage = () => {
                                         variant="h5"
                                         sx={{ color: "#333", fontWeight: "bold" }}
                                     >
-                                        ${formData.price}
+                                        {formatCurrency(formData.price)}
                                     </Typography>
                                 )}
                             </Box>
-                            <Rating rating={"5.0"} />
+                            <Rating rating={t("rating")} />
                         </Box>
 
                         <Typography
@@ -110,7 +113,7 @@ const ProductPage = () => {
                                 }}
                                 onClick={() => addToCart(formData.id ?? 0, quantity)}
                             >
-                                Add to Cart
+                                {t("add_to_cart")}
                             </Button>
                         </Box>
 
@@ -122,13 +125,13 @@ const ProductPage = () => {
                                 textDecoration: "none",
                             }}
                         >
-                            Add to Wishlist
+                            {t("add_to_wishlist")}
                         </Link>
                     </Box>
                 </Box>
             </Container>
             <Container maxWidth="xl">
-                <ProductSlider label="You may also like" data={itemsOnDiscount} />
+                <ProductSlider label={t("sliderLabel")} data={itemsOnDiscount} />
             </Container>
         </Root>
     );

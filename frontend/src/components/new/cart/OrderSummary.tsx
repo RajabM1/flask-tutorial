@@ -2,6 +2,7 @@ import { Button, Divider, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../../utils/formatCurrency";
+import { useTranslation } from "react-i18next";
 interface Props {
   cartSummary: {
     subTotal: number;
@@ -10,7 +11,12 @@ interface Props {
   itemCount: number;
   shippingFee?: number;
 }
-const OrderSummary = ({ cartSummary: { subTotal, saved }, itemCount, shippingFee = 0 }: Props) => {
+const OrderSummary = ({
+  cartSummary: { subTotal, saved },
+  itemCount,
+  shippingFee = 0,
+}: Props) => {
+  const { t } = useTranslation("order-summary");
   const navigate = useNavigate();
   const handleCheckout = () => {
     navigate("/cart/confirm");
@@ -32,20 +38,19 @@ const OrderSummary = ({ cartSummary: { subTotal, saved }, itemCount, shippingFee
       }}
     >
       <Typography variant="h6" component="h1" sx={{ fontWeight: 600 }}>
-        Order Summary
+        {t("title")}
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="body1" color="text.secondary">
-          Subtotal
+          {t("details.subtotal")}
         </Typography>
         <Typography variant="body1" color="text.primary">
           {formatCurrency(subTotal)}
         </Typography>
-
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="body1" color="text.secondary">
-          Shipping Fee
+          {t("details.shipping_fee")}
         </Typography>
         <Typography variant="body1" color="text.primary">
           {formatCurrency(shippingFee)}
@@ -53,7 +58,7 @@ const OrderSummary = ({ cartSummary: { subTotal, saved }, itemCount, shippingFee
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="body1" color="text.secondary">
-          Saved
+          {t("details.saved")}
         </Typography>
         <Typography variant="body1" color="#d32f2f">
           - {formatCurrency(saved)}
@@ -61,7 +66,7 @@ const OrderSummary = ({ cartSummary: { subTotal, saved }, itemCount, shippingFee
       </Box>
       <Divider sx={{ backgroundColor: "black" }} />
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="subtitle1">Total</Typography>
+        <Typography variant="subtitle1">{t("total")}</Typography>
         <Typography variant="subtitle1">{formatCurrency(total)}</Typography>
       </Box>
       <Button
@@ -76,7 +81,7 @@ const OrderSummary = ({ cartSummary: { subTotal, saved }, itemCount, shippingFee
         }}
         onClick={handleCheckout}
       >
-        Checkout ({itemCount})
+        {t("button.checkout")} ({itemCount})
       </Button>
     </Box>
   );

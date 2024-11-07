@@ -8,9 +8,11 @@ import { useMarketPage } from "../../../hooks/items/useMarketPage";
 import { useNavigate } from "react-router-dom";
 import { memo } from "react";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
+import { useTranslation } from "react-i18next";
 
 const Cart = memo(() => {
-    const { cartItems,cartSummary } = useShoppingCart();
+    const { t } = useTranslation("cart-page");
+    const { cartItems, cartSummary } = useShoppingCart();
     const { itemsOnDiscount } = useMarketPage();
     const navigate = useNavigate();
     return (
@@ -25,7 +27,7 @@ const Cart = memo(() => {
                                 fontWeight="bold"
                                 sx={{ color: "#222" }}
                             >
-                                Your Shopping Cart ({cartItems.length})
+                                {t("title")} ({cartItems.length})
                             </Typography>
                         </Box>
                         <Grid2 container spacing={2} p={2}>
@@ -69,10 +71,10 @@ const Cart = memo(() => {
                             }}
                         />
                         <Typography variant="h6" color="textSecondary" sx={{ mb: 1 }}>
-                            Your cart is empty
+                            {t("emptyCart.title")}
                         </Typography>
                         <Typography color="textSecondary" sx={{ mb: 3 }}>
-                            No items yet? Continue shopping to explore more.
+                            {t("emptyCart.subtitle")}
                         </Typography>
                         <Button
                             variant="contained"
@@ -84,11 +86,14 @@ const Cart = memo(() => {
                             }}
                             onClick={() => navigate("/")}
                         >
-                            Explore Items
+                            {t("emptyCart.button")}
                         </Button>
                     </Box>
                 )}
-                <MemoizedProductSlider label="More to love" data={itemsOnDiscount} />
+                <MemoizedProductSlider
+                    label={t("sliderLabel")}
+                    data={itemsOnDiscount}
+                />
             </Container>
         </Root>
     );

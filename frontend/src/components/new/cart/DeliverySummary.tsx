@@ -3,8 +3,10 @@ import Typography from "@mui/material/Typography";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import PaymentIcon from "@mui/icons-material/Payment";
+import { useTranslation } from "react-i18next";
 
 const DeliverySummary = () => {
+  const { t } = useTranslation("deliverySummary");
   return (
     <Box
       sx={{
@@ -23,27 +25,27 @@ const DeliverySummary = () => {
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <LocalShippingIcon sx={{ color: "black" }} />
         <Typography variant="body1" fontWeight="500">
-          Fast Delivery
+          {t("fast_delivery")}
         </Typography>
       </Box>
       <Typography variant="body2" color="text.secondary">
-        Refund if items are damaged
+        {t("refund_policy")}
       </Typography>
 
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <VerifiedUserIcon sx={{ color: "black" }} />
         <Typography variant="body1" fontWeight="500">
-          Security & Privacy
+          {t("security_privacy")}
         </Typography>
       </Box>
       <Typography variant="body2" color="text.secondary">
-        Safe payments and secure personal details
+        {t("safe_payments")}
       </Typography>
 
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <PaymentIcon sx={{ color: "black" }} />
         <Typography variant="body1" fontWeight="500">
-          Safe Payment
+          {t("safe_payment")}
         </Typography>
       </Box>
       <Box
@@ -91,7 +93,7 @@ const DeliverySummary = () => {
         />
       </Box>
       <Typography variant="body2" color="text.secondary">
-        Your personal details are safe with our trusted payment partners
+        {t("trusted_partners")}
       </Typography>
     </Box>
   );

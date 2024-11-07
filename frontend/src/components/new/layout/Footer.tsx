@@ -4,8 +4,10 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid2";
 import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 import { Avatar, Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+    const { t } = useTranslation("footer");
     return (
         <Box
             component="footer"
@@ -18,41 +20,41 @@ const Footer = () => {
                 <Grid container spacing={4}>
                     <Grid size={{ xs: 12, sm: 4 }}>
                         <Typography variant="h6" color="inherit" gutterBottom>
-                            About
+                            {t("about")}
                         </Typography>
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                             <Link href="#" color="inherit" underline="hover">
-                                Blog
+                                {t("about_links.blog")}
                             </Link>
                             <Link href="#" color="inherit" underline="hover">
-                                Meet The Team
+                                {t("about_links.meet_the_team")}
                             </Link>
                             <Link href="#" color="inherit" underline="hover">
-                                Contact Us
+                                {t("about_links.contact_us")}
                             </Link>
                         </Box>
                     </Grid>
 
                     <Grid size={{ xs: 12, sm: 4 }}>
                         <Typography variant="h6" color="inherit" gutterBottom>
-                            Support
+                            {t("support")}
                         </Typography>
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                             <Link href="#" color="inherit" underline="hover">
-                                Shipping
+                                {t("support_links.shipping")}
                             </Link>
                             <Link href="#" color="inherit" underline="hover">
-                                Return
+                                {t("support_links.return")}
                             </Link>
                             <Link href="#" color="inherit" underline="hover">
-                                FAQ
+                                {t("support_links.faq")}
                             </Link>
                         </Box>
                     </Grid>
 
                     <Grid size={{ xs: 12, sm: 4 }}>
                         <Typography variant="h6" color="inherit" gutterBottom>
-                            Social Media
+                            {t("socialMedia")}
                         </Typography>
                         <Box sx={{ display: "flex", gap: 1 }}>
                             <Link
@@ -88,14 +90,14 @@ const Footer = () => {
 
                 <Box mt={5} textAlign="center">
                     <Typography variant="body2" color="inherit" sx={{ mb: 2 }}>
-                        © 2024 NULL
+                        {t("copyright")}
                     </Typography>
                     <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
                         <Link href="#" color="inherit" underline="hover">
-                            Terms of Service
+                            {t("terms_of_service")}
                         </Link>
                         <Link href="#" color="inherit" underline="hover">
-                            Privacy Policy
+                            {t("privacy_policy")}
                         </Link>
                     </Box>
                 </Box>

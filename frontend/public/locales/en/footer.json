@@ -1,0 +1,18 @@
+{
+    "about": "About",
+    "about_links": {
+        "blog": "Blog",
+        "meet_the_team": "Meet The Team",
+        "contact_us": "Contact Us"
+    },
+    "support": "Support",
+    "support_links": {
+        "shipping": "Shipping",
+        "return": "Return",
+        "faq": "FAQ"
+    },
+    "socialMedia": "Social Media",
+    "copyright": "© 2024 NULL",
+    "terms_of_service": "Terms of Service",
+    "privacy_policy": "Privacy Policy"
+}

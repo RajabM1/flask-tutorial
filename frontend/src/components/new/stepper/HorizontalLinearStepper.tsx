@@ -7,11 +7,13 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import ShippingInformation from "../cart/ShippingInformation";
 import PaymentInformation from "../cart/PaymentInformation";
-
-const steps = ["Shipping Information", "Payment Information"];
-const pages = [<ShippingInformation />, <PaymentInformation />];
+import { useTranslation } from "react-i18next";
 
 export default function HorizontalLinearStepper() {
+    const { t } = useTranslation("checkout");
+    const steps = [t("steps.shippingInformation"), t("steps.paymentInformation")];
+    const pages = [<ShippingInformation />, <PaymentInformation />];
+
     const navigate = useNavigate();
 
     const [activeStep, setActiveStep] = useState(0);
@@ -66,12 +68,14 @@ export default function HorizontalLinearStepper() {
                         onClick={handleBack}
                         sx={{ mr: 1 }}
                     >
-                        Back
+                        {t("buttons.back")}
                     </Button>
                     <Box sx={{ flex: "1 1 auto" }} />
 
                     <Button onClick={handleNext} sx={{ color: "black" }}>
-                        {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                        {activeStep === steps.length - 1
+                            ? t("buttons.finish")
+                            : t("buttons.next")}
                     </Button>
                 </Box>
             </Fragment>

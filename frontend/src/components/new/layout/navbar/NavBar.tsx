@@ -20,16 +20,18 @@ import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Badge from "@mui/material/Badge";
 import { useShoppingCart } from "../../../../hooks/cart/useShoppingCart";
+import { useTranslation } from "react-i18next";
 
 function NavBar() {
+    const { t } = useTranslation("navbar");
     const { handleLogout } = useAuth();
     const { cartQuantity } = useShoppingCart();
     const { categories } = useCategoryPage();
     const navigate = useNavigate();
     const settings = [
-        { label: "Profile", to: "#" },
-        { label: "Whish List", to: "#" },
-        { label: "Logout", onClick: () => handleLogout() },
+        { label: t("settings.profile"), to: "#" },
+        { label: t("settings.wishlist"), to: "#" },
+        { label: t("settings.logout"), onClick: () => handleLogout() },
     ];
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -84,7 +86,7 @@ function NavBar() {
                             textDecoration: "none",
                         }}
                     >
-                        NULL
+                        {t("brand")}
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -149,7 +151,7 @@ function NavBar() {
                             textDecoration: "none",
                         }}
                     >
-                        NULL
+                        {t("brand")}
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -159,7 +161,7 @@ function NavBar() {
                                 variant="text"
                                 sx={{ m: 2, color: "inherit" }}
                             >
-                                All Categories
+                                {t("all_categories")}
                                 <KeyboardArrowDownIcon />
                             </Button>
                             <Box
@@ -211,7 +213,7 @@ function NavBar() {
                                 alignItems: "center",
                             }}
                         >
-                            <Tooltip title="Open Cart">
+                            <Tooltip title={t("open_cart")}>
                                 <IconButton
                                     onClick={handleOpenCart}
                                     sx={{
