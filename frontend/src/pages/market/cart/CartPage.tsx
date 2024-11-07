@@ -1,16 +1,15 @@
 import { Box, Button, Container, Grid2, Typography } from "@mui/material";
 import Root from "../Root";
 import OrderSummary from "../../../components/new/cart/OrderSummary";
-import DeliverySummary from "../../../components/new/cart/DeliverySummary";
+import CustomerTrustSection from "../../../components/new/cart/CustomerTrustSection";
 import ProductList from "../../../components/new/cart/ProductList";
 import ProductSlider from "../../../components/new/slider/ProductSlider";
 import { useMarketPage } from "../../../hooks/items/useMarketPage";
 import { useNavigate } from "react-router-dom";
-import { memo } from "react";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useTranslation } from "react-i18next";
 
-const Cart = memo(() => {
+const CartPage = () => {
     const { t } = useTranslation("cart-page");
     const { cartItems, cartSummary } = useShoppingCart();
     const { itemsOnDiscount } = useMarketPage();
@@ -40,7 +39,7 @@ const Cart = memo(() => {
                                         cartSummary={cartSummary}
                                         itemCount={cartItems.length}
                                     />
-                                    <DeliverySummary />
+                                    <CustomerTrustSection />
                                 </Box>
                             </Grid2>
                         </Grid2>
@@ -53,10 +52,12 @@ const Cart = memo(() => {
                         justifyContent="center"
                         sx={{
                             height: "500px",
-                            backgroundColor: "#f9f9f9",
-                            borderRadius: "8px",
+                            border: "1px solid",
+                            borderColor: "grey.300",
+                            borderRadius: 2,
+                            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
+                            backgroundColor: "#fff",
                             p: 3,
-                            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                         }}
                     >
                         <Box
@@ -70,10 +71,10 @@ const Cart = memo(() => {
                                 opacity: 0.8,
                             }}
                         />
-                        <Typography variant="h6" color="textSecondary" sx={{ mb: 1 }}>
+                        <Typography variant="h5" color="textSecondary" sx={{ mb: 1 }}>
                             {t("emptyCart.title")}
                         </Typography>
-                        <Typography color="textSecondary" sx={{ mb: 3 }}>
+                        <Typography color="textSecondary" sx={{ mb: 3, textAlign: "center" }}>
                             {t("emptyCart.subtitle")}
                         </Typography>
                         <Button
@@ -83,6 +84,7 @@ const Cart = memo(() => {
                                 padding: "8px 16px",
                                 bgcolor: "black",
                                 borderRadius: 30,
+                                px: 5
                             }}
                             onClick={() => navigate("/")}
                         >
@@ -90,15 +92,10 @@ const Cart = memo(() => {
                         </Button>
                     </Box>
                 )}
-                <MemoizedProductSlider
-                    label={t("sliderLabel")}
-                    data={itemsOnDiscount}
-                />
+                <ProductSlider label={t("sliderLabel")} data={itemsOnDiscount} />
             </Container>
         </Root>
     );
-});
+};
 
-const MemoizedProductSlider = memo(ProductSlider);
-
-export default Cart;
+export default CartPage;

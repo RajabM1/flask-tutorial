@@ -4,7 +4,7 @@ import ProtectedRoute from "../contexts/ProtectedRoute";
 import Home from "../pages/market/Home";
 import ProductPage from "../pages/market/items/ProductPage";
 import ItemByCategoryPage from "../pages/market/categories/ItemByCategoryPage";
-import Cart from "../pages/market/cart/Cart";
+import CartPage from "../pages/market/cart/CartPage";
 import ConfirmationPage from "../pages/market/cart/ConfirmationPage";
 
 const userRoutes = [
@@ -52,7 +52,7 @@ const userRoutes = [
         path: "/cart",
         element: (
             <ProtectedRoute allowedRoles={["user"]}>
-                <Cart />
+                <CartPage />
             </ProtectedRoute>
         ),
     },

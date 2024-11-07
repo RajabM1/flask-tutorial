@@ -61,6 +61,10 @@ const ProductList = ({ data }: { data: Item[] }) => {
                         borderBottom: "1px solid",
                         borderColor: "divider",
                         ":last-child": { borderBottom: "none" },
+                        flexDirection: {
+                            xs: "column",
+                            lg: "row",
+                        },
                     }}
                 >
                     <Box
@@ -120,6 +124,9 @@ const ProductList = ({ data }: { data: Item[] }) => {
                             display: "flex",
                             flexDirection: "row",
                             gap: 1,
+                            alignItems: "center",
+                            justifyContent: "flex-end",
+                            flexWrap: "wrap",
                         }}
                     >
                         <QuantitySelector
@@ -133,6 +140,9 @@ const ProductList = ({ data }: { data: Item[] }) => {
                                 aria-label="View"
                                 color="default"
                                 onClick={() => handleSimilarItem(Number(row.category))}
+                                sx={{
+                                    display: { xs: "none", sm: "inline-flex" },
+                                }}
                             >
                                 <SearchRoundedIcon fontSize="small" />
                             </IconButton>

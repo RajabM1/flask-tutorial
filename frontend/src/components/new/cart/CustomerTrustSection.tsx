@@ -5,8 +5,8 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import PaymentIcon from "@mui/icons-material/Payment";
 import { useTranslation } from "react-i18next";
 
-const DeliverySummary = () => {
-  const { t } = useTranslation("deliverySummary");
+const CustomerTrustSection = () => {
+  const { t } = useTranslation("delivery-summary");
   return (
     <Box
       sx={{
@@ -99,4 +99,4 @@ const DeliverySummary = () => {
   );
 };
 
-export default DeliverySummary;
+export default CustomerTrustSection;
