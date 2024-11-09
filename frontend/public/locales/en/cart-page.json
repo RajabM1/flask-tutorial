@@ -1,6 +1,6 @@
 {
     "title": "Your Shopping Cart",
-    "emptyCart": {
+    "empty-cart": {
         "title": "Your cart is empty",
         "subtitle": "No items yet? Continue shopping to explore more.",
         "button": "Explore Items"

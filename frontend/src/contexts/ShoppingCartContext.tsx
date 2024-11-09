@@ -1,19 +1,7 @@
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { Item } from "../types/item";
 import HttpService from "../service/HttpService";
-
-type ShoppingCartContextType = {
-    cartQuantity: number;
-    cartSummary: { subTotal: number, saved: number };
-    cartItems: Item[];
-    addToCart: (
-        id: number,
-        quantity: number,
-        e?: React.MouseEvent<HTMLButtonElement>
-    ) => void;
-    removeFromCart: (id: number) => void;
-    updateCartItemQuantity: (id: number, quantity: number) => void;
-};
+import { ShoppingCartContextType } from "../types/ShoppingCartContextType";
 
 export const ShoppingCartContext = createContext({} as ShoppingCartContextType);
 
@@ -22,7 +10,7 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
     const cartQuantity = cartItems.length;
     const [cartSummary, setCartSummary] = useState({
         subTotal: 0,
-        saved: 0
+        saved: 0,
     });
 
     const fetchCartItems = async () => {
@@ -104,7 +92,9 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
         let saved: number = 0;
         cartItems.map((item) => {
             subTotal += item.price * (item.quantity ?? 1);
-            saved += item.discount ? (item.price - (item.discount)) * (item.quantity ?? 1) : 0;
+            saved += item.discount
+                ? (item.price - item.discount) * (item.quantity ?? 1)
+                : 0;
         });
         setCartSummary({ subTotal, saved });
     }, [cartItems]);
@@ -117,7 +107,7 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
                 addToCart,
                 removeFromCart,
                 updateCartItemQuantity,
-                cartSummary
+                cartSummary,
             }}
         >
             {children}

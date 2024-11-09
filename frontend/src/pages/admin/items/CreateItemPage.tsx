@@ -1,13 +1,13 @@
-import SubmitButton from "../../../components/buttons/SubmitButton";
-import FormInput from "../../../components/form/FormInput";
-import Message from "../../../components/feedback/Message";
+import SubmitButton from "../../../components/shared/buttons/SubmitButton";
+import FormInput from "../../../components/shared/form/FormInput";
+import Message from "../../../components/shared/feedback/Message";
 import { useCreateItemForm } from "../../../hooks/items/useCreateItemForm";
 import { useTranslation } from "react-i18next";
-import FileUpload from "../../../components/form/FileUpload";
-import FormSelector from "../../../components/form/FormSelector";
+import FileUpload from "../../../components/shared/form/FileUpload";
+import FormSelector from "../../../components/shared/form/FormSelector";
 import Container from "@mui/material/Container";
 import { Box } from "@mui/material";
-import NavBar from "../../../components/layout/navbar/NavBar";
+import NavBar from "../../../components/admin/layout/navbar/NavBar";
 
 const CreateItemPage = () => {
     const { t } = useTranslation("create-item");
@@ -32,7 +32,10 @@ const CreateItemPage = () => {
                     alignItems: "center",
                 }}
             >
-                <Message message={pageMessage.message} type={pageMessage.type} />
+                <Message
+                    message={pageMessage.message}
+                    type={pageMessage.type}
+                />
                 <form className="form-signin" onSubmit={handleCreateItem}>
                     <FormInput
                         id="name"

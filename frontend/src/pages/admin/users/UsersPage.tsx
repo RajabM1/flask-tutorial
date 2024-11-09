@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
-import Message from "../../../components/feedback/Message";
+import Message from "../../../components/shared/feedback/Message";
 import { useUsersPage } from "../../../hooks/users/useUsersPage";
-import ActionButton from "../../../components/buttons/ActionButton";
-import ItemList from "../../../components/table/admin-management-table/ItemList";
-import NavBar from "../../../components/layout/navbar/NavBar";
+import ActionButton from "../../../components/shared/buttons/ActionButton";
+import ItemList from "../../../components/admin/table/admin-management-table/ItemList";
+import NavBar from "../../../components/admin/layout/navbar/NavBar";
 
 const UsersPage = () => {
     const { t } = useTranslation("users-page");

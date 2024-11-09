@@ -1,30 +1,32 @@
-import { Box, Button, Container, Grid2, Typography } from "@mui/material";
 import Root from "../Root";
-import OrderSummary from "../../../components/new/cart/OrderSummary";
-import CustomerTrustSection from "../../../components/new/cart/CustomerTrustSection";
-import ProductList from "../../../components/new/cart/ProductList";
-import ProductSlider from "../../../components/new/slider/ProductSlider";
+import OrderSummary from "../../../components/market/cart/OrderSummary";
+import CustomerTrustSection from "../../../components/market/cart/CustomerTrustSection";
+import ProductList from "../../../components/market/cart/ProductList";
 import { useMarketPage } from "../../../hooks/items/useMarketPage";
-import { useNavigate } from "react-router-dom";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useTranslation } from "react-i18next";
+import ProductSlider from "../../../components/market/slider/ProductSlider";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Grid2 from "@mui/material/Grid2";
+import EmptyCart from "../../../components/market/cart/EmptyCart";
+import "../../../../styles/pages/market/cart/CartPage.scss";
 
 const CartPage = () => {
     const { t } = useTranslation("cart-page");
     const { cartItems, cartSummary } = useShoppingCart();
     const { itemsOnDiscount } = useMarketPage();
-    const navigate = useNavigate();
     return (
         <Root>
-            <Container maxWidth="xl" sx={{ mt: 3 }}>
+            <Container maxWidth="xl" className="cart-page">
                 {cartItems.length ? (
                     <>
-                        <Box color={"#333"} p={2}>
+                        <Box p={2}>
                             <Typography
                                 variant="h4"
                                 component="h1"
-                                fontWeight="bold"
-                                sx={{ color: "#222" }}
+                                className="cart-title"
                             >
                                 {t("title")} ({cartItems.length})
                             </Typography>
@@ -33,8 +35,12 @@ const CartPage = () => {
                             <Grid2 size={{ xs: 12, md: 8 }}>
                                 <ProductList data={cartItems} />
                             </Grid2>
-                            <Grid2 size={{ xs: 12, md: 4 }}>
-                                <Box>
+
+                            <Grid2
+                                className="side-root"
+                                size={{ xs: 12, md: 4 }}
+                            >
+                                <Box className="side-section">
                                     <OrderSummary
                                         cartSummary={cartSummary}
                                         itemCount={cartItems.length}
@@ -45,54 +51,12 @@ const CartPage = () => {
                         </Grid2>
                     </>
                 ) : (
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{
-                            height: "500px",
-                            border: "1px solid",
-                            borderColor: "grey.300",
-                            borderRadius: 2,
-                            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
-                            backgroundColor: "#fff",
-                            p: 3,
-                        }}
-                    >
-                        <Box
-                            component="img"
-                            src="https://ae-pic-a1.aliexpress-media.com/kf/Sa15be314eadd4a9bb186ab4a0cb971b5D/360x360.png_.webp"
-                            alt={"empty cart"}
-                            sx={{
-                                width: "200px",
-                                height: "200px",
-                                mb: 2,
-                                opacity: 0.8,
-                            }}
-                        />
-                        <Typography variant="h5" color="textSecondary" sx={{ mb: 1 }}>
-                            {t("emptyCart.title")}
-                        </Typography>
-                        <Typography color="textSecondary" sx={{ mb: 3, textAlign: "center" }}>
-                            {t("emptyCart.subtitle")}
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            sx={{
-                                textTransform: "none",
-                                padding: "8px 16px",
-                                bgcolor: "black",
-                                borderRadius: 30,
-                                px: 5
-                            }}
-                            onClick={() => navigate("/")}
-                        >
-                            {t("emptyCart.button")}
-                        </Button>
-                    </Box>
+                    <EmptyCart />
                 )}
-                <ProductSlider label={t("sliderLabel")} data={itemsOnDiscount} />
+                <ProductSlider
+                    label={t("sliderLabel")}
+                    data={itemsOnDiscount}
+                />
             </Container>
         </Root>
     );

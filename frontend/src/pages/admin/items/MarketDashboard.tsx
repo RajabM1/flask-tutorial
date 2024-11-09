@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
-import ItemList from "../../../components/table/admin-management-table/ItemList";
-import ActionButton from "../../../components/buttons/ActionButton";
-import Message from "../../../components/feedback/Message";
+import ItemList from "../../../components/admin/table/admin-management-table/ItemList";
+import ActionButton from "../../../components/shared/buttons/ActionButton";
+import Message from "../../../components/shared/feedback/Message";
 import { useMarketPage } from "../../../hooks/items/useMarketPage";
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../../components/layout/navbar/NavBar";
+import NavBar from "../../../components/admin/layout/navbar/NavBar";
 import { useAdminMarketPage } from "../../../hooks/items/useAdminMarketPage";
 
 const MarketDashboard = () => {

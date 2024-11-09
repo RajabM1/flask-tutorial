@@ -3,7 +3,7 @@ import RegisterPage from "../pages/auth/RegisterPage";
 import ProtectedRoute from "../contexts/ProtectedRoute";
 import Home from "../pages/market/Home";
 import ProductPage from "../pages/market/items/ProductPage";
-import ItemByCategoryPage from "../pages/market/categories/ItemByCategoryPage";
+import CategoryPage from "../pages/market/categories/CategoryPage";
 import CartPage from "../pages/market/cart/CartPage";
 import ConfirmationPage from "../pages/market/cart/ConfirmationPage";
 
@@ -44,7 +44,7 @@ const userRoutes = [
         path: "/market/:category",
         element: (
             <ProtectedRoute allowedRoles={["user"]}>
-                <ItemByCategoryPage />
+                <CategoryPage />
             </ProtectedRoute>
         ),
     },

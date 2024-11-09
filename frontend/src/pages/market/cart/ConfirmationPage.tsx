@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import Root from "../Root";
-import HorizontalLinearStepper from "../../../components/new/stepper/HorizontalLinearStepper";
+import HorizontalLinearStepper from "../../../components/market/stepper/HorizontalLinearStepper";
 
 const ConfirmationPage = () => {
     return (

@@ -1,17 +1,18 @@
 import { Link, useParams } from "react-router-dom";
-import ImageSection from "../../../components/product/ImageSection";
-import Rating from "../../../components/product/Rating";
+import ImageSection from "../../../components/market/product/ImageSection";
+import Rating from "../../../components/market/product/Rating";
 import { useUpdateItemForm } from "../../../hooks/items/useUpdateItemForm";
 import Root from "../Root";
 import { useMarketPage } from "../../../hooks/items/useMarketPage";
-import QuantitySelector from "../../../components/product/QuantitySelector";
+import QuantitySelector from "../../../components/market/product/QuantitySelector";
 import { useState } from "react";
-import Message from "../../../components/feedback/Message";
+import Message from "../../../components/shared/feedback/Message";
 import { Box, Button, Container, Typography } from "@mui/material";
-import ProductSlider from "../../../components/new/slider/ProductSlider";
+import ProductSlider from "../../../components/market/slider/ProductSlider";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useTranslation } from "react-i18next";
-import { formatCurrency } from "../../../utils/formatCurrency";
+import "../../../../styles/pages/market/items/ProductPage.scss";
+import PriceSection from "../../../components/market/product/PriceSection";
 
 const ProductPage = () => {
     const { t } = useTranslation("product-page");
@@ -28,110 +29,56 @@ const ProductPage = () => {
     return (
         <Root>
             <Message message={pageMessage.message} type={pageMessage.type} />
-            <Container maxWidth="xl" sx={{ mt: 3 }}>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: { xs: "column", md: "row" },
-                        alignItems: { xs: "center", md: "flex-start" },
-                        gap: { xs: "16px", md: "32px" },
-                    }}
-                >
-                    <ImageSection imageUrl={formData.image ?? ""} name={formData.name} />
-
-                    <Box sx={{ flex: 1, maxWidth: "600px", padding: "16px" }}>
-                        <Typography
-                            variant="h5"
-                            sx={{ fontWeight: "bold", marginBottom: "8px" }}
-                        >
+            <Container maxWidth="xl" className="product-container">
+                <Box className="product-box">
+                    <ImageSection
+                        imageUrl={formData.image ?? ""}
+                        name={formData.name}
+                    />
+                    <Box className="product-info">
+                        <Typography className="product-name" variant="h5">
                             {formData.name}
                         </Typography>
-
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                gap: "8px",
-                                marginBottom: "16px",
-                            }}
-                        >
-                            <Box sx={{ display: "flex", alignItems: "center" }}>
-                                {formData.discount ? (
-                                    <>
-                                        <Typography
-                                            variant="body2"
-                                            component="span"
-                                            sx={{
-                                                textDecoration: "line-through",
-                                                color: "gray",
-                                                mr: 1,
-                                            }}
-                                        >
-                                            {formatCurrency(formData.price)}
-                                        </Typography>
-                                        <Typography
-                                            variant="h5"
-                                            sx={{ color: "#d32f2f", fontWeight: "bold" }}
-                                        >
-                                            {formatCurrency(formData.discount)}
-                                        </Typography>
-                                    </>
-                                ) : (
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ color: "#333", fontWeight: "bold" }}
-                                    >
-                                        {formatCurrency(formData.price)}
-                                    </Typography>
-                                )}
-                            </Box>
+                        <Box className="rate-price-section">
+                            <PriceSection
+                                discount={formData.discount}
+                                price={formData.price}
+                            />
                             <Rating rating={t("rating")} />
                         </Box>
 
-                        <Typography
-                            variant="body1"
-                            sx={{ marginBottom: "24px", color: "#666" }}
-                        >
+                        <Typography variant="body1" className="description">
                             {formData.description}
                         </Typography>
 
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "16px",
-                                marginBottom: "16px",
-                            }}
-                        >
-                            <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
+                        <Box className="quantity-cart-section">
+                            <QuantitySelector
+                                quantity={quantity}
+                                setQuantity={setQuantity}
+                            />
                             <Button
+                                className="add-to-cart"
                                 variant="contained"
-                                sx={{
-                                    borderRadius: "8px",
-                                    backgroundColor: "black",
+                                onClick={() => {
+                                    addToCart(formData.id ?? 0, quantity);
+                                    setQuantity(1);
                                 }}
-                                onClick={() => addToCart(formData.id ?? 0, quantity)}
                             >
                                 {t("add_to_cart")}
                             </Button>
                         </Box>
 
-                        <Link
-                            to={"#"}
-                            style={{
-                                fontWeight: "bold",
-                                color: "black",
-                                textDecoration: "none",
-                            }}
-                        >
+                        <Link className="wishlist-link" to={"#"}>
                             {t("add_to_wishlist")}
                         </Link>
                     </Box>
                 </Box>
             </Container>
             <Container maxWidth="xl">
-                <ProductSlider label={t("sliderLabel")} data={itemsOnDiscount} />
+                <ProductSlider
+                    label={t("sliderLabel")}
+                    data={itemsOnDiscount}
+                />
             </Container>
         </Root>
     );

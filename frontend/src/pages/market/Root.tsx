@@ -1,20 +1,17 @@
-import { ReactNode } from "react";
-import NavBar from "../../components/new/layout/navbar/NavBar";
-import Footer from "../../components/new/layout/Footer";
+import { PropsWithChildren } from "react";
+import NavBar from "../../components/market/layout/NavBar";
+import Footer from "../../components/market/layout/Footer";
 import Box from "@mui/material/Box";
+import "../../../styles/main.scss"
 
-interface Props {
-  children: ReactNode;
-}
-
-const Root = ({ children }: Props) => {
-  return (
-    <>
-      <NavBar />
-      <Box>{children}</Box>
-      <Footer />
-    </>
-  );
+const Root = ({ children }: PropsWithChildren) => {
+    return (
+        <>
+            <NavBar />
+            <Box>{children}</Box>
+            <Footer />
+        </>
+    );
 };
 
 export default Root;

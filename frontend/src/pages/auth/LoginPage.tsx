@@ -1,7 +1,7 @@
-import FormInput from "../../components/form/FormInput";
-import SubmitButton from "../../components/buttons/SubmitButton";
-import Message from "../../components/feedback/Message";
-import TextWithLink from "../../components/navigation/TextWithLink";
+import FormInput from "../../components/shared/form/FormInput";
+import SubmitButton from "../../components/shared/buttons/SubmitButton";
+import Message from "../../components/shared/feedback/Message";
+import TextWithLink from "../../components/shared/navigation/TextWithLink";
 import { useLoginForm } from "../../hooks/auth/useLoginForm";
 import { useTranslation } from "react-i18next";
 import Container from "@mui/material/Container";
@@ -16,43 +16,29 @@ import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import AppleIcon from "@mui/icons-material/Apple";
 import Divider from "@mui/material/Divider";
+import "../../../styles/pages/auth/LoginPage.scss";
 
 const LoginPage = () => {
     const { t } = useTranslation("login-page");
     const { formData, formError, handleInputChange, handleSubmit, loginError } =
         useLoginForm();
     return (
-        <Container
-            maxWidth="sm"
-            sx={{
-                mt: 8,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-            }}
-        >
+        <Container className="login-page" maxWidth="sm">
             {loginError && <Message message={loginError} type="danger" />}
 
-            <Box
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    mb: 3,
-                }}
-            >
-                <Avatar sx={{ m: 1, bgcolor: "black" }}>
+            <Box className="form-header">
+                <Avatar className="avatar-lock">
                     <LockIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     {t("labels.sign_in")}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+                <Typography variant="body2" className="welcome-message">
                     {t("messages.welcome")}
                 </Typography>
             </Box>
 
-            <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+            <form onSubmit={handleSubmit}>
                 <FormInput
                     id="username"
                     type="text"
@@ -69,60 +55,33 @@ const LoginPage = () => {
                     onChange={handleInputChange}
                     error={formError.password}
                 />
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}
-                >
+                <Box className="remember-forgot">
                     <FormControlLabel
-                        control={<Checkbox color="primary" />}
+                        control={<Checkbox />}
                         label={t("labels.remember_me")}
                     />
-                    <Link href="#" variant="body2" color="inherit">
+                    <Link href="#" variant="body2">
                         {t("labels.forget_password")}
                     </Link>
                 </Box>
 
-                <SubmitButton label={t("labels.sign_in")} color="black" />
+                <SubmitButton label={t("labels.sign_in")} color="black"/>
 
-                <Divider sx={{ my: 2 }}>OR</Divider>
+                <Divider className="divider">OR</Divider>
 
-                <Box sx={{ display: "flex", gap: 2, justifyContent: "center", mt: 2 }}>
-                    <Avatar
-                        variant="rounded"
-                        sx={{
-                            bgcolor: "white",
-                            color: "text.secondary",
-                            "&:hover": { bgcolor: "#f5f5f5" },
-                        }}
-                    >
+                <Box className="social-login">
+                    <Avatar variant="rounded" className="social-icon">
                         <GoogleIcon />
                     </Avatar>
-                    <Avatar
-                        variant="rounded"
-                        sx={{
-                            bgcolor: "white",
-                            color: "text.secondary",
-                            "&:hover": { bgcolor: "#f5f5f5" },
-                        }}
-                    >
+                    <Avatar variant="rounded" className="social-icon">
                         <AppleIcon />
                     </Avatar>
-                    <Avatar
-                        variant="rounded"
-                        sx={{
-                            bgcolor: "white",
-                            color: "text.secondary",
-                            "&:hover": { bgcolor: "#f5f5f5" },
-                        }}
-                    >
+                    <Avatar variant="rounded" className="social-icon">
                         <FacebookIcon />
                     </Avatar>
                 </Box>
 
-                <Box sx={{ mt: 3, textAlign: "center" }}>
+                <Box className="signup-link">
                     <TextWithLink
                         text={t("labels.do_not_have_account")}
                         linkText={t("labels.sign_up")}
