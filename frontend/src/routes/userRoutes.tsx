@@ -1,11 +1,17 @@
-import LoginPage from "../pages/auth/LoginPage";
-import RegisterPage from "../pages/auth/RegisterPage";
+import { lazy } from "react";
 import ProtectedRoute from "../contexts/ProtectedRoute";
-import Home from "../pages/market/Home";
-import ProductPage from "../pages/market/items/ProductPage";
-import CategoryPage from "../pages/market/categories/CategoryPage";
-import CartPage from "../pages/market/cart/CartPage";
-import ConfirmationPage from "../pages/market/cart/ConfirmationPage";
+
+const LoginPage = lazy(() => import("../pages/auth/LoginPage"));
+const RegisterPage = lazy(() => import("../pages/auth/RegisterPage"));
+const Home = lazy(() => import("../pages/market/Home"));
+const ProductPage = lazy(() => import("../pages/market/items/ProductPage"));
+const CategoryPage = lazy(
+    () => import("../pages/market/categories/CategoryPage")
+);
+const CartPage = lazy(() => import("../pages/market/cart/CartPage"));
+const ConfirmationPage = lazy(
+    () => import("../pages/market/cart/ConfirmationPage")
+);
 
 const userRoutes = [
     {

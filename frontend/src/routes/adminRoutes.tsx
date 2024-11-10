@@ -1,10 +1,22 @@
-import MarketDashboard from "../pages/admin/items/MarketDashboard";
-import UpdateItemPage from "../pages/admin/items/UpdateItemPage";
-import CreateCategory from "../pages/admin/categories/CreateCategory";
+import { lazy } from "react";
 import ProtectedRoute from "../contexts/ProtectedRoute";
-import CreateItemPage from "../pages/admin/items/CreateItemPage";
-import UsersPage from "../pages/admin/users/UsersPage";
-import CategoryPage from "../pages/admin/categories/CategoryPage";
+
+const MarketDashboard = lazy(
+    () => import("../pages/admin/items/MarketDashboard")
+);
+const UpdateItemPage = lazy(
+    () => import("../pages/admin/items/UpdateItemPage")
+);
+const CreateCategory = lazy(
+    () => import("../pages/admin/categories/CreateCategory")
+);
+const CreateItemPage = lazy(
+    () => import("../pages/admin/items/CreateItemPage")
+);
+const UsersPage = lazy(() => import("../pages/admin/users/UsersPage"));
+const CategoryPage = lazy(
+    () => import("../pages/admin/categories/CategoryPage")
+);
 
 const adminRoutes = [
     {
