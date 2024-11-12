@@ -4,6 +4,27 @@
 @use "../../../components/market/product/QuantitySelector.scss";
 @use "../../../components/market/product/ProductCard.scss";
 @use "../../../main.scss";
+.header-box {
+    color: #333;
+    padding: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ddd;
+
+    h1 {
+        font-weight: bold;
+        color: #222;
+    }
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2rem;
+        }
+    }
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+}
 
 .cart-page {
     color: #333;
