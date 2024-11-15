@@ -1,98 +1,110 @@
 import Box from "@mui/material/Box";
-import FormInput from "../../shared/form/FormInput";
 import Typography from "@mui/material/Typography";
 import Grid2 from "@mui/material/Grid2";
+import TextField from "@mui/material/TextField";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { CheckoutFormFields } from "../../../schemas/checkoutSchema";
 
-const ShippingInformation = () => {
-    const handleChange = () => {
-        console.log("Hello World");
-    };
+interface Props {
+    register: UseFormRegister<CheckoutFormFields>;
+    errors: FieldErrors<CheckoutFormFields>;
+}
 
+const ShippingInformation = ({ register, errors }: Props) => {
     return (
         <Box pt={3}>
             <Typography variant="h5" component="div" gutterBottom>
-                Personal Information
+                Shipping Information
             </Typography>
             <Grid2 container spacing={2} px={2}>
+                <Grid2 size={{ xs: 12, md: 12 }}>
+                    <TextField
+                        {...register("title")}
+                        type="text"
+                        label="Title"
+                        error={!!errors.title}
+                        helperText={errors.title?.message}
+                        fullWidth
+                    />
+                </Grid2>
                 <Grid2 size={{ xs: 12, md: 6 }}>
-                    <FormInput
-                        id="firstName"
+                    <TextField
+                        {...register("firstName")}
                         type="text"
                         label="First Name"
-                        value={"Rajab"}
-                        onChange={handleChange}
+                        error={!!errors.firstName}
+                        helperText={errors.firstName?.message}
+                        fullWidth
                     />
                 </Grid2>
                 <Grid2 size={{ xs: 12, md: 6 }}>
-                    <FormInput
-                        id="lastName"
+                    <TextField
+                        {...register("lastName")}
                         type="text"
                         label="Last Name"
-                        value={"Masri"}
-                        onChange={handleChange}
+                        error={!!errors.lastName}
+                        helperText={errors.lastName?.message}
+                        fullWidth
                     />
                 </Grid2>
-                <Grid2 size={{ xs: 12, md: 6 }}>
-                    <FormInput
-                        id="email"
-                        type="email"
-                        label="Email"
-                        value={"rajab.masri@gmail.com"}
-                        onChange={handleChange}
-                    />
-                </Grid2>
-                <Grid2 size={{ xs: 12, md: 6 }}>
-                    <FormInput
-                        id="phone"
+                <Grid2 size={{ xs: 12, md: 12 }}>
+                    <TextField
+                        {...register("phoneNumber")}
                         type="text"
                         label="Phone Number"
-                        value={"+972 592463634"}
-                        onChange={handleChange}
+                        error={!!errors.phoneNumber}
+                        helperText={errors.phoneNumber?.message}
+                        fullWidth
                     />
                 </Grid2>
                 <Grid2 size={{ xs: 12, md: 4 }}>
-                    <FormInput
-                        id="country"
+                    <TextField
+                        {...register("country")}
                         type="text"
                         label="Country"
-                        value={"Palestine"}
-                        onChange={handleChange}
+                        error={!!errors.country}
+                        helperText={errors.country?.message}
+                        fullWidth
                     />
                 </Grid2>
                 <Grid2 size={{ xs: 12, md: 4 }}>
-                    <FormInput
-                        id="state"
-                        type="text"
-                        label="State"
-                        value={" "}
-                        onChange={handleChange}
-                    />
-                </Grid2>
-                <Grid2 size={{ xs: 12, md: 4 }}>
-                    <FormInput
-                        id="postalCode"
-                        type="text"
-                        label="Postal Code"
-                        value={"240"}
-                        onChange={handleChange}
-                    />
-                </Grid2>
-                <Grid2 size={{ xs: 12, md: 6 }}>
-                    <FormInput
-                        id="address"
-                        type="text"
-                        label="Address"
-                        value={"Amman str eraq al taeh"}
-                        onChange={handleChange}
-                    />
-                </Grid2>
-                <Grid2 size={{ xs: 12, md: 6 }}>
-                    <FormInput
-                        id="city"
+                    <TextField
+                        {...register("city")}
                         type="text"
                         label="City"
-                        value={"Nablus"}
-                        onChange={handleChange}
+                        error={!!errors.city}
+                        helperText={errors.city?.message}
+                        fullWidth
+                    />
+                </Grid2>
+                <Grid2 size={{ xs: 12, md: 4 }}>
+                    <TextField
+                        {...register("postalCode")}
+                        type="text"
+                        label="Postal Code"
+                        error={!!errors.postalCode}
+                        helperText={errors.postalCode?.message}
+                        fullWidth
+                    />
+                </Grid2>
+                <Grid2 size={{ xs: 12, md: 12 }}>
+                    <TextField
+                        {...register("addressLine1")}
+                        type="text"
+                        label="Address Line 1"
+                        error={!!errors.addressLine1}
+                        helperText={errors.addressLine1?.message}
+                        fullWidth
+                    />
+                </Grid2>
+                <Grid2 size={{ xs: 12, md: 12 }}>
+                    <TextField
+                        {...register("addressLine2")}
+                        type="text"
+                        label="Address Line 2"
+                        error={!!errors.addressLine2}
+                        helperText={errors.addressLine2?.message}
+                        fullWidth
                     />
                 </Grid2>
             </Grid2>

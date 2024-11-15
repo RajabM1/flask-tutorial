@@ -22,7 +22,7 @@ const CartPage = () => {
             <Container maxWidth="xl" className="cart-page">
                 {cartItems.length ? (
                     <>
-                        <Box p={2}>
+                        <Box className="header-box">
                             <Typography
                                 variant="h4"
                                 component="h1"

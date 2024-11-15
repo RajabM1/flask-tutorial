@@ -1,54 +1,34 @@
 import Box from "@mui/material/Box";
-import FormInput from "../../shared/form/FormInput";
-import { SetStateAction, useState } from "react";
 import Typography from "@mui/material/Typography";
-import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
+import Grid2 from "@mui/material/Grid2";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import TextField from "@mui/material/TextField";
+import {
+    FieldErrors,
+    UseFormRegister,
+    UseFormSetValue,
+    UseFormWatch,
+} from "react-hook-form";
+import { CheckoutFormFields } from "../../../schemas/checkoutSchema";
+import FormControl from "@mui/material/FormControl";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import Grid2 from "@mui/material/Grid2";
 
-const PaymentInformation = () => {
-    const [paymentType, setPaymentType] = useState("visa");
+interface Props {
+    register: UseFormRegister<CheckoutFormFields>;
+    errors: FieldErrors<CheckoutFormFields>;
+    setValue: UseFormSetValue<CheckoutFormFields>;
+    watch: UseFormWatch<CheckoutFormFields>;
+}
 
-    const [cardNumber, setCardNumber] = useState("3761 5902 7458 4956");
-    const [cvv, setCvv] = useState("123");
-    const [expirationDate, setExpirationDate] = useState("07/28");
+const PaymentInformation = ({ register, errors, setValue, watch }: Props) => {
+    const paymentType = watch("paymentType", "visa");
 
-    const handlePaymentTypeChange = (event: {
-        target: { value: SetStateAction<string> };
-    }) => {
-        setPaymentType(event.target.value);
-    };
-
-    const handleCardNumberChange = (event: { target: { value: string } }) => {
-        const value = event.target.value.replace(/\D/g, "");
-        const formattedValue = value.replace(/(\d{4})(?=\d)/g, "$1 ");
-        if (value.length <= 16) {
-            setCardNumber(formattedValue);
-        }
-    };
-
-    const handleCvvChange = (event: { target: { value: string } }) => {
-        const value = event.target.value.replace(/\D/g, "");
-        if (value.length <= 3) {
-            setCvv(value);
-        }
-    };
-
-    const handleExpirationDateChange = (event: {
-        target: { value: string };
-    }) => {
-        const value = event.target.value.replace(/\D/g, "");
-        const formattedValue = value.replace(/(\d{2})(?=\d{2})/, "$1/");
-        if (value.length <= 4) {
-            setExpirationDate(formattedValue);
-        }
-    };
-
-    const handleChange = () => {
-        console.log("Hello World");
+    const handlePaymentTypeChange = (type: string) => {
+        setValue("paymentType", type);
     };
 
     return (
@@ -62,129 +42,73 @@ const PaymentInformation = () => {
                         aria-label="Payment options"
                         name="paymentType"
                         value={paymentType}
-                        onChange={handlePaymentTypeChange}
+                        onChange={(e) =>
+                            handlePaymentTypeChange(e.target.value)
+                        }
                         sx={{
                             flexDirection: { sm: "column", md: "row" },
                             gap: 2,
                         }}
                     >
-                        <Card
-                            raised={paymentType === "visa"}
-                            sx={{
-                                maxWidth: { sm: "100%", md: "50%" },
-                                flexGrow: 1,
-                                outline: "1px solid",
-                                outlineColor:
-                                    paymentType === "visa"
-                                        ? "primary.main"
-                                        : "divider",
-                                backgroundColor:
-                                    paymentType === "visa"
-                                        ? "background.default"
-                                        : "",
-                            }}
-                        >
-                            <CardActionArea
-                                onClick={() => setPaymentType("visa")}
+                        {[
+                            {
+                                type: "visa",
+                                label: "Debit / Credit Card",
+                                imgSrc: "https://www.svgrepo.com/show/333620/visa.svg",
+                            },
+                            {
+                                type: "PayPal",
+                                label: "PayPal",
+                                imgSrc: "https://www.svgrepo.com/show/508716/paypal.svg",
+                            },
+                            {
+                                type: "ApplePay",
+                                label: "Apple Pay",
+                                imgSrc: "https://www.svgrepo.com/show/508402/apple-pay.svg",
+                            },
+                        ].map(({ type, label, imgSrc }) => (
+                            <Card
+                                key={type}
+                                raised={paymentType === type}
+                                sx={{
+                                    maxWidth: { sm: "100%", md: "50%" },
+                                    flexGrow: 1,
+                                    outline: "1px solid",
+                                    outlineColor:
+                                        paymentType === type
+                                            ? "primary.main"
+                                            : "divider",
+                                    backgroundColor:
+                                        paymentType === type
+                                            ? "background.default"
+                                            : "",
+                                }}
                             >
-                                <CardContent
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 1,
-                                    }}
+                                <CardActionArea
+                                    onClick={() =>
+                                        handlePaymentTypeChange(type)
+                                    }
                                 >
-                                    <img
-                                        src="https://www.svgrepo.com/show/333620/visa.svg"
-                                        alt="Visa"
-                                        width={60}
-                                        height={40}
-                                    />
-                                    <Typography fontWeight="medium">
-                                        Debit / Credit Card
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-
-                        <Card
-                            raised={paymentType === "PayPal"}
-                            sx={{
-                                maxWidth: { sm: "100%", md: "50%" },
-                                flexGrow: 1,
-                                outline: "1px solid",
-                                outlineColor:
-                                    paymentType === "PayPal"
-                                        ? "primary.main"
-                                        : "divider",
-                                backgroundColor:
-                                    paymentType === "PayPal"
-                                        ? "background.default"
-                                        : "",
-                            }}
-                        >
-                            <CardActionArea
-                                onClick={() => setPaymentType("PayPal")}
-                            >
-                                <CardContent
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 1,
-                                    }}
-                                >
-                                    <img
-                                        src="https://www.svgrepo.com/show/508716/paypal.svg"
-                                        alt="PayPal"
-                                        width={60}
-                                        height={40}
-                                    />
-                                    <Typography fontWeight="medium">
-                                        PayPal
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-
-                        <Card
-                            raised={paymentType === "ApplePay"}
-                            sx={{
-                                maxWidth: { sm: "100%", md: "50%" },
-                                flexGrow: 1,
-                                outline: "1px solid",
-                                outlineColor:
-                                    paymentType === "ApplePay"
-                                        ? "primary.main"
-                                        : "divider",
-                                backgroundColor:
-                                    paymentType === "ApplePay"
-                                        ? "background.default"
-                                        : "",
-                            }}
-                        >
-                            <CardActionArea
-                                onClick={() => setPaymentType("ApplePay")}
-                            >
-                                <CardContent
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 1,
-                                    }}
-                                >
-                                    <img
-                                        src="https://www.svgrepo.com/show/508402/apple-pay.svg"
-                                        alt="Apple Pay"
-                                        width={60}
-                                        height={40}
-                                    />
-
-                                    <Typography fontWeight="medium">
-                                        Apple Pay
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
+                                    <CardContent
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 1,
+                                        }}
+                                    >
+                                        <img
+                                            src={imgSrc}
+                                            alt={label}
+                                            width={60}
+                                            height={40}
+                                        />
+                                        <Typography fontWeight="medium">
+                                            {label}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        ))}
                     </RadioGroup>
                 </FormControl>
             </Box>
@@ -195,42 +119,51 @@ const PaymentInformation = () => {
                 </Typography>
                 <Grid2 container spacing={2} sx={{ px: 2 }}>
                     <Grid2 size={{ xs: 12, md: 12 }}>
-                        <FormInput
-                            id="cardHolderName"
+                        <TextField
+                            {...register("cardHolder")}
                             type="text"
                             label="Card Holder Name"
-                            value={"Rajab Fahmi Rajab Masri"}
-                            onChange={handleChange}
+                            error={!!errors.cardHolder}
+                            helperText={errors.cardHolder?.message}
+                            fullWidth
                         />
                     </Grid2>
                     <Grid2 size={{ xs: 12, md: 6 }}>
-                        <FormInput
-                            id="cardNumber"
+                        <TextField
+                            {...register("accountNumber")}
                             type="text"
                             label="Card Number"
-                            value={cardNumber}
-                            onChange={handleCardNumberChange}
+                            error={!!errors.accountNumber}
+                            helperText={errors.accountNumber?.message}
+                            fullWidth
                         />
                     </Grid2>
-                    <Grid2 size={{ xs: 12, md: 3 }}>
-                        <FormInput
-                            id="expirationDate"
+                    <Grid2 size={{ xs: 6, md: 3 }}>
+                        <TextField
+                            {...register("expiryDate")}
                             type="text"
                             label="Expiration Date"
-                            value={expirationDate}
-                            onChange={handleExpirationDateChange}
+                            error={!!errors.expiryDate}
+                            helperText={errors.expiryDate?.message}
+                            fullWidth
                         />
                     </Grid2>
-                    <Grid2 size={{ xs: 12, md: 3 }}>
-                        <FormInput
-                            id="cvv"
+                    <Grid2 size={{ xs: 6, md: 3 }}>
+                        <TextField
+                            {...register("cvv")}
                             type="text"
                             label="CVV"
-                            value={cvv}
-                            onChange={handleCvvChange}
+                            error={!!errors.cvv}
+                            helperText={errors.cvv?.message}
+                            fullWidth
                         />
                     </Grid2>
                 </Grid2>
+                <FormControlLabel
+                    control={<Radio checked={true} color="primary" />}
+                    label="Set as default payment method"
+                    sx={{ mt: 2 }}
+                />
                 <Typography
                     variant="body2"
                     color="textSecondary"
