@@ -1,7 +1,6 @@
 from flaskr import app, db
 from flaskr.views import PREFIX, jwt_required, jsonify, request
 from flaskr.models.cart.cart import Cart
-from flaskr.models.user.user import User
 from flaskr.models.cart.cart_item import CartItem
 from flaskr.schemas.cart.cart_item_schema import CartItemSchema
 from flaskr.utils.jwt_helpers import get_current_user

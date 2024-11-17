@@ -1,0 +1,12 @@
+import enum
+
+
+class OrderStatus(enum.Enum):
+    PENDING = "PENDING"
+    CONFIRMED = "CONFIRMED"
+    SHIPPED = "SHIPPED"
+    DELIVERED = "DELIVERED"
+    CANCELED = "CANCELED"
+    RETURNED = "RETURNED"
+    REFUNDED = "REFUNDED"
+    FAILED = "FAILED"

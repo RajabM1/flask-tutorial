@@ -3,22 +3,38 @@ import Root from "../Root";
 import Grid2 from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import ShippingInformation from "../../../components/market/cart/ShippingInformation";
-import PaymentInformation from "../../../components/market/cart/PaymentInformation";
+import CheckoutForm from "../../../components/market/cart/CheckoutForm";
 import OrderPreview from "../../../components/market/cart/OrderPreview";
-import Button from "@mui/material/Button";
-import { useCheckoutForm } from "../../../hooks/cart/useCheckoutForm";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
+import { useEffect, useState } from "react";
+import HttpService from "../../../service/HttpService";
+import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 
 const CheckoutPage = () => {
-    const {
-        register,
-        errors,
-        isSubmitting,
-        handleSubmit,
-        onSubmit,
-        setValue,
-        watch,
-    } = useCheckoutForm();
+    const [stripePromise, setStripePromise] =
+        useState<Promise<Stripe | null> | null>(null);
+    const [clientSecret, setClientSecret] = useState("");
+    const { cartSummary } = useShoppingCart();
+    const total = Math.round(cartSummary.subTotal - cartSummary.saved) * 100;
+    useEffect(() => {
+        const fetchPromise = async () => {
+            const response = await HttpService.getRequest("config");
+            setStripePromise(loadStripe(response.publishableKey));
+        };
+        const fetchData = async () => {
+            const response = await HttpService.postRequest(
+                "create-payment-intent",
+                {
+                    amount: total,
+                    currency: "usd",
+                }
+            );
+            setClientSecret(response.clientSecret);
+        };
+        fetchPromise();
+        fetchData();
+    }, [total]);
 
     return (
         <Root>
@@ -29,26 +45,15 @@ const CheckoutPage = () => {
                     </Typography>
                 </Box>
                 <Grid2 container spacing={2} p={2}>
-                    <Grid2 size={{ xs: 12, md: 7 }}>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <ShippingInformation
-                                register={register}
-                                errors={errors}
-                            />
-                            <PaymentInformation
-                                register={register}
-                                errors={errors}
-                                setValue={setValue}
-                                watch={watch}
-                            />
-                            <Button
-                                disabled={isSubmitting}
-                                variant="contained"
-                                type="submit"
+                    <Grid2 size={{ xs: 12, md: 7 }} className="product-list">
+                        {clientSecret && stripePromise && (
+                            <Elements
+                                stripe={stripePromise}
+                                options={{ clientSecret }}
                             >
-                                {isSubmitting ? "Loading..." : "Place Order"}
-                            </Button>
-                        </form>
+                                <CheckoutForm />
+                            </Elements>
+                        )}
                     </Grid2>
                     <Grid2
                         size={{ xs: 12, md: 5 }}

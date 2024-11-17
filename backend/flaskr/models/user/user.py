@@ -33,12 +33,8 @@ class User(db.Model, UserMixin):
     addresses = db.relationship(
         "UserAddress", backref="user", lazy=True, cascade="all, delete-orphan"
     )
-    payments = db.relationship(
-        "UserPayment", backref="user", lazy=True, cascade="all, delete-orphan"
-    )
 
     from .user_address import UserAddress
-    from .user_payment import UserPayment
 
     @property
     def password(self):

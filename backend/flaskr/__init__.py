@@ -5,6 +5,7 @@ from flask_login import LoginManager
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from stripe import stripe
 
 from .views import jsonify, SQLAlchemyError, ValidationError
 
@@ -19,6 +20,7 @@ login_manager.login_view = "login_page"
 login_manager.login_message_category = "info"
 ma = Marshmallow()
 jwt = JWTManager(app)
+stripe.api_key = app.config["STRIPE_SECRET_KEY"]
 CORS(app)
 
 
