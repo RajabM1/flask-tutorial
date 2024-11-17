@@ -1,40 +1,64 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-    CheckoutFormFields,
-    checkoutSchema,
-} from "../../schemas/checkoutSchema";
+import { useState } from "react";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
+import { AddressElement } from "@stripe/react-stripe-js";
+import HttpService from "../../service/HttpService";
+import { StripeAddressElement } from "@stripe/stripe-js";
+import { useNavigate } from "react-router-dom";
 
 export const useCheckoutForm = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-        setValue,
-        watch
-    } = useForm<CheckoutFormFields>({
-        resolver: zodResolver(checkoutSchema),
-        defaultValues: {
-            isDefault: true,
-        },
-    });
+    const navigate = useNavigate();
+    const stripe = useStripe();
+    const elements = useElements();
 
-    const onSubmit: SubmitHandler<CheckoutFormFields> = async (data) => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const saveAddressAndOrder = async (
+        addressElement: StripeAddressElement
+    ) => {
+        const addressData = await addressElement.getValue();
+
+        const response = await HttpService.postRequest(
+            "users/address",
+            addressData
+        );
+
+        await HttpService.postRequest("order", {
+            addressId: response.address.id,
+        });
+        await HttpService.deleteRequest("cart");
+    };
+
+    const handlePaymentSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!stripe || !elements) return;
+
+        setIsLoading(true);
+
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            console.log("Checkout Data:", data);
-        } catch (error) {
-            console.log("Submission Error", error);
+            const paymentResult = await stripe.confirmPayment({
+                elements,
+                redirect: "if_required", 
+                confirmParams: {
+                    return_url: "http://localhost:5173", 
+                },
+            });
+
+            if (paymentResult.paymentIntent?.status === "succeeded") {
+                const addressElement = elements.getElement(AddressElement);
+                if (addressElement) {
+                    await saveAddressAndOrder(addressElement);
+                }
+                navigate("/");
+            }
+        } catch (error: unknown) {
+            console.log("Payment submission error:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return {
-        register,
-        errors,
-        isSubmitting,
-        handleSubmit,
-        onSubmit,
-        setValue,
-        watch
+        isLoading,
+        handlePaymentSubmit,
     };
 };

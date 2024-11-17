@@ -32,7 +32,7 @@ def add_user_address():
         "state": address_data["address"].get("state"),
         "postalCode": address_data["address"].get("postal_code"),
         "country": address_data["address"].get("country"),
-        "isDefault": json_data.get("isNewAddress", False),  
+        "isDefault": json_data.get("save", False),  
     }
 
     user_address = user_address_schema.load(transformed_data)

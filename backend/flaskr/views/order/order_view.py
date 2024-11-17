@@ -37,9 +37,17 @@ def create_order():
     total = 0
 
     for cart_item in cart.cart_items:
-        item_price = Item.query.get(cart_item.item_id).price
-        if not item_price:
-            item_price = 0
+        item = Item.query.get(cart_item.item_id)
+        if not item:
+            return jsonify({"message": "Something went wrong, Please try again"}), 400
+
+        item_price = item.price
+
+        if item.quantity >= cart_item.quantity:
+            item.quantity -= cart_item.quantity
+        else:
+            return jsonify({"message": "Insufficient stock for item"}), 400
+
         order_item = OrderItem(
             order_id=new_order.id,
             item_id=cart_item.item_id,
