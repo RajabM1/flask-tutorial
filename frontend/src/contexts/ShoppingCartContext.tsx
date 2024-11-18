@@ -11,6 +11,7 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
     const [cartSummary, setCartSummary] = useState({
         subTotal: 0,
         saved: 0,
+        total: 0,
     });
 
     const fetchCartItems = async () => {
@@ -21,10 +22,15 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
             console.log("Error fetching cart items");
         }
     };
-    const addItemToCart = async (id: number, quantity: number) => {
+    const addItemToCart = async (
+        id: number,
+        quantity: number,
+        price: number
+    ) => {
         await HttpService.postRequest(`cart/item/add`, {
             itemId: id,
             quantity: quantity,
+            price: price,
         });
     };
     const updateCartItemQuantity = async (id: number, quantity: number) => {
@@ -49,13 +55,14 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
     const addToCart = async (
         id: number,
         quantity: number,
+        price: number,
         e?: React.MouseEvent<HTMLButtonElement>
     ) => {
         e?.stopPropagation();
         const existingItem = cartItems.find((item) => item.id === id);
         try {
             if (!existingItem) {
-                await addItemToCart(id, quantity);
+                await addItemToCart(id, quantity, price);
                 const itemToAdd: Item = await fetchItemById(id);
                 setCartItems((currentItems) => [
                     ...currentItems,
@@ -87,16 +94,30 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
         }
     };
 
+    const handleCouponApply = async (couponCode: string, cartTotal: number) => {
+        try {
+            const response = await HttpService.postRequest("coupons/apply", {
+                couponCode,
+                cartTotal,
+            });
+            return response.discountAmount;
+        } catch (error: unknown) {
+            console.log("Error", error);
+        }
+    };
+
     useEffect(() => {
         let subTotal: number = 0;
         let saved: number = 0;
+        let total: number = 0;
         cartItems.map((item) => {
             subTotal += item.price * (item.quantity ?? 1);
             saved += item.discount
                 ? (item.price - item.discount) * (item.quantity ?? 1)
                 : 0;
+            total = subTotal - saved;
         });
-        setCartSummary({ subTotal, saved });
+        setCartSummary({ subTotal, saved, total });
     }, [cartItems]);
 
     return (
@@ -108,6 +129,7 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
                 removeFromCart,
                 updateCartItemQuantity,
                 cartSummary,
+                handleCouponApply,
             }}
         >
             {children}

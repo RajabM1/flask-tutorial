@@ -60,7 +60,11 @@ const ProductPage = () => {
                                 className="add-to-cart"
                                 variant="contained"
                                 onClick={() => {
-                                    addToCart(formData.id ?? 0, quantity);
+                                    addToCart(
+                                        formData.id ?? 0,
+                                        quantity,
+                                        formData.price
+                                    );
                                     setQuantity(1);
                                 }}
                             >

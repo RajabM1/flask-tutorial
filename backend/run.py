@@ -7,13 +7,14 @@ from flaskr.models.user.user import User
 from flaskr.models.user.user_address import UserAddress
 from flaskr.models.cart.cart import Cart
 from flaskr.models.cart.cart_item import CartItem
+from flaskr.models.cart.coupons import Coupons
 from flaskr.models.order.order import Order
 from flaskr.models.order.order_item import OrderItem
 from flaskr.models.auth.jwt import TokenBlacklist
 
 from flaskr.views.user import user_views, user_address_views
 from flaskr.views.product import category_views, item_views
-from flaskr.views.cart import cart_item_views, cart_views
+from flaskr.views.cart import cart_item_views, cart_views, coupons_view
 from flaskr.views.auth import auth_views
 from flaskr.views.stripe import stripe_view
 from flaskr.views.order import order_view

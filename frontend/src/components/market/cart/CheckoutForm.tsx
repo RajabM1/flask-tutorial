@@ -2,6 +2,7 @@ import { PaymentElement, AddressElement } from "@stripe/react-stripe-js";
 import { StripeAddressElementOptions } from "@stripe/stripe-js";
 import Button from "@mui/material/Button";
 import { useCheckoutForm } from "../../../hooks/cart/useCheckoutForm";
+import Box from "@mui/material/Box";
 
 const CheckoutForm = () => {
     const { isLoading, handlePaymentSubmit } = useCheckoutForm();
@@ -23,14 +24,24 @@ const CheckoutForm = () => {
     };
 
     return (
-        <form onSubmit={handlePaymentSubmit}>
-            <AddressElement options={addressOptions} />
-
+        <Box component="form" onSubmit={handlePaymentSubmit}>
+            <AddressElement options={addressOptions}/>
             <PaymentElement options={{ layout: "accordion" }} />
-            <Button variant="contained" type="submit" disabled={isLoading}>
+            <Button
+                fullWidth
+                variant="contained"
+                type="submit"
+                disabled={isLoading}
+                sx={{
+                    backgroundColor: isLoading ? "gray" : "black",
+                    color: "white",
+                    mt: 1,
+                    py: 1.5,
+                }}
+            >
                 {isLoading ? "Processing..." : "Place Order"}
             </Button>
-        </form>
+        </Box>
     );
 };
 

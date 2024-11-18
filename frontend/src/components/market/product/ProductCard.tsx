@@ -36,13 +36,19 @@ const ProductCard = ({ id, name, price, image, category, discount }: Item) => {
                     </Typography>
                     <Box className="card-rating">
                         <Box className="rating-section">
-                        <Star className="star-icon" aria-label="Star rating" />
-                        <Typography variant="body2" className="rating-number">
-                            {4.5}
-                        </Typography>
-                        <Typography variant="body2">
-                            ({"1.2K"} Reviews)
-                        </Typography>
+                            <Star
+                                className="star-icon"
+                                aria-label="Star rating"
+                            />
+                            <Typography
+                                variant="body2"
+                                className="rating-number"
+                            >
+                                {4.5}
+                            </Typography>
+                            <Typography variant="body2">
+                                ({"1.2K"} Reviews)
+                            </Typography>
                         </Box>
                         <PriceSection discount={discount} price={price} />
                     </Box>
@@ -50,7 +56,7 @@ const ProductCard = ({ id, name, price, image, category, discount }: Item) => {
                 <CardActions className="card-actions">
                     <Button
                         variant="outlined"
-                        onClick={(e) => addToCart(id ?? 0, 1, e)}
+                        onClick={(e) => addToCart(id ?? 0, 1, price, e)}
                     >
                         Add to Cart
                     </Button>

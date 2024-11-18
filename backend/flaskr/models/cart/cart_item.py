@@ -8,6 +8,7 @@ class CartItem(db.Model):
     item_id = db.Column(db.Integer(), db.ForeignKey("item.id"), nullable=False)
 
     quantity = db.Column(db.Integer(), nullable=False)
+    price = db.Column(db.Float(), nullable=False)
 
     created_at = db.Column(db.DateTime, default=func.now())
     updated_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())

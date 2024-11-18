@@ -8,7 +8,8 @@ class CartItemSchema(ma.SQLAlchemyAutoSchema):
     item_id = fields.Int(required=True, data_key="itemId")
 
     quantity = fields.Int(required=True, validate=Range(min=1))
-
+    price = fields.Float(required=True, validate=Range(min=1))
+    
     created_at = fields.DateTime(dump_only=True, data_key="createdAt")
     updated_at = fields.DateTime(dump_only=True, data_key="updatedAt")
 

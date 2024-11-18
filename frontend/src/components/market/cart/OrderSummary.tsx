@@ -9,21 +9,21 @@ interface Props {
     cartSummary: {
         subTotal: number;
         saved: number;
+        total: number;
     };
     itemCount: number;
     shippingFee?: number;
 }
 const OrderSummary = ({
-    cartSummary: { subTotal, saved },
+    cartSummary: { subTotal, saved, total },
     itemCount,
-    shippingFee = 0,
 }: Props) => {
     const { t } = useTranslation("order-summary");
     const navigate = useNavigate();
     const handleCheckout = () => {
         navigate("/cart/confirm");
     };
-    const total = subTotal + shippingFee - saved;
+    
     return (
         <Box className="order-summary-container">
             <Typography variant="h6" component="h1" className="summary-title">
@@ -35,14 +35,6 @@ const OrderSummary = ({
                 </Typography>
                 <Typography variant="body1" className="p-t-c">
                     {formatCurrency(subTotal)}
-                </Typography>
-            </Box>
-            <Box className="summary-item">
-                <Typography variant="body1" className="s-t-c">
-                    {t("details.shipping_fee")}
-                </Typography>
-                <Typography variant="body1" className="p-t-c">
-                    {formatCurrency(shippingFee)}
                 </Typography>
             </Box>
             <Box className="summary-item">
