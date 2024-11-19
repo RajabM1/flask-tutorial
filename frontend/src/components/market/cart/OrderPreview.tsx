@@ -16,7 +16,7 @@ const OrderPreview = () => {
 
     const applyCoupon = async () => {
         const response = await handleCouponApply(
-            couponCode.trim(),
+            couponCode.trim().toUpperCase(),
             cartSummary.total
         );
         setDiscount(response);

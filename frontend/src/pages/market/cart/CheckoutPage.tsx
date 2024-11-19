@@ -6,35 +6,14 @@ import Typography from "@mui/material/Typography";
 import CheckoutForm from "../../../components/market/cart/CheckoutForm";
 import OrderPreview from "../../../components/market/cart/OrderPreview";
 import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe, Stripe } from "@stripe/stripe-js";
-import { useEffect, useState } from "react";
-import HttpService from "../../../service/HttpService";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
+import { useStripeSetup } from "../../../hooks/cart/useStripeSetup";
 
 const CheckoutPage = () => {
-    const [stripePromise, setStripePromise] =
-        useState<Promise<Stripe | null> | null>(null);
-    const [clientSecret, setClientSecret] = useState("");
     const { cartSummary } = useShoppingCart();
-    const total = Math.round(cartSummary.subTotal - cartSummary.saved) * 100;
-    useEffect(() => {
-        const fetchPromise = async () => {
-            const response = await HttpService.getRequest("config");
-            setStripePromise(loadStripe(response.publishableKey));
-        };
-        const fetchData = async () => {
-            const response = await HttpService.postRequest(
-                "create-payment-intent",
-                {
-                    amount: total,
-                    currency: "usd",
-                }
-            );
-            setClientSecret(response.clientSecret);
-        };
-        fetchPromise();
-        fetchData();
-    }, [total]);
+    const amountInCents = Math.round(cartSummary.total) * 100;
+
+    const { stripePromise, clientSecret } = useStripeSetup(amountInCents);
 
     return (
         <Root>
@@ -51,7 +30,9 @@ const CheckoutPage = () => {
                                 stripe={stripePromise}
                                 options={{ clientSecret }}
                             >
-                                <CheckoutForm />
+                                <CheckoutForm
+                                    total={Math.round(cartSummary.total)}
+                                />
                             </Elements>
                         )}
                     </Grid2>

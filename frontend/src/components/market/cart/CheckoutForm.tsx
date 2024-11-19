@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { useCheckoutForm } from "../../../hooks/cart/useCheckoutForm";
 import Box from "@mui/material/Box";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ total }: { total: number }) => {
     const { isLoading, handlePaymentSubmit } = useCheckoutForm();
 
     const addressOptions: StripeAddressElementOptions = {
@@ -25,7 +25,7 @@ const CheckoutForm = () => {
 
     return (
         <Box component="form" onSubmit={handlePaymentSubmit}>
-            <AddressElement options={addressOptions}/>
+            <AddressElement options={addressOptions} />
             <PaymentElement options={{ layout: "accordion" }} />
             <Button
                 fullWidth
@@ -39,7 +39,7 @@ const CheckoutForm = () => {
                     py: 1.5,
                 }}
             >
-                {isLoading ? "Processing..." : "Place Order"}
+                {isLoading ? "Processing..." : `Place Order (${total})`}
             </Button>
         </Box>
     );

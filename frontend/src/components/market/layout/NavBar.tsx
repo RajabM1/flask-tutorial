@@ -24,22 +24,15 @@ import { useCategory } from "../../../hooks/category/useCategory";
 
 function NavBar() {
     const { t } = useTranslation("navbar");
-    const { handleLogout } = useAuth();
+    const { handleLogout, currentUser } = useAuth();
     const { cartQuantity } = useShoppingCart();
     const { categories } = useCategory();
-    const navigate = useNavigate();
-    const settings = [
-        { label: t("settings.profile"), to: "#" },
-        { label: t("settings.wishlist"), to: "#" },
-        { label: t("settings.logout"), onClick: () => handleLogout() },
-    ];
 
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-        null
-    );
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-        null
-    );
+    const navigate = useNavigate();
+
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const [, setSearchQuery] = useState("");
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -48,19 +41,17 @@ function NavBar() {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleOpenCart = () => {
-        navigate("/cart");
-    };
+    const handleCloseNavMenu = () => setAnchorElNav(null);
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
+    const handleCloseUserMenu = () => setAnchorElUser(null);
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
+    const handleOpenCart = () => navigate("/cart");
 
-    const [, setSearchQuery] = useState("");
+    const settings = [
+        { label: t("settings.profile"), to: "#" },
+        { label: t("settings.wishlist"), to: "#" },
+        { label: t("settings.logout"), onClick: () => handleLogout() },
+    ];
 
     return (
         <AppBar
@@ -133,17 +124,12 @@ function NavBar() {
                             {categories.map((category) => (
                                 <MenuItem
                                     key={category.id}
-                                    onClick={handleCloseNavMenu}
+                                    onClick={() => {
+                                        navigate(`/market/${category.name}`);
+                                        handleCloseNavMenu();
+                                    }}
                                 >
-                                    <Link
-                                        to={`/market/${category.name}`}
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "inherit",
-                                        }}
-                                    >
-                                        {category.name}
-                                    </Link>
+                                    <Typography>{category.name}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -212,17 +198,12 @@ function NavBar() {
                             {categories.map((category) => (
                                 <MenuItem
                                     key={category.id}
-                                    onClick={handleCloseNavMenu}
+                                    onClick={() => {
+                                        navigate(`/market/${category.name}`);
+                                        handleCloseNavMenu();
+                                    }}
                                 >
-                                    <Link
-                                        to={`/market/${category.name}`}
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "inherit",
-                                        }}
-                                    >
-                                        {category.name}
-                                    </Link>
+                                    <Typography>{category.name}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -265,7 +246,7 @@ function NavBar() {
                                     }}
                                 >
                                     <Avatar
-                                        alt="Remy Sharp"
+                                        alt={`${currentUser?.username}`}
                                         src="/static/images/avatar/2.jpg"
                                         sx={{
                                             width: { xs: 24, sm: 32 },
