@@ -14,19 +14,19 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useAuth } from "../../../hooks/auth/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { useCategoryPage } from "../../../hooks/category/useCategoryPage";
 import SearchAppBar from "../../shared/search/SearchBar";
 import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Badge from "@mui/material/Badge";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useTranslation } from "react-i18next";
+import { useCategory } from "../../../hooks/category/useCategory";
 
 function NavBar() {
     const { t } = useTranslation("navbar");
     const { handleLogout } = useAuth();
     const { cartQuantity } = useShoppingCart();
-    const { categories } = useCategoryPage();
+    const { categories } = useCategory();
     const navigate = useNavigate();
     const settings = [
         { label: t("settings.profile"), to: "#" },

@@ -4,12 +4,12 @@ import Pagination from "@mui/material/Pagination";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Item } from "../../../types/item";
-import { useCategoryPage } from "../../../hooks/category/useCategoryPage";
 import { useEffect, useState } from "react";
 import SearchAppBar from "../../shared/search/SearchBar";
+import { useCategory } from "../../../hooks/category/useCategory";
 
 const ProductList = ({ data }: { data: Item[] }) => {
-    const { categories } = useCategoryPage();
+    const { categories } = useCategory();
     const getCategoryById = (id: number) =>
         categories.find((category) => category.id === id);
     const [searchQuery, setSearchQuery] = useState("");

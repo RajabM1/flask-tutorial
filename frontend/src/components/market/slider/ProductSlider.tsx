@@ -8,8 +8,8 @@ import { useTheme } from "@mui/material/styles";
 import { NextArrow } from "./layout/NextArrow";
 import { PrevArrow } from "./layout/PrevArrow";
 import { Item } from "../../../types/item";
-import { useCategoryPage } from "../../../hooks/category/useCategoryPage";
 import ProductCard from "../product/ProductCard";
+import { useCategory } from "../../../hooks/category/useCategory";
 
 interface Props {
     label: string;
@@ -49,7 +49,7 @@ const ProductSlider = ({ label, bgcolor, textColor, data }: Props) => {
         ],
     };
 
-    const { categories } = useCategoryPage();
+    const { categories } = useCategory();
     const getCategoryById = (id: number) =>
         categories.find((category) => category.id === id);
 

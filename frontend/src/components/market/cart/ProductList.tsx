@@ -1,5 +1,4 @@
 import { Item } from "../../../types/item";
-import { useCategoryPage } from "../../../hooks/category/useCategoryPage";
 import QuantitySelector from "../product/QuantitySelector";
 import { useNavigate } from "react-router-dom";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
@@ -8,10 +7,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import ProductActionSection from "./ProductActionSection";
 import PriceSection from "../product/PriceSection";
+import { useCategory } from "../../../hooks/category/useCategory";
 
 const ProductList = ({ data }: { data: Item[] }) => {
     const navigate = useNavigate();
-    const { categories } = useCategoryPage();
+    const { categories } = useCategory();
     const { updateCartItemQuantity } = useShoppingCart();
 
     const [, setItemQuantities] = useState(

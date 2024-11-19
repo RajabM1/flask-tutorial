@@ -3,13 +3,13 @@ import Container from "@mui/material/Container";
 import ProductList from "../../components/market/product/ProductList";
 import { useMarketPage } from "../../hooks/items/useMarketPage";
 import MultipleRowsSlider from "../../components/market/slider/MultipleRowsSlider";
-import { useCategoryPage } from "../../hooks/category/useCategoryPage";
 import ProductSlider from "../../components/market/slider/ProductSlider";
-import "../../../styles/pages/market/Home.scss"
+import "../../../styles/pages/market/Home.scss";
+import { useCategory } from "../../hooks/category/useCategory";
 
 const Home = () => {
     const { items, itemsOnDiscount } = useMarketPage();
-    const { categories } = useCategoryPage();
+    const { categories } = useCategory();
 
     return (
         <Root>

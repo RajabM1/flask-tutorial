@@ -1,22 +1,31 @@
 import Container from "@mui/material/Container";
 import ProductList from "../../../components/market/product/ProductList";
 import Root from "../Root";
-import { useCategoryPage } from "../../../hooks/category/useCategoryPage";
 import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Item } from "../../../types/item";
 import "../../../../styles/pages/market/categories/CategoryPage.scss";
+import { useCategory } from "../../../hooks/category/useCategory";
 
 const CategoryPage = () => {
     const { category } = useParams();
-    const { items } = useCategoryPage(category);
-    const [data, setData] = useState<Item[]>([]);
+    const { fetchCategoryItem } = useCategory();
+    const [data, setData] = useState<Item[] | undefined>([]);
 
     useEffect(() => {
-        setData(items);
-    }, [category, items]);
+        const loadCategoryItems = async () => {
+            try {
+                const response = await fetchCategoryItem(category ?? "other");
+                setData(response);
+            } catch {
+                console.log("Error");
+            }
+        };
+
+        loadCategoryItems();
+    }, [category, fetchCategoryItem]);
     return (
         <Root>
             <Container maxWidth="xl">
@@ -26,7 +35,7 @@ const CategoryPage = () => {
                     </Typography>
                 </Box>
                 <Container maxWidth="xl">
-                    <ProductList data={data} />
+                    <ProductList data={data ?? []} />
                 </Container>
             </Container>
         </Root>
