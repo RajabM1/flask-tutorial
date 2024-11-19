@@ -1,9 +1,8 @@
-from flaskr import app, db
+from flaskr import app
 from flaskr.views import PREFIX, jwt_required, jsonify
-from flaskr.models.cart.cart import Cart
-from flaskr.models.user.user import User
 from flaskr.schemas.product.item_schema import ItemSchema
 from flaskr.utils.jwt_helpers import get_current_user
+from flaskr.services.cart.cart_service import get_user_cart, delete_user_cart
 
 items_schema = ItemSchema(many=True)
 
@@ -15,9 +14,9 @@ def get_cart_items():
     if not user:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    cart = Cart.query.filter_by(user_id=user.id).first()
+    cart = get_user_cart(user.id)
     if not cart:
-        return jsonify({"error": "Cart not found"}), 404
+        return jsonify({"message": "Cart not found"}), 404
 
     cart_items = cart.cart_items
 
@@ -44,8 +43,8 @@ def delete_cart():
     if not user:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    cart = Cart.query.filter_by(user_id=user.id).first()
+    success = delete_user_cart(user.id)
+    if not success:
+        return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    db.session.delete(cart)
-    db.session.commit()
     return jsonify({"message": "Cart deleted successfully"}), 200

@@ -27,14 +27,14 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
         quantity: number,
         price: number
     ) => {
-        await HttpService.postRequest(`cart/item/add`, {
+        await HttpService.postRequest(`cart/items`, {
             itemId: id,
             quantity: quantity,
             price: price,
         });
     };
     const updateCartItemQuantity = async (id: number, quantity: number) => {
-        await HttpService.patchRequest("cart/item", {
+        await HttpService.patchRequest("cart/items", {
             itemId: id,
             quantity: quantity,
         });
@@ -85,7 +85,7 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
 
     const removeFromCart = async (id: number) => {
         try {
-            await HttpService.deleteRequest(`cart/item/${id}`);
+            await HttpService.deleteRequest(`cart/items/${id}`);
             setCartItems((currentItem) =>
                 currentItem.filter((item) => item.id !== id)
             );

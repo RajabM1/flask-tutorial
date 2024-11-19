@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -6,8 +6,8 @@ from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from stripe import stripe
-
-from .views import jsonify, SQLAlchemyError, ValidationError
+from sqlalchemy.exc import SQLAlchemyError
+from marshmallow.exceptions import ValidationError
 
 app = Flask(__name__)
 

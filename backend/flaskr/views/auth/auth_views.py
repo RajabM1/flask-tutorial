@@ -1,3 +1,4 @@
+from datetime import datetime
 from flaskr import app, db
 from flaskr.views import *
 from flaskr.models.user.user import User
@@ -16,6 +17,7 @@ def register():
 
     new_user = auth_schema.load(json_data)
     new_user.password = json_data["password"]
+    new_user.last_login_at = datetime.now()
 
     db.session.add(new_user)
     db.session.commit()
@@ -37,27 +39,28 @@ def login():
         return jsonify({"message": "No input data provided"}), 400
 
     user = User.query.filter_by(username=json_data["username"]).first()
-    if user:
-        if user.check_password(json_data["password"]):
-            [access_token, refresh_token] = generate_tokens(user.username)
-            return (
-                jsonify(
-                    current_user=auth_schema.dump(user),
-                    access_token=access_token,
-                    refresh_token=refresh_token,
-                ),
-                200,
-            )
+    if user and user.check_password(json_data["password"]):
+        user.last_login_at = datetime.now()
+        db.session.commit()
+        [access_token, refresh_token] = generate_tokens(user.username)
+        return (
+            jsonify(
+                current_user=auth_schema.dump(user),
+                access_token=access_token,
+                refresh_token=refresh_token,
+            ),
+            200,
+        )
 
-    return jsonify("Invalid email or Password"), 401
+    return jsonify({"message": "Invalid Username or Password"}), 401
 
 
-@app.get(f"{PREFIX}/refresh")
+@app.route(f"{PREFIX}/refresh", methods=["GET"])
 @jwt_required(refresh=True)
 def refresh_access():
     identity = get_jwt_identity()
-    [access_token] = generate_tokens(identity=identity)
-    return jsonify(access_token=access_token)
+    access_token = generate_tokens(identity=identity)[0]
+    return jsonify(access_token=access_token), 200
 
 
 @app.route(f"{PREFIX}/auth/logout", methods=["DELETE"])
@@ -75,8 +78,7 @@ def get_current_user():
     current_user = get_jwt_identity()
 
     user_info = User.query.filter_by(username=current_user).first()
-
     if user_info:
         return jsonify(current_user=auth_schema.dump(user_info)), 200
-    else:
-        return jsonify({"message": "User not found"}), 404
+
+    return jsonify({"message": "User not found"}), 404
