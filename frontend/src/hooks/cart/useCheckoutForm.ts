@@ -21,11 +21,13 @@ export const useCheckoutForm = () => {
             "users/address",
             addressData
         );
-
+        const addressId = response.address.id;
         await HttpService.postRequest("order", {
-            addressId: response.address.id,
+            addressId,
         });
         await HttpService.deleteRequest("cart");
+
+        return addressId;
     };
 
     const handlePaymentSubmit = async (event: React.FormEvent) => {
@@ -37,18 +39,20 @@ export const useCheckoutForm = () => {
         try {
             const paymentResult = await stripe.confirmPayment({
                 elements,
-                redirect: "if_required", 
+                redirect: "if_required",
                 confirmParams: {
-                    return_url: "http://localhost:5173", 
+                    return_url: "http://localhost:5173/order/confirmation",
                 },
             });
 
             if (paymentResult.paymentIntent?.status === "succeeded") {
                 const addressElement = elements.getElement(AddressElement);
                 if (addressElement) {
-                    await saveAddressAndOrder(addressElement);
+                    const addressId = await saveAddressAndOrder(addressElement);
+                    navigate("/order/confirmation", {
+                        state: { addressId },
+                    });
                 }
-                navigate("/");
             }
         } catch (error: unknown) {
             console.log("Payment submission error:", error);

@@ -1,27 +1,11 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Grid2 from "@mui/material/Grid2";
 import Divider from "@mui/material/Divider";
-import { useState } from "react";
 import { formatCurrency } from "../../../utils/formatCurrency";
-
+import "../../../../styles/components/market/cart/OrderSummary.scss"
 const OrderPreview = () => {
-    const { cartItems, cartSummary, handleCouponApply } = useShoppingCart();
-    const [couponCode, setCouponCode] = useState("");
-    const [discount, setDiscount] = useState(0);
-    const [isCouponApplied, setIsCouponApplied] = useState(false);
-
-    const applyCoupon = async () => {
-        const response = await handleCouponApply(
-            couponCode.trim().toUpperCase(),
-            cartSummary.total
-        );
-        setDiscount(response);
-        setIsCouponApplied(true);
-    };
+    const { cartItems, cartSummary } = useShoppingCart();
 
     return (
         <Box
@@ -71,30 +55,6 @@ const OrderPreview = () => {
 
             <Divider />
             <Box mt={3} className="order-summary-container">
-                <Grid2 container spacing={2}>
-                    <Grid2 size={{ xs: 9 }}>
-                        <TextField
-                            type="text"
-                            label="Coupon Code"
-                            fullWidth
-                            value={couponCode}
-                            onChange={(e) => setCouponCode(e.target.value)}
-                            disabled={isCouponApplied}
-                        />
-                    </Grid2>
-                    <Grid2 size={{ xs: 3 }}>
-                        <Button
-                            variant="contained"
-                            onClick={applyCoupon}
-                            fullWidth
-                            sx={{ height: "100%", backgroundColor: "black" }}
-                            aria-label="Apply Coupon"
-                            disabled={isCouponApplied}
-                        >
-                            {isCouponApplied ? "Applied" : "Apply"}
-                        </Button>
-                    </Grid2>
-                </Grid2>
                 <Box className="summary-item">
                     <Typography variant="body1" className="s-t-c">
                         Subtotal:
@@ -111,13 +71,13 @@ const OrderPreview = () => {
                         - {formatCurrency(cartSummary.saved)}
                     </Typography>
                 </Box>
-                {isCouponApplied && (
+                {cartSummary.discount && (
                     <Box className="summary-item">
                         <Typography variant="body1" className="s-t-c">
                             Discount:
                         </Typography>
                         <Typography variant="body1" className="offer-t-c">
-                            - {formatCurrency(discount)}
+                            - {formatCurrency(cartSummary.discount)}
                         </Typography>
                     </Box>
                 )}

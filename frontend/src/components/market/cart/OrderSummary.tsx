@@ -5,6 +5,10 @@ import { useTranslation } from "react-i18next";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
+import CouponSection from "./CouponSection";
+import { useState } from "react";
+import DiscountIcon from "@mui/icons-material/Discount";
+
 interface Props {
     cartSummary: {
         subTotal: number;
@@ -23,12 +27,18 @@ const OrderSummary = ({
     const handleCheckout = () => {
         navigate("/cart/confirm");
     };
-    
+    const [discount, setDiscount] = useState<number | null>(null);
+    const [couponCode, setCouponCode] = useState<string | null>(null);
+
     return (
         <Box className="order-summary-container">
             <Typography variant="h6" component="h1" className="summary-title">
                 {t("title")}
             </Typography>
+            <CouponSection
+                setDiscount={setDiscount}
+                setCouponCode={setCouponCode}
+            />
             <Box className="summary-item">
                 <Typography variant="body1" className="s-t-c">
                     {t("details.subtotal")}
@@ -45,6 +55,24 @@ const OrderSummary = ({
                     - {formatCurrency(saved)}
                 </Typography>
             </Box>
+            {discount && (
+                <>
+                    <Box className="summary-item">
+                        <Typography variant="body1" className="s-t-c">
+                            Discount:
+                        </Typography>
+                    </Box>
+                    <Box className="summary-item">
+                        <Box sx={{display:"flex"}}>
+                            <DiscountIcon fontSize="small" />
+                            <Typography>{couponCode}</Typography>
+                        </Box>
+                        <Typography variant="body1" className="offer-t-c">
+                            - {formatCurrency(discount)}
+                        </Typography>
+                    </Box>
+                </>
+            )}
             <Divider className="divider" />
             <Box className="summary-item">
                 <Typography variant="subtitle1">{t("total")}</Typography>

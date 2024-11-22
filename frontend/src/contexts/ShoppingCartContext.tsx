@@ -7,12 +7,14 @@ export const ShoppingCartContext = createContext({} as ShoppingCartContextType);
 
 export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
     const [cartItems, setCartItems] = useState<Item[]>([]);
-    const cartQuantity = cartItems.length;
     const [cartSummary, setCartSummary] = useState({
         subTotal: 0,
         saved: 0,
+        discount: null,
         total: 0,
     });
+
+    const cartQuantity = cartItems.length;
 
     const fetchCartItems = async () => {
         try {
@@ -27,7 +29,7 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
         quantity: number,
         price: number
     ) => {
-        await HttpService.postRequest(`cart/items`, {
+        await HttpService.postRequest("cart/items", {
             itemId: id,
             quantity: quantity,
             price: price,
@@ -44,13 +46,6 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
             )
         );
     };
-    const fetchItemById = async (id: number) => {
-        return await HttpService.getRequest(`items/${id}`);
-    };
-
-    useEffect(() => {
-        fetchCartItems();
-    }, []);
 
     const addToCart = async (
         id: number,
@@ -93,6 +88,13 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
             console.log("Error removing from cart");
         }
     };
+    const fetchItemById = async (id: number) => {
+        return await HttpService.getRequest(`items/${id}`);
+    };
+
+    useEffect(() => {
+        fetchCartItems();
+    }, []);
 
     const handleCouponApply = async (couponCode: string, cartTotal: number) => {
         try {
@@ -100,9 +102,16 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
                 couponCode,
                 cartTotal,
             });
-            return response.discountAmount;
-        } catch (error: unknown) {
-            console.log("Error", error);
+            if (response?.discountAmount) {
+                setCartSummary((current) => ({
+                    ...current,
+                    discount: response.discountAmount,
+                }));
+            }
+            return response?.discountAmount || 0;
+        } catch (error) {
+            console.error("Error applying coupon:", error);
+            throw error;
         }
     };
 
@@ -115,10 +124,15 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
             saved += item.discount
                 ? (item.price - item.discount) * (item.quantity ?? 1)
                 : 0;
-            total = subTotal - saved;
         });
-        setCartSummary({ subTotal, saved, total });
-    }, [cartItems]);
+        total = subTotal - saved - (cartSummary.discount || 0);
+        setCartSummary((current) => ({
+            ...current,
+            subTotal: subTotal,
+            saved: saved,
+            total: total,
+        }));
+    }, [cartItems, cartSummary.discount]);
 
     return (
         <ShoppingCartContext.Provider

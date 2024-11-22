@@ -9,8 +9,9 @@ const CategoryPage = lazy(
     () => import("../pages/market/categories/CategoryPage")
 );
 const CartPage = lazy(() => import("../pages/market/cart/CartPage"));
-const CheckoutPage = lazy(
-    () => import("../pages/market/cart/CheckoutPage")
+const CheckoutPage = lazy(() => import("../pages/market/cart/CheckoutPage"));
+const OrderConfirmationPage = lazy(
+    () => import("../pages/market/cart/OrderConfirmationPage")
 );
 
 const userRoutes = [
@@ -67,6 +68,14 @@ const userRoutes = [
         element: (
             <ProtectedRoute allowedRoles={["user"]}>
                 <CheckoutPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: "/order/confirmation",
+        element: (
+            <ProtectedRoute allowedRoles={["user"]}>
+                <OrderConfirmationPage />
             </ProtectedRoute>
         ),
     },
