@@ -6,7 +6,6 @@ import {
     Typography,
     IconButton,
     InputAdornment,
-    Paper,
     Grid2,
 } from "@mui/material";
 import Root from "../Root";
@@ -20,16 +19,20 @@ import OrderPreview from "../../../components/market/cart/OrderPreview";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useOrderConfirmation } from "../../../hooks/cart/useOrderConfirmation";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
+import "../../../../styles/components/market/cart/OrderConfirmation.scss";
 
 const OrderConfirmationPage = () => {
     //for testing:
-    const { cartItems, cartSummary } = useShoppingCart();
+    const { cartSummary } = useShoppingCart();
 
     const location = useLocation();
     const { addressId, trackingCode } = location.state || {};
     const navigate = useNavigate();
 
-    const { addressData, isLoading } = useOrderConfirmation(addressId);
+    const { addressData, isLoading, orderData } = useOrderConfirmation(
+        addressId,
+        trackingCode
+    );
 
     const orderCode = trackingCode;
 
@@ -139,9 +142,8 @@ const OrderConfirmationPage = () => {
                         mb: 4,
                     }}
                 >
-                    <Grid2 size={{ xs: 12, md: 7 }} sx={{ p: 2 }}>
-                        <Paper
-                            elevation={3}
+                    <Grid2 size={{ xs: 12, md: 6 }} sx={{ p: 2 }}>
+                        <Box
                             sx={{
                                 p: 3,
                                 borderRadius: 2,
@@ -193,10 +195,9 @@ const OrderConfirmationPage = () => {
                                     {addressData?.phone}
                                 </Typography>
                             </Box>
-                        </Paper>
+                        </Box>
 
-                        <Paper
-                            elevation={3}
+                        <Box
                             sx={{
                                 p: 3,
                                 borderRadius: 2,
@@ -222,10 +223,9 @@ const OrderConfirmationPage = () => {
                                     Standard Shipping (5-7 business days)
                                 </Typography>
                             </Box>
-                        </Paper>
+                        </Box>
 
-                        <Paper
-                            elevation={3}
+                        <Box
                             sx={{
                                 p: 3,
                                 borderRadius: 2,
@@ -250,12 +250,12 @@ const OrderConfirmationPage = () => {
                                     Visa ending in **** 1234
                                 </Typography>
                             </Box>
-                        </Paper>
+                        </Box>
                     </Grid2>
 
-                    <Grid2 size={{ xs: 12, md: 5 }}>
+                    <Grid2 size={{ xs: 12, md: 6 }}>
                         <OrderPreview
-                            orderItems={cartItems}
+                            orderItems={orderData}
                             orderSummary={cartSummary}
                         />
                     </Grid2>

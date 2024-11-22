@@ -11,7 +11,7 @@ import { useStripeSetup } from "../../../hooks/cart/useStripeSetup";
 
 const CheckoutPage = () => {
     const { cartItems, cartSummary } = useShoppingCart();
-    const amountInCents = Math.round(cartSummary.total) * 100;
+    const amountInCents = cartSummary.total * 100;
 
     const { stripePromise, clientSecret } = useStripeSetup(amountInCents);
 
@@ -30,9 +30,7 @@ const CheckoutPage = () => {
                                 stripe={stripePromise}
                                 options={{ clientSecret }}
                             >
-                                <CheckoutForm
-                                    total={Math.round(cartSummary.total)}
-                                />
+                                <CheckoutForm total={cartSummary.total} />
                             </Elements>
                         )}
                     </Grid2>

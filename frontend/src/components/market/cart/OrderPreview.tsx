@@ -5,6 +5,7 @@ import { formatCurrency } from "../../../utils/formatCurrency";
 import "../../../../styles/components/market/cart/OrderSummary.scss";
 import { Item } from "../../../types/item";
 import { OrderSummary } from "../../../types/orderSummary";
+import PriceSection from "../product/PriceSection";
 
 const OrderPreview = ({
     orderItems,
@@ -53,9 +54,7 @@ const OrderPreview = ({
                             </Typography>
                         </Box>
                     </Box>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                        ${item.price.toFixed(2)}
-                    </Typography>
+                    <PriceSection price={item.price} discount={item.discount} />
                 </Box>
             ))}
 

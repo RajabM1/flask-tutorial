@@ -20,6 +20,12 @@ class Order(db.Model):
     created_at = db.Column(db.DateTime, default=func.now())
     updated_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
 
+    order_items = db.relationship(
+        "OrderItem", backref="order", lazy=True, cascade="all, delete-orphan"
+    )
+
+    from ..order.order_item import OrderItem
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not self.tracking_code: 
@@ -27,4 +33,4 @@ class Order(db.Model):
 
 
     def generate_tracking_code(self):
-        return f"#{uuid.uuid4().hex[:10].upper()}"
+        return f"{uuid.uuid4().hex[:10].upper()}"

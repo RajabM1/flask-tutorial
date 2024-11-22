@@ -41,10 +41,10 @@ def process_order(user_id, address_id):
             order_id=new_order.id,
             item_id=cart_item.item_id,
             quantity=cart_item.quantity,
-            price=item.price,
+            price=item.discount if item.discount else item.price,
         )
         order_items.append(order_item)
-        total += cart_item.quantity * item.price
+        total += cart_item.quantity * (item.discount if item.discount else item.price)
 
     db.session.bulk_save_objects(order_items)
 
