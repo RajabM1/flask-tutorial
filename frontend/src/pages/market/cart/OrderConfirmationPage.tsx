@@ -19,22 +19,23 @@ import HomeIcon from "@mui/icons-material/Home";
 import OrderPreview from "../../../components/market/cart/OrderPreview";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useOrderConfirmation } from "../../../hooks/cart/useOrderConfirmation";
+import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 
 const OrderConfirmationPage = () => {
+    //for testing:
+    const { cartItems, cartSummary } = useShoppingCart();
+
     const location = useLocation();
-    const { addressId } = location.state || {};
+    const { addressId, trackingCode } = location.state || {};
     const navigate = useNavigate();
 
     const { addressData, isLoading } = useOrderConfirmation(addressId);
 
-    const orderCode = "#000001721731";
+    const orderCode = trackingCode;
 
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(orderCode);
     };
-
-    console.log("isLoading", isLoading);
-    console.log("addressData", addressData);
 
     if (isLoading) {
         return <Typography>Loading...</Typography>;
@@ -253,7 +254,10 @@ const OrderConfirmationPage = () => {
                     </Grid2>
 
                     <Grid2 size={{ xs: 12, md: 5 }}>
-                        <OrderPreview />
+                        <OrderPreview
+                            orderItems={cartItems}
+                            orderSummary={cartSummary}
+                        />
                     </Grid2>
                 </Grid2>
             </Container>

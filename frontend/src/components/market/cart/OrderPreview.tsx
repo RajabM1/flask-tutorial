@@ -1,18 +1,24 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import Divider from "@mui/material/Divider";
 import { formatCurrency } from "../../../utils/formatCurrency";
-import "../../../../styles/components/market/cart/OrderSummary.scss"
-const OrderPreview = () => {
-    const { cartItems, cartSummary } = useShoppingCart();
+import "../../../../styles/components/market/cart/OrderSummary.scss";
+import { Item } from "../../../types/item";
+import { OrderSummary } from "../../../types/orderSummary";
 
+const OrderPreview = ({
+    orderItems,
+    orderSummary,
+}: {
+    orderItems: Item[];
+    orderSummary: OrderSummary;
+}) => {
     return (
         <Box
             className="order-preview-section"
             sx={{ p: 3, backgroundColor: "#f9f9f9", borderRadius: 2 }}
         >
-            {cartItems.map((item) => (
+            {orderItems.map((item) => (
                 <Box
                     key={item.id}
                     sx={{
@@ -60,7 +66,7 @@ const OrderPreview = () => {
                         Subtotal:
                     </Typography>
                     <Typography variant="body1" className="p-t-c">
-                        {formatCurrency(cartSummary.subTotal)}
+                        {formatCurrency(orderSummary.subTotal)}
                     </Typography>
                 </Box>
                 <Box className="summary-item">
@@ -68,16 +74,16 @@ const OrderPreview = () => {
                         Saved:
                     </Typography>
                     <Typography variant="body1" className="offer-t-c">
-                        - {formatCurrency(cartSummary.saved)}
+                        - {formatCurrency(orderSummary.saved)}
                     </Typography>
                 </Box>
-                {cartSummary.discount && (
+                {orderSummary.discount && (
                     <Box className="summary-item">
                         <Typography variant="body1" className="s-t-c">
                             Discount:
                         </Typography>
                         <Typography variant="body1" className="offer-t-c">
-                            - {formatCurrency(cartSummary.discount)}
+                            - {formatCurrency(orderSummary.discount)}
                         </Typography>
                     </Box>
                 )}
@@ -85,7 +91,7 @@ const OrderPreview = () => {
                 <Box className="summary-item">
                     <Typography variant="subtitle1">Total:</Typography>
                     <Typography variant="subtitle1">
-                        {formatCurrency(cartSummary.total)}
+                        {formatCurrency(orderSummary.total)}
                     </Typography>
                 </Box>
             </Box>

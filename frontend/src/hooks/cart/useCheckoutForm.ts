@@ -17,17 +17,22 @@ export const useCheckoutForm = () => {
     ) => {
         const addressData = await addressElement.getValue();
 
-        const response = await HttpService.postRequest(
+        const addressResponse = await HttpService.postRequest(
             "users/address",
             addressData
         );
-        const addressId = response.address.id;
-        await HttpService.postRequest("order", {
+        const addressId = addressResponse.address.id;
+
+        const orderResponse = await HttpService.postRequest("order", {
             addressId,
         });
+        const trackingCode = orderResponse.tracking_code;
         await HttpService.deleteRequest("cart");
 
-        return addressId;
+        return {
+            addressId,
+            trackingCode,
+        };
     };
 
     const handlePaymentSubmit = async (event: React.FormEvent) => {
@@ -48,9 +53,10 @@ export const useCheckoutForm = () => {
             if (paymentResult.paymentIntent?.status === "succeeded") {
                 const addressElement = elements.getElement(AddressElement);
                 if (addressElement) {
-                    const addressId = await saveAddressAndOrder(addressElement);
+                    const { addressId, trackingCode } =
+                        await saveAddressAndOrder(addressElement);
                     navigate("/order/confirmation", {
-                        state: { addressId },
+                        state: { addressId, trackingCode },
                     });
                 }
             }

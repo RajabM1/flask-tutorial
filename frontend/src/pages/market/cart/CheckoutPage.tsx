@@ -10,7 +10,7 @@ import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useStripeSetup } from "../../../hooks/cart/useStripeSetup";
 
 const CheckoutPage = () => {
-    const { cartSummary } = useShoppingCart();
+    const { cartItems, cartSummary } = useShoppingCart();
     const amountInCents = Math.round(cartSummary.total) * 100;
 
     const { stripePromise, clientSecret } = useStripeSetup(amountInCents);
@@ -41,7 +41,10 @@ const CheckoutPage = () => {
                         sx={{ position: "relative" }}
                     >
                         <Box sx={{ position: "sticky", top: 80 }}>
-                            <OrderPreview />
+                            <OrderPreview
+                                orderItems={cartItems}
+                                orderSummary={cartSummary}
+                            />
                         </Box>
                     </Grid2>
                 </Grid2>
