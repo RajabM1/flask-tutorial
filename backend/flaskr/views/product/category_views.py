@@ -15,7 +15,7 @@ categories_schema = CategorySchema(many=True)
 @jwt_required()
 def get_all_categories():
     categories = get_all_available_categories()
-    return jsonify(categories_schema.dump(categories)), 200
+    return jsonify({"data": categories_schema.dump(categories)}), 200
 
 
 @app.route(f"{PREFIX}/categories", methods=["POST"])

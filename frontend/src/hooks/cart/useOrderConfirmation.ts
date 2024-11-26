@@ -1,48 +1,28 @@
-import { useEffect, useState } from "react";
-import HttpService from "../../service/HttpService";
-import { UserAddress } from "../../types/userAddress";
-import { Item } from "../../types/item";
+import { useFetch } from "../shared/useFetch";
 
 export const useOrderConfirmation = (addressId: string, orderCode: string) => {
-    const [addressData, setAddressData] = useState<UserAddress | null>(null);
-    const [orderData, setOrderData] = useState<Item[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const {
+        data: addressInformation,
+        error: addressError,
+        isLoading: isAddressLoading,
+    } = useFetch(`users/address/${addressId}`);
 
-    useEffect(() => {
-        const fetchAddressData = async () => {
-            if (!addressId) return;
+    const {
+        data: orderInformation,
+        error: orderError,
+        isLoading: isOrderLoading,
+    } = useFetch(`order/${orderCode}`);
 
-            try {
-                const response = await HttpService.getRequest(
-                    `users/address/${addressId}`
-                );
-                setAddressData(response.address);
-            } catch (error) {
-                console.error("Error fetching address data:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    const isLoading = isAddressLoading || isOrderLoading;
+    const addressData = addressInformation?.data || null;
+    const orderData = orderInformation?.data || [];
 
-        fetchAddressData();
-    }, [addressId]);
+    if (addressError) {
+        console.error("Error fetching address data:", addressError);
+    }
+    if (orderError) {
+        console.error("Error fetching order data:", orderError);
+    }
 
-    useEffect(() => {
-        const fetchOrderData = async () => {
-            try {
-                const response = await HttpService.getRequest(
-                    `order/${orderCode}`
-                );
-                setOrderData(response);
-            } catch (error) {
-                console.error("Error fetching address data:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchOrderData();
-    }, [orderCode]);
-
-    return { addressData, isLoading, orderData };
+    return { addressData, orderData, isLoading };
 };

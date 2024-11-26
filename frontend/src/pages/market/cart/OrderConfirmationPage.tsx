@@ -18,13 +18,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import OrderPreview from "../../../components/market/cart/OrderPreview";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useOrderConfirmation } from "../../../hooks/cart/useOrderConfirmation";
-import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import "../../../../styles/components/market/cart/OrderConfirmation.scss";
 
 const OrderConfirmationPage = () => {
-    //for testing:
-    const { cartSummary } = useShoppingCart();
-
     const location = useLocation();
     const { addressId, trackingCode } = location.state || {};
     const navigate = useNavigate();
@@ -254,10 +250,7 @@ const OrderConfirmationPage = () => {
                     </Grid2>
 
                     <Grid2 size={{ xs: 12, md: 6 }}>
-                        <OrderPreview
-                            orderItems={orderData}
-                            orderSummary={cartSummary}
-                        />
+                        <OrderPreview orderItems={orderData} />
                     </Grid2>
                 </Grid2>
             </Container>

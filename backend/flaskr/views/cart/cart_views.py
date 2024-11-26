@@ -33,7 +33,7 @@ def get_cart_items():
         }
         for cart_item in cart_items
     ]
-    return jsonify(items_schema.dump(cart_items_data)), 200
+    return jsonify({"data": items_schema.dump(cart_items_data)}), 200
 
 
 @app.route(f"{PREFIX}/cart", methods=["DELETE"])

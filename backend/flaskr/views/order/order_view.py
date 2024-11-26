@@ -54,7 +54,7 @@ def get_order_items(order_code):
         }
         for order_item in order_items
     ]
-    return jsonify(items_schema.dump(order_items_data)), 200
+    return jsonify({"data": items_schema.dump(order_items_data)}), 200
 
 
 def get_order(user_id, order_code):

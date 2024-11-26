@@ -15,7 +15,7 @@ import "../../../../styles/pages/market/cart/CartPage.scss";
 
 const CartPage = () => {
     const { t } = useTranslation("cart-page");
-    const { cartItems, cartSummary } = useShoppingCart();
+    const { cartItems } = useShoppingCart();
     const { itemsOnDiscount } = useMarketPage();
     return (
         <Root>
@@ -41,10 +41,7 @@ const CartPage = () => {
                                 size={{ xs: 12, md: 4 }}
                             >
                                 <Box className="side-section">
-                                    <OrderSummary
-                                        cartSummary={cartSummary}
-                                        itemCount={cartItems.length}
-                                    />
+                                    <OrderSummary cartItems={cartItems} />
                                     <CustomerTrustSection />
                                 </Box>
                             </Grid2>

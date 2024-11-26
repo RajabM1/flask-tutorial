@@ -12,9 +12,10 @@ interface Props {
 
 export const useCoupon = (
     setDiscount: (discount: number) => void,
-    setCouponCode: (code: string) => void
+    setCouponCode: (code: string) => void,
+    cartTotal: number
 ): Props => {
-    const { cartSummary, handleCouponApply } = useShoppingCart();
+    const { handleCouponApply } = useShoppingCart();
 
     const [couponCode, updateCouponCode] = useState("");
     const [isCouponApplied, setIsCouponApplied] = useState(false);
@@ -29,7 +30,7 @@ export const useCoupon = (
         try {
             const response = await handleCouponApply(
                 couponCode.trim().toUpperCase(),
-                cartSummary.total
+                cartTotal
             );
             setDiscount(response);
             setCouponCode(couponCode.trim().toUpperCase());

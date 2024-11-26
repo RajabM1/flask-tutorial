@@ -6,9 +6,11 @@ import { useCoupon } from "../../../hooks/cart/useCoupon";
 const CouponSection = ({
     setDiscount,
     setCouponCode,
+    cartTotal,
 }: {
     setDiscount: (discount: number) => void;
     setCouponCode: (code: string) => void;
+    cartTotal: number;
 }) => {
     const {
         couponCode,
@@ -17,7 +19,7 @@ const CouponSection = ({
         errorMessage,
         updateCouponCode,
         handleApplyCoupon,
-    } = useCoupon(setDiscount, setCouponCode);
+    } = useCoupon(setDiscount, setCouponCode, cartTotal);
 
     return (
         <Grid2 container spacing={2}>

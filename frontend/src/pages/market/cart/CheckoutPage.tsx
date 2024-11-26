@@ -8,10 +8,13 @@ import OrderPreview from "../../../components/market/cart/OrderPreview";
 import { Elements } from "@stripe/react-stripe-js";
 import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useStripeSetup } from "../../../hooks/cart/useStripeSetup";
+import { useLocation } from "react-router-dom";
 
 const CheckoutPage = () => {
-    const { cartItems, cartSummary } = useShoppingCart();
-    const amountInCents = cartSummary.total * 100;
+    const location = useLocation();
+    const { orderTotal } = location.state || {};
+    const amountInCents = orderTotal * 100;
+    const { cartItems } = useShoppingCart();
 
     const { stripePromise, clientSecret } = useStripeSetup(amountInCents);
 
@@ -30,7 +33,7 @@ const CheckoutPage = () => {
                                 stripe={stripePromise}
                                 options={{ clientSecret }}
                             >
-                                <CheckoutForm total={cartSummary.total} />
+                                <CheckoutForm total={orderTotal} />
                             </Elements>
                         )}
                     </Grid2>
@@ -39,10 +42,7 @@ const CheckoutPage = () => {
                         sx={{ position: "relative" }}
                     >
                         <Box sx={{ position: "sticky", top: 80 }}>
-                            <OrderPreview
-                                orderItems={cartItems}
-                                orderSummary={cartSummary}
-                            />
+                            <OrderPreview orderItems={cartItems} />
                         </Box>
                     </Grid2>
                 </Grid2>

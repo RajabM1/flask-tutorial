@@ -2,12 +2,6 @@ import { Item } from "./item";
 
 export type ShoppingCartContextType = {
     cartQuantity: number;
-    cartSummary: {
-        subTotal: number;
-        saved: number;
-        discount: number | null;
-        total: number;
-    };
     cartItems: Item[];
     addToCart: (
         id: number,

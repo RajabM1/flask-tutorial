@@ -56,4 +56,4 @@ def get_user_address(address_id):
     if not address:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    return jsonify({"address": user_address_schema.dump(address)}), 200
+    return jsonify({"data": user_address_schema.dump(address)}), 200

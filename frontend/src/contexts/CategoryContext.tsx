@@ -1,26 +1,26 @@
-import { createContext, PropsWithChildren, useEffect, useState } from "react";
+import { createContext, PropsWithChildren } from "react";
 import { Category } from "../types/category";
 import { Item } from "../types/item";
 import HttpService from "../service/HttpService";
+import { useFetch } from "../hooks/shared/useFetch";
 
 type CategoryContextType = {
     categories: Category[];
     fetchCategoryItem: (category: string) => Promise<Item[] | undefined>;
+    isLoading: boolean;
+    error: string | null;
 };
 
 export const CategoryContext = createContext({} as CategoryContextType);
 
 export const CategoryProvider = ({ children }: PropsWithChildren) => {
-    const [categories, setCategories] = useState<Category[]>([]);
+    const {
+        data: categoriesResponse,
+        isLoading,
+        error,
+    } = useFetch("categories");
 
-    const fetchCategories = async () => {
-        try {
-            const response = await HttpService.getRequest("categories");
-            setCategories(response);
-        } catch {
-            console.log("Failed to fetch categories.");
-        }
-    };
+    const categories = categoriesResponse?.data;
 
     const fetchCategoryItem = async (category: string) => {
         try {
@@ -33,12 +33,10 @@ export const CategoryProvider = ({ children }: PropsWithChildren) => {
         }
     };
 
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
     return (
-        <CategoryContext.Provider value={{ categories, fetchCategoryItem }}>
+        <CategoryContext.Provider
+            value={{ categories, fetchCategoryItem, isLoading, error }}
+        >
             {children}
         </CategoryContext.Provider>
     );

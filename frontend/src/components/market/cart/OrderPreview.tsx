@@ -1,19 +1,14 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { formatCurrency } from "../../../utils/formatCurrency";
 import "../../../../styles/components/market/cart/OrderSummary.scss";
 import { Item } from "../../../types/item";
-import { OrderSummary } from "../../../types/orderSummary";
 import PriceSection from "../product/PriceSection";
+import { formatCurrency } from "../../../utils/formatCurrency";
+import { useOrderSummary } from "../../../hooks/cart/useOrderSummary";
 
-const OrderPreview = ({
-    orderItems,
-    orderSummary,
-}: {
-    orderItems: Item[];
-    orderSummary: OrderSummary;
-}) => {
+const OrderPreview = ({ orderItems }: { orderItems: Item[] }) => {
+    const orderSummary = useOrderSummary(orderItems, null);
     return (
         <Box
             className="order-preview-section"

@@ -8,27 +8,32 @@ import Button from "@mui/material/Button";
 import CouponSection from "./CouponSection";
 import { useState } from "react";
 import DiscountIcon from "@mui/icons-material/Discount";
+import { useOrderSummary } from "../../../hooks/cart/useOrderSummary";
 
 interface Props {
-    cartSummary: {
-        subTotal: number;
-        saved: number;
-        total: number;
-    };
-    itemCount: number;
-    shippingFee?: number;
+    cartItems: {
+        price: number;
+        quantity?: number;
+        discount?: number;
+    }[];
 }
-const OrderSummary = ({
-    cartSummary: { subTotal, saved, total },
-    itemCount,
-}: Props) => {
+
+const OrderSummary = ({ cartItems }: Props) => {
     const { t } = useTranslation("order-summary");
     const navigate = useNavigate();
-    const handleCheckout = () => {
-        navigate("/cart/confirm");
-    };
+
     const [discount, setDiscount] = useState<number | null>(null);
     const [couponCode, setCouponCode] = useState<string | null>(null);
+
+    const cartSummary = useOrderSummary(cartItems, discount);
+
+    const handleCheckout = () => {
+        navigate("/cart/confirm", {
+            state: {
+                orderTotal: cartSummary.total,
+            },
+        });
+    };
 
     return (
         <Box className="order-summary-container">
@@ -38,13 +43,14 @@ const OrderSummary = ({
             <CouponSection
                 setDiscount={setDiscount}
                 setCouponCode={setCouponCode}
+                cartTotal={cartSummary.total}
             />
             <Box className="summary-item">
                 <Typography variant="body1" className="s-t-c">
                     {t("details.subtotal")}
                 </Typography>
                 <Typography variant="body1" className="p-t-c">
-                    {formatCurrency(subTotal)}
+                    {formatCurrency(cartSummary.subTotal)}
                 </Typography>
             </Box>
             <Box className="summary-item">
@@ -52,7 +58,7 @@ const OrderSummary = ({
                     {t("details.saved")}
                 </Typography>
                 <Typography variant="body1" className="offer-t-c">
-                    - {formatCurrency(saved)}
+                    - {formatCurrency(cartSummary.saved)}
                 </Typography>
             </Box>
             {discount && (
@@ -63,12 +69,12 @@ const OrderSummary = ({
                         </Typography>
                     </Box>
                     <Box className="summary-item">
-                        <Box sx={{display:"flex"}}>
+                        <Box sx={{ display: "flex" }}>
                             <DiscountIcon fontSize="small" />
                             <Typography>{couponCode}</Typography>
                         </Box>
                         <Typography variant="body1" className="offer-t-c">
-                            - {formatCurrency(discount)}
+                            - {formatCurrency(cartSummary.discount || 0)}
                         </Typography>
                     </Box>
                 </>
@@ -77,7 +83,7 @@ const OrderSummary = ({
             <Box className="summary-item">
                 <Typography variant="subtitle1">{t("total")}</Typography>
                 <Typography variant="subtitle1">
-                    {formatCurrency(total)}
+                    {formatCurrency(cartSummary.total)}
                 </Typography>
             </Box>
             <Button
@@ -85,7 +91,7 @@ const OrderSummary = ({
                 className="checkout-button"
                 onClick={handleCheckout}
             >
-                {t("button.checkout")} ({itemCount})
+                {t("button.checkout")} ({cartItems.length})
             </Button>
         </Box>
     );
