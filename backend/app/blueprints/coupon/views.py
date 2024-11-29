@@ -1,11 +1,11 @@
-from app.blueprints.coupon import coupons_bp
+from app.blueprints.coupon import coupon_bp
 from app.blueprints.coupon.services import validate_coupon_and_calculate_discount
 
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
 
 
-@coupons_bp.route("/apply", methods=["POST"])
+@coupon_bp.route("/apply", methods=["POST"])
 @jwt_required()
 def apply_coupons():
     json_data = request.get_json()
