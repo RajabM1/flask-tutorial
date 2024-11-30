@@ -1,7 +1,6 @@
 from app.extensions import ma
 from app.blueprints.user.models import User, UserAddress
 from app.blueprints.user.enums import UserRole, AccountStatus
-
 from marshmallow import fields
 from marshmallow.validate import Length, OneOf
 

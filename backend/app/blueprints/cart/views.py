@@ -1,8 +1,8 @@
 from app.blueprints.cart import cart_bp
 from app.blueprints.cart.schemas import CartItemSchema
-from app.blueprints.cart.services import *
+from app.blueprints.cart import services
 from app.blueprints.product.schemas import ItemSchema
-from app.blueprints.auth.helpers import get_current_user
+from app.utils.auth_helpers import get_current_user
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
 
@@ -18,7 +18,7 @@ def get_cart_items():
     if not user:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    cart = get_user_cart(user.id)
+    cart = services.get_user_cart(user.id)
     if not cart:
         return jsonify({"message": "Cart not found"}), 404
 
@@ -37,7 +37,15 @@ def get_cart_items():
         }
         for cart_item in cart_items
     ]
-    return jsonify({"data": items_schema.dump(cart_items_data)}), 200
+    return (
+        jsonify(
+            {
+                "message": "Cart items retrieved successfully",
+                "data": items_schema.dump(cart_items_data),
+            }
+        ),
+        200,
+    )
 
 
 @cart_bp.route("", methods=["DELETE"])
@@ -47,7 +55,7 @@ def delete_cart():
     if not user:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    success = delete_user_cart(user.id)
+    success = services.delete_user_cart(user.id)
     if not success:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
@@ -65,8 +73,16 @@ def add_cart_item():
     if not user:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    cart_item = add_item_to_cart(user.id, json_data)
-    return jsonify(cart_item_schema.dump(cart_item)), 201
+    cart_item = services.add_item_to_cart(user.id, json_data)
+    return (
+        jsonify(
+            {
+                "message": "Item added to cart successfully",
+                "data": cart_item_schema.dump(cart_item),
+            }
+        ),
+        201,
+    )
 
 
 @cart_bp.route("/items", methods=["PATCH"])
@@ -80,11 +96,19 @@ def update_item_quantity():
     if not user:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    cart_item = update_item_quantity_in_cart(user.id, json_data)
+    cart_item = services.update_item_quantity_in_cart(user.id, json_data)
     if not cart_item:
         return jsonify({"message": "Something went wrong, Please try again"}), 404
 
-    return jsonify(cart_item_schema.dump(cart_item)), 201
+    return (
+        jsonify(
+            {
+                "message": "Item quantity updated successfully",
+                "data": cart_item_schema.dump(cart_item),
+            }
+        ),
+        201,
+    )
 
 
 @cart_bp.route("/items/<int:item_id>", methods=["DELETE"])
@@ -94,7 +118,7 @@ def delete_cart_item(item_id):
     if not user:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    success = delete_item_from_cart(user.id, item_id)
+    success = services.delete_item_from_cart(user.id, item_id)
     if not success:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 

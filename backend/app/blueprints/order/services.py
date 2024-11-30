@@ -1,15 +1,15 @@
 from app.extensions import db
-from app.blueprints.order.models import OrderItem
+from app.blueprints.order.models import OrderItem, Order
 from app.blueprints.order.schemas import OrderSchema
-from app.blueprints.cart.services import get_user_cart
-from app.blueprints.product.services import get_item
+from app.blueprints.cart import services as cart_services
+from app.blueprints.product import services as product_services
 
 
 order_schema = OrderSchema()
 
 
 def process_order(user_id, address_id):
-    cart = get_user_cart(user_id)
+    cart = cart_services.get_user_cart(user_id)
     if not cart or not cart.cart_items:
         return {"error": "Something went wrong, Please try again"}
 
@@ -29,7 +29,7 @@ def process_order(user_id, address_id):
     total = 0
 
     for cart_item in cart.cart_items:
-        item = get_item(cart_item.item_id)
+        item = product_services.get_item(cart_item.item_id)
         if not item:
             return {"error": "Something went wrong, Please try again."}
 
@@ -52,3 +52,8 @@ def process_order(user_id, address_id):
     new_order.total = total
     db.session.commit()
     return new_order
+
+
+def get_order(user_id, order_code):
+    order = Order.query.filter_by(user_id=user_id, tracking_code=order_code).first()
+    return order if order else None

@@ -1,7 +1,6 @@
 from app.extensions import ma
 from app.blueprints.order.models import Order, OrderItem
 from app.blueprints.order.enums import OrderStatus
-
 from marshmallow import fields
 from marshmallow.validate import Range, OneOf
 

@@ -1,7 +1,7 @@
 from flask import jsonify
 from flask_jwt_extended import jwt_required
 from functools import wraps
-from app.blueprints.auth.helpers import get_current_user
+from app.utils.auth_helpers import get_current_user
 from app.blueprints.user.enums import UserRole
 
 

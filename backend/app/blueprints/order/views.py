@@ -1,9 +1,8 @@
 from app.blueprints.order import order_bp
-from app.blueprints.order.models import Order
 from app.blueprints.order.schemas import OrderSchema
-from app.blueprints.order.services import process_order
+from app.blueprints.order import services
 from app.blueprints.product.schemas import ItemSchema
-from app.blueprints.auth.helpers import get_current_user
+from app.utils.auth_helpers import get_current_user
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
 
@@ -22,11 +21,19 @@ def create_order():
     if not user:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    order_result = process_order(user.id, json_data["addressId"])
+    order_result = services.process_order(user.id, json_data["addressId"])
     if isinstance(order_result, dict):
         return jsonify({"message": order_result["error"]}), 400
 
-    return jsonify(order_schema.dump(order_result)), 201
+    return (
+        jsonify(
+            {
+                "message": "Order created successfully",
+                "data": order_schema.dump(order_result),
+            }
+        ),
+        201,
+    )
 
 
 @order_bp.route("/<string:order_code>", methods=["GET"])
@@ -36,7 +43,7 @@ def get_order_items(order_code):
     if not user:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    order = get_order(user.id, order_code)
+    order = services.get_order(user.id, order_code)
     if not order:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
@@ -55,9 +62,12 @@ def get_order_items(order_code):
         }
         for order_item in order_items
     ]
-    return jsonify({"data": items_schema.dump(order_items_data)}), 200
-
-
-def get_order(user_id, order_code):
-    order = Order.query.filter_by(user_id=user_id, tracking_code=order_code).first()
-    return order if order else None
+    return (
+        jsonify(
+            {
+                "message": "Order items retrieved successfully",
+                "data": items_schema.dump(order_items_data),
+            }
+        ),
+        200,
+    )

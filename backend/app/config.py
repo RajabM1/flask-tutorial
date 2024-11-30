@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -11,7 +12,7 @@ class Config:
     STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
     STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
     PREFIX = os.getenv("API_PREFIX")
-
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=30)
 
 class DevelopmentConfig(Config):
     DEBUG = True
