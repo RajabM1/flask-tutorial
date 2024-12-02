@@ -1,0 +1,10 @@
+{
+    "brand": "NULL",
+    "all_categories": "All Categories",
+    "open_cart": "Open Cart",
+    "settings": {
+        "profile": "Profile",
+        "wishlist": "Wish List",
+        "logout": "Logout"
+    }
+}

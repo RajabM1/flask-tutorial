@@ -1,0 +1,23 @@
+.header-box {
+    color: #333;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ddd;
+
+    h1 {
+        font-weight: bold;
+        color: #222;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-box h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-box h1 {
+        font-size: 1.5rem;
+    }
+}

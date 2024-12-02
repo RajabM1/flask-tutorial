@@ -1,0 +1,19 @@
+.price-section {
+    display: flex;
+    align-items: center;
+    .original-price {
+        text-decoration: line-through;
+        color: gray;
+        margin-right: 8px;
+        font-size: small;
+    }
+    .discount-price {
+        font-weight: bold;
+        font-size: large;
+    }
+    .normal-price {
+        color: #333;
+        font-size: large;
+        font-weight: bold;
+    }
+}

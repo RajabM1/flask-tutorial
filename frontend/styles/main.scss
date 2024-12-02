@@ -1,0 +1,53 @@
+$primary-text-color: black;
+$secondary-text-color: rgba(0, 0, 0, 0.6);
+$offer-text-color: #d32f2f;
+.p-t-c {
+    color: $primary-text-color;
+}
+.s-t-c {
+    color: $secondary-text-color;
+}
+.offer-t-c {
+    color: $offer-text-color;
+}
+
+$spacing-scale: (
+    0: 0px,
+    1: 4px,
+    2: 8px,
+    3: 16px,
+    4: 24px,
+    5: 32px,
+);
+
+@mixin generate-spacing-classes($type, $scale) {
+    @each $key, $value in $scale {
+        .#{$type}-#{$key} {
+            margin: #{$value} !important;
+        }
+
+        .#{$type}-t-#{$key} {
+            margin-top: #{$value} !important;
+        }
+        .#{$type}-r-#{$key} {
+            margin-right: #{$value} !important;
+        }
+        .#{$type}-b-#{$key} {
+            margin-bottom: #{$value} !important;
+        }
+        .#{$type}-l-#{$key} {
+            margin-left: #{$value} !important;
+        }
+
+        .#{$type}-x-#{$key} {
+            margin-left: #{$value} !important;
+            margin-right: #{$value} !important;
+        }
+        .#{$type}-y-#{$key} {
+            margin-top: #{$value} !important;
+            margin-bottom: #{$value} !important;
+        }
+    }
+}
+
+@include generate-spacing-classes(m, $spacing-scale);

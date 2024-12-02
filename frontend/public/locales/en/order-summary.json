@@ -1,0 +1,12 @@
+{
+    "title": "Order Summary",
+    "details": {
+        "subtotal": "Subtotal",
+        "shipping_fee": "Shipping Fee",
+        "saved": "Saved"
+    },
+    "total": "Total",
+    "button": {
+        "checkout": "Checkout"
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "labels": {
+        "name": "Item Name",
+        "price": "Price",
+        "barcode": "Barcode",
+        "description": "Description",
+        "image": "Image",
+        "quantity": "Quantity",
+        "category": "Category",
+        "save": "Save"
+    },
+    "required": {
+        "name": "Item name is required",
+        "price": "Price is required",
+        "barcode": "Barcode is required",
+        "description": "Description is required",
+        "image": "Image is required",
+        "quantity": "Quantity is required",
+        "category": "Category is required"
+    },
+    "error": {
+        "create": "Error while creating item.",
+        "image_upload": "Error while uploading image.",
+        "fetch_categories": "Error while fetch categories."
+    }
+}

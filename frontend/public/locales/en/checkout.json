@@ -1,0 +1,11 @@
+{
+    "steps": {
+        "shippingInformation": "Shipping Information",
+        "paymentInformation": "Payment Information"
+    },
+    "buttons": {
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish"
+    }
+}

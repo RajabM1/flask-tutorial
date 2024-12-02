@@ -1,0 +1,48 @@
+.quantity-selector-container {
+    display: flex;
+    align-items: center;
+
+    .quantity-button {
+        min-width: 32px;
+        padding: 4px 12px;
+        background-color: #f5f5f5;
+        color: #333;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #f5f5f5;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 4px #333;
+        }
+    }
+
+    .quantity-input {
+        width: 4rem;
+        margin: 0 8px;
+
+        .MuiOutlinedInput-root {
+            padding: 0;
+
+            fieldset {
+                border-color: #f5f5f5;
+            }
+
+            &:hover fieldset {
+                border-color: #333;
+            }
+
+            &.Mui-focused fieldset {
+                border-color: #333;
+            }
+        }
+
+        input {
+            padding: 5px 0;
+            text-align: center;
+        }
+    }
+}

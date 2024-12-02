@@ -1,0 +1,18 @@
+{
+    "columns": {
+        "id": "ID",
+        "image": "Image",
+        "name": "Name",
+        "options": "Options"
+    },
+    "btn": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "add": "Add Category"
+    },
+    "messages": {
+        "error_fetching_categories": "Error fetching categories",
+        "no_categories_available": "No Categories available",
+        "feature_not_available": "This Feature Unavailable"
+    }
+}

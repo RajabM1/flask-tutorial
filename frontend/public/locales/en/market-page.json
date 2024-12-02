@@ -1,0 +1,38 @@
+{
+    "columns": {
+        "id": "ID",
+        "image": "Image",
+        "name": "Name",
+        "barcode": "Barcode",
+        "price": "Price",
+        "description": "Description",
+        "quantity": "Quantity",
+        "category": "Category",
+        "options": "Options"
+    },
+    "messages": {
+        "error_fetching_items": "Error fetching items",
+        "item_purchase_success": "Item purchase successfully",
+        "error_deleting_item": "Error deleting item with ID {{id}}",
+        "item_deleted_success": "Item deleted successfully",
+        "no_items_available": "No items available",
+        "purchase_not_available": "Purchase feature is not available",
+        "error_purchase_item": "Error while trying to purchase item with ID {{id}}",
+        "item_costs": "This item costs {{price}} $"
+    },
+    "btn": {
+        "purchase": "Purchase",
+        "edit": "Edit",
+        "delete": "Delete",
+        "add_item": "Add Item",
+        "sell_item": "Sell this item"
+    },
+    "headings": {
+        "market_items": "Available Items on the Market",
+        "owned_items": "Owned Items"
+    },
+    "instructions": {
+        "market_items": "Click on one of the items to start buying",
+        "owned_items": "Click on \"Sell this item\" to put it back on the Market"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "title": "Your Shopping Cart",
+    "empty-cart": {
+        "title": "Your cart is empty",
+        "subtitle": "No items yet? Continue shopping to explore more.",
+        "button": "Explore Items"
+    },
+    "sliderLabel": "More to love"
+}

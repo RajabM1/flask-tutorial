@@ -1,0 +1,22 @@
+{
+    "labels": {
+        "sign_up": "Sign Up",
+        "username": "User Name",
+        "email": "Email",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "create_account_btn": "Create Account",
+        "sign_in": "Sign In",
+        "already_have_account": "Already have an account?"
+    },
+    "messages": {
+        "welcome": "Welcome, Let's create your account",
+        "password_do_not_match": "Passwords do not match",
+        "register_error": "An unknown error occurred."
+    },
+    "required": {
+        "username": "Username is required",
+        "email": "Email is required",
+        "password": "Password is required"
+    }
+}

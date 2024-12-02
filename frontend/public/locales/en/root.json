@@ -1,0 +1,19 @@
+{
+    "footer": {
+        "copyright": "2024 FourMed. All rights reserved."
+    },
+    "auth_links": {
+        "login": "Login",
+        "register": "Register",
+        "logout": "Logout",
+        "welcome": "Welcome",
+        "guest": "Guest"
+    },
+    "nav_links": {
+        "home": "Home",
+        "market": "Market",
+        "users": "Users",
+        "categories": "Categories",
+        "app_name": "FourMed"
+    }
+}
