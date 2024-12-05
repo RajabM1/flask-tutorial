@@ -14,7 +14,7 @@ export const useUpdateItemForm = (id: number) => {
         const fetchItemData = async () => {
             try {
                 const response = await HttpService.getRequest(`items/${id}`);
-                setFormData(response);
+                setFormData(response.data);
             } catch {
                 console.log('Error fetching item');
             }

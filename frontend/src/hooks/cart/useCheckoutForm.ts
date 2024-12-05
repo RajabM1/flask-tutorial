@@ -18,15 +18,15 @@ export const useCheckoutForm = () => {
         const addressData = await addressElement.getValue();
 
         const addressResponse = await HttpService.postRequest(
-            "users/address",
+            "users/addresses",
             addressData
         );
-        const addressId = addressResponse.address.id;
+        const addressId = addressResponse.data.id;
 
-        const orderResponse = await HttpService.postRequest("order", {
+        const orderResponse = await HttpService.postRequest("orders", {
             addressId,
         });
-        const trackingCode = orderResponse.tracking_code;
+        const trackingCode = orderResponse.data.tracking_code;
         await HttpService.deleteRequest("cart");
 
         return {

@@ -31,7 +31,7 @@ const AuthProvider = ({ children }: Props) => {
 
             try {
                 const response = await HttpService.getRequest("auth/me");
-                setCurrentUser(response.current_user);
+                setCurrentUser(response.data.current_user);
             } catch {
                 setCurrentUser(null);
                 setAuthToken(null);
@@ -45,9 +45,9 @@ const AuthProvider = ({ children }: Props) => {
     const handleLogin = async (formData: LoginFormData) => {
         try {
             const response = await HttpService.postRequest("auth/login", formData);
-            setAuthToken(response.access_token);
-            setCurrentUser(response.current_user);
-            setTokens(response.access_token, response.refresh_token);
+            setAuthToken(response.data.access_token);
+            setCurrentUser(response.data.current_user);
+            setTokens(response.data.access_token, response.data.refresh_token);
             router.navigate("/", { replace: true });
         } catch (error) {
             return error;
@@ -61,9 +61,9 @@ const AuthProvider = ({ children }: Props) => {
                 email: formData.email,
                 password: formData.password,
             });
-            setAuthToken(response.access_token);
-            setCurrentUser(response.current_user);
-            setTokens(response.access_token, response.refresh_token);
+            setAuthToken(response.data.access_token);
+            setCurrentUser(response.data.current_user);
+            setTokens(response.data.access_token, response.data.refresh_token);
             router.navigate("/", { replace: true });
         } catch (error) {
             return error;

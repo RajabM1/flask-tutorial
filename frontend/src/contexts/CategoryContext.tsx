@@ -20,14 +20,14 @@ export const CategoryProvider = ({ children }: PropsWithChildren) => {
         error,
     } = useFetch("categories");
 
-    const categories = categoriesResponse?.data;
-
+    const categories = categoriesResponse;
+    
     const fetchCategoryItem = async (category: string) => {
         try {
-            const response: Item[] = await HttpService.getRequest(
+            const response = await HttpService.getRequest(
                 `items/${category}`
-            );
-            return response;
+            );            
+            return response.data;
         } catch {
             console.log("Failed to fetch category items.");
         }

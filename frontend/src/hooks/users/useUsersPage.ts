@@ -23,7 +23,7 @@ export const useUsersPage = () => {
             setPageMessage({ message: "", type: "" });
             try {
                 const response = await HttpService.getRequest('users');
-                setUsers(response);
+                setUsers(response.data);
             } catch {
                 setPageMessage({ message: t('messages.error_fetching_users'), type: "danger" });
             }

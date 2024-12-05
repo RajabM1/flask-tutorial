@@ -31,7 +31,7 @@ export const useCreateItemForm = () => {
         const fetchCategories = async () => {
             try {
                 const response = await HttpService.getRequest("categories");
-                setCategories(response);
+                setCategories(response.data);
             } catch (error) {
                 console.error("Error fetching categories:", error);
                 setPageMessage({

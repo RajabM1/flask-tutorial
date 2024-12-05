@@ -17,10 +17,10 @@ export const useMarketPage = () => {
         const fetchItems = async () => {
             setPageMessage({ message: "", type: "" });
             try {
-                const responseItems = await HttpService.getRequest("items");
-                setItems(responseItems);
+                const responseItems = await HttpService.getRequest("items");                
+                setItems(responseItems.data);
 
-                const discountedItems = responseItems.filter(
+                const discountedItems = responseItems.data.filter(
                     (item: Item) => item.discount != null
                 );
                 setItemsOnDiscount(discountedItems);

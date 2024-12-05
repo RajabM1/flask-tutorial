@@ -14,8 +14,8 @@ export const useFetch =(url: string) => {
             setData(null);
             setError(null);
             try {
-                const response = await HttpService.getRequest(url);
-                setData(response);
+                const response = await HttpService.getRequest(url);                
+                setData(response.data);
             } catch (error: unknown) {
                 if (error instanceof Error) {
                     setError(error.message);

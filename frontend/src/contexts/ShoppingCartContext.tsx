@@ -11,8 +11,8 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
 
     const { data: cartResponse, isLoading } = useFetch("cart");
     useEffect(() => {
-        if (!isLoading && cartResponse?.data) {
-            setCartItems(cartResponse.data);
+        if (!isLoading && cartResponse) {
+            setCartItems(cartResponse);
         }
     }, [cartResponse, isLoading]);
     const cartQuantity = cartItems.length;
@@ -82,7 +82,8 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
     };
 
     const fetchItemById = async (id: number) => {
-        return await HttpService.getRequest(`items/${id}`);
+        const response = await HttpService.getRequest(`items/${id}`);
+        return response.data;
     };
 
     const handleCouponApply = async (couponCode: string, cartTotal: number) => {
@@ -92,7 +93,7 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
                 cartTotal,
             });
 
-            return response?.discountAmount || 0;
+            return response.data?.discountAmount || 0;
         } catch (error) {
             console.error("Error applying coupon:", error);
             throw error;

@@ -5,17 +5,17 @@ export const useOrderConfirmation = (addressId: string, orderCode: string) => {
         data: addressInformation,
         error: addressError,
         isLoading: isAddressLoading,
-    } = useFetch(`users/address/${addressId}`);
+    } = useFetch(`users/addresses/${addressId}`);
 
     const {
         data: orderInformation,
         error: orderError,
         isLoading: isOrderLoading,
-    } = useFetch(`order/${orderCode}`);
+    } = useFetch(`orders/${orderCode}`);
 
     const isLoading = isAddressLoading || isOrderLoading;
-    const addressData = addressInformation?.data || null;
-    const orderData = orderInformation?.data || [];
+    const addressData = addressInformation || null;
+    const orderData = orderInformation || [];
 
     if (addressError) {
         console.error("Error fetching address data:", addressError);

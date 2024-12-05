@@ -8,7 +8,11 @@ export const useStripeSetup = (amountInCents: number) => {
         useState<Promise<Stripe | null> | null>(null);
     const [clientSecret, setClientSecret] = useState("");
 
-    const { data: stripeConfig, error: stripeConfigError, isLoading } = useFetch("config");
+    const {
+        data: stripeConfig,
+        error: stripeConfigError,
+        isLoading,
+    } = useFetch("stripe/config");
     useEffect(() => {
         if (!isLoading && stripeConfig && stripeConfig.publishableKey) {
             setStripePromise(loadStripe(stripeConfig.publishableKey));
@@ -26,13 +30,13 @@ export const useStripeSetup = (amountInCents: number) => {
         const fetchPaymentIntent = async () => {
             try {
                 const response = await HttpService.postRequest(
-                    "create-payment-intent",
+                    "stripe/create-payment-intent",
                     {
                         amount: amountInCents,
                         currency: "usd",
                     }
                 );
-                setClientSecret(response.clientSecret);
+                setClientSecret(response.data.clientSecret);
             } catch (error) {
                 console.error("Error creating payment intent:", error);
             }
