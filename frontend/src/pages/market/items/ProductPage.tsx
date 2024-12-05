@@ -9,10 +9,10 @@ import { useState } from "react";
 import Message from "../../../components/shared/feedback/Message";
 import { Box, Button, Container, Typography } from "@mui/material";
 import ProductSlider from "../../../components/market/slider/ProductSlider";
-import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useTranslation } from "react-i18next";
 import "../../../../styles/pages/market/items/ProductPage.scss";
 import PriceSection from "../../../components/market/product/PriceSection";
+import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 
 const ProductPage = () => {
     const { t } = useTranslation("product-page");

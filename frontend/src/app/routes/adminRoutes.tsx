@@ -1,21 +1,21 @@
 import { lazy } from "react";
-import ProtectedRoute from "../contexts/ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 
 const MarketDashboard = lazy(
-    () => import("../pages/admin/items/MarketDashboard")
+    () => import("../../pages/admin/items/MarketDashboard")
 );
 const UpdateItemPage = lazy(
-    () => import("../pages/admin/items/UpdateItemPage")
+    () => import("../../pages/admin/items/UpdateItemPage")
 );
 const CreateCategory = lazy(
-    () => import("../pages/admin/categories/CreateCategory")
+    () => import("../../pages/admin/categories/CreateCategory")
 );
 const CreateItemPage = lazy(
-    () => import("../pages/admin/items/CreateItemPage")
+    () => import("../../pages/admin/items/CreateItemPage")
 );
-const UsersPage = lazy(() => import("../pages/admin/users/UsersPage"));
+const UsersPage = lazy(() => import("../../pages/admin/users/UsersPage"));
 const CategoryPage = lazy(
-    () => import("../pages/admin/categories/CategoryPage")
+    () => import("../../pages/admin/categories/CategoryPage")
 );
 
 const adminRoutes = [

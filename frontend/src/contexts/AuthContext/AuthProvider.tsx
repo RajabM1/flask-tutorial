@@ -1,24 +1,17 @@
-import { createContext, PropsWithChildren, useEffect, useState } from "react";
-import HttpService from "../service/HttpService";
-import { User } from "../types/user";
-import { LoginFormData } from "../types/loginForm";
-import { RegisterFormData } from "../types/registerForm";
-import { router } from "../routes/routes";
-import { getAccessToken, removeTokens, setTokens } from "../utils/jwtHelpers";
+import { PropsWithChildren, useEffect, useState } from "react";
+import {
+    getAccessToken,
+    removeTokens,
+    setTokens,
+} from "../../utils/jwtHelpers";
+import { User } from "../../types/user";
+import HttpService from "../../service/HttpService";
+import { LoginFormData } from "../../types/loginForm";
+import { router } from "../../app/routes/routes";
+import { RegisterFormData } from "../../types/registerForm";
+import AuthContext from "./AuthContext";
 
-type AuthContext = {
-    authToken?: string | null;
-    currentUser?: User | null;
-    handleRegister: (formData: RegisterFormData) => Promise<unknown | void>;
-    handleLogin: (formData: LoginFormData) => Promise<unknown | void>;
-    handleLogout: () => Promise<void>;
-};
-
-type Props = PropsWithChildren;
-
-export const AuthContext = createContext<AuthContext | undefined>(undefined);
-
-const AuthProvider = ({ children }: Props) => {
+const AuthProvider = ({ children }: PropsWithChildren) => {
     const [authToken, setAuthToken] = useState<string | null>(getAccessToken());
     const [currentUser, setCurrentUser] = useState<User | null>();
 
@@ -44,7 +37,10 @@ const AuthProvider = ({ children }: Props) => {
 
     const handleLogin = async (formData: LoginFormData) => {
         try {
-            const response = await HttpService.postRequest("auth/login", formData);
+            const response = await HttpService.postRequest(
+                "auth/login",
+                formData
+            );
             setAuthToken(response.data.access_token);
             setCurrentUser(response.data.current_user);
             setTokens(response.data.access_token, response.data.refresh_token);

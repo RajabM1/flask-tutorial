@@ -1,10 +1,10 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes";
-import AuthProvider from "../contexts/AuthProvider";
-import { ShoppingCartProvider } from "../contexts/ShoppingCartContext";
-import { CategoryProvider } from "../contexts/CategoryContext";
+import { AuthProvider } from "../../contexts/AuthContext";
+import { ShoppingCartProvider } from "../../contexts/ShoppingCartContext";
+import { CategoryProvider } from "../../contexts/CategoryContext";
 
-const AppRoutes = () => {
+export const AppRoutes = () => {
     return (
         <AuthProvider>
             <CategoryProvider>
@@ -15,5 +15,3 @@ const AppRoutes = () => {
         </AuthProvider>
     );
 };
-
-export default AppRoutes;

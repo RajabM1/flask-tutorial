@@ -5,7 +5,7 @@ import { useMarketPage } from "../../hooks/items/useMarketPage";
 import MultipleRowsSlider from "../../components/market/slider/MultipleRowsSlider";
 import ProductSlider from "../../components/market/slider/ProductSlider";
 import "../../../styles/pages/market/Home.scss";
-import { useCategory } from "../../hooks/category/useCategory";
+import { useCategory } from "../../contexts/CategoryContext";
 
 const Home = () => {
     const { items, itemsOnDiscount } = useMarketPage();

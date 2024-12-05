@@ -1,6 +1,6 @@
-import { Item } from "./item";
+import { Item } from "../../types/item";
 
-export type ShoppingCartContextType = {
+export interface IShoppingCartContext {
     cartQuantity: number;
     cartItems: Item[];
     addToCart: (
@@ -15,4 +15,4 @@ export type ShoppingCartContextType = {
         couponCode: string,
         cartTotal: number
     ) => Promise<number>;
-};
+}

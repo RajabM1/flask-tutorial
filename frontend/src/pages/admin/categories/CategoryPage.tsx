@@ -4,7 +4,7 @@ import NavBar from "../../../components/admin/layout/navbar/NavBar";
 // import Message from "../../../components/shared/feedback/Message";
 import ItemList from "../../../components/admin/table/admin-management-table/ItemList";
 import { useNavigate } from "react-router-dom";
-import { useCategory } from "../../../hooks/category/useCategory";
+import { useCategory } from "../../../contexts/CategoryContext";
 
 const CategoryPage = () => {
     const { t } = useTranslation("category-page");

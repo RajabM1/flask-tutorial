@@ -1,12 +1,10 @@
-import { createContext, PropsWithChildren, useEffect, useState } from "react";
-import { Item } from "../types/item";
-import HttpService from "../service/HttpService";
-import { ShoppingCartContextType } from "../types/ShoppingCartContextType";
-import { useFetch } from "../hooks/shared/useFetch";
+import { PropsWithChildren, useEffect, useState } from "react";
+import { Item } from "../../types/item";
+import { useFetch } from "../../hooks/shared/useFetch";
+import HttpService from "../../service/HttpService";
+import ShoppingCartContext from "./ShoppingCartContext";
 
-export const ShoppingCartContext = createContext({} as ShoppingCartContextType);
-
-export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
+const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
     const [cartItems, setCartItems] = useState<Item[]>([]);
 
     const { data: cartResponse, isLoading } = useFetch("cart");
@@ -115,3 +113,5 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
         </ShoppingCartContext.Provider>
     );
 };
+
+export default ShoppingCartProvider;

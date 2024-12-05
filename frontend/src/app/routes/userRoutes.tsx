@@ -1,17 +1,17 @@
 import { lazy } from "react";
-import ProtectedRoute from "../contexts/ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 
-const LoginPage = lazy(() => import("../pages/auth/LoginPage"));
-const RegisterPage = lazy(() => import("../pages/auth/RegisterPage"));
-const Home = lazy(() => import("../pages/market/Home"));
-const ProductPage = lazy(() => import("../pages/market/items/ProductPage"));
+const LoginPage = lazy(() => import("../../pages/auth/LoginPage"));
+const RegisterPage = lazy(() => import("../../pages/auth/RegisterPage"));
+const Home = lazy(() => import("../../pages/market/Home"));
+const ProductPage = lazy(() => import("../../pages/market/items/ProductPage"));
 const CategoryPage = lazy(
-    () => import("../pages/market/categories/CategoryPage")
+    () => import("../../pages/market/categories/CategoryPage")
 );
-const CartPage = lazy(() => import("../pages/market/cart/CartPage"));
-const CheckoutPage = lazy(() => import("../pages/market/cart/CheckoutPage"));
+const CartPage = lazy(() => import("../../pages/market/cart/CartPage"));
+const CheckoutPage = lazy(() => import("../../pages/market/cart/CheckoutPage"));
 const OrderConfirmationPage = lazy(
-    () => import("../pages/market/cart/OrderConfirmationPage")
+    () => import("../../pages/market/cart/OrderConfirmationPage")
 );
 
 const userRoutes = [

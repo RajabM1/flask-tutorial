@@ -6,9 +6,9 @@ import Typography from "@mui/material/Typography";
 import CheckoutForm from "../../../components/market/cart/CheckoutForm";
 import OrderPreview from "../../../components/market/cart/OrderPreview";
 import { Elements } from "@stripe/react-stripe-js";
-import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useStripeSetup } from "../../../hooks/cart/useStripeSetup";
 import { useLocation } from "react-router-dom";
+import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 
 const CheckoutPage = () => {
     const location = useLocation();

@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { CategoryContext } from "../../contexts/CategoryContext";
+import CategoryContext from "./CategoryContext";
 
-export const useCategory = () => {
+const useCategory = () => {
     const context = useContext(CategoryContext);
 
     if (context === undefined) {
@@ -12,3 +12,5 @@ export const useCategory = () => {
 
     return context;
 };
+
+export default useCategory;
