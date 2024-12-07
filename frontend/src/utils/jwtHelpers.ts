@@ -1,8 +1,4 @@
-import { jwtDecode, JwtPayload } from "jwt-decode";
-
-interface CustomJwtPayload extends JwtPayload {
-    is_admin?: boolean;
-}
+import { User } from "../types/user";
 
 export const setTokens = (accessToken: string, refreshToken: string) => {
     localStorage.setItem("accessToken", accessToken);
@@ -22,15 +18,14 @@ export const getRefreshToken = () => {
     return localStorage.getItem("refreshToken");
 };
 
-export const getUserRole = () => {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-        return "guest";
-    }
-    try {
-        const decodedToken = jwtDecode<CustomJwtPayload>(accessToken);
-        return decodedToken.is_admin ? "admin" : "user";
-    } catch {
-        return "guest";
+export const getUserRole = (currentUser: User | null): string => {
+    if (!currentUser) return "guest";
+    switch (currentUser.role) {
+        case "ADMIN":
+            return "admin";
+        case "CUSTOMER":
+            return "user";
+        default:
+            return "guest";
     }
 };

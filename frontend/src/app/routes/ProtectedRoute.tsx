@@ -20,7 +20,7 @@ export default function ProtectedRoute({
     if (
         allowedRoles &&
         allowedRoles.length > 0 &&
-        !allowedRoles.includes(getUserRole())
+        !allowedRoles.includes(getUserRole(currentUser))
     ) {
         return <UnauthorizedPage />;
     }

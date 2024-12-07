@@ -1,6 +1,11 @@
 export type User = {
     id?: number;
     username: string;
+    firstName: string;
+    lastName: string;
     email: string;
-    budget: number;
-}
+    role: string;
+    phoneNumber: string;
+    dateOfBirth: Date;
+    accountStatus: boolean;
+};
