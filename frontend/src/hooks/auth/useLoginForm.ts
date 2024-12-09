@@ -1,7 +1,7 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "./useAuth";
 import { LoginFormData, LoginFormError } from "../../types/loginForm";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const useLoginForm = () => {
     const { t } = useTranslation("login-page");

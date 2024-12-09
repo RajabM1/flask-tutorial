@@ -3,10 +3,26 @@ import { StripeAddressElementOptions } from "@stripe/stripe-js";
 import Button from "@mui/material/Button";
 import { useCheckoutForm } from "../../../hooks/cart/useCheckoutForm";
 import Box from "@mui/material/Box";
+import ShippingMethods from "./ShippingMethods";
 
-const CheckoutForm = ({ total }: { total: number }) => {
-    const { isLoading, handlePaymentSubmit } = useCheckoutForm();
-
+const CheckoutForm = ({
+    clientSecret,
+    setShippingFees,
+    orderTotal,
+}: {
+    clientSecret: string;
+    setShippingFees: React.Dispatch<React.SetStateAction<number | null>>;
+    orderTotal: number;
+}) => {
+    const {
+        isLoading,
+        handlePaymentSubmit,
+        isAddressComplete,
+        handleAddressChange,
+        selectedShippingMethod,
+        handleShippingMethodSelect,
+    } = useCheckoutForm(clientSecret, orderTotal);
+    setShippingFees(selectedShippingMethod?.cost ?? null);
     const addressOptions: StripeAddressElementOptions = {
         mode: "shipping",
         fields: {
@@ -25,7 +41,17 @@ const CheckoutForm = ({ total }: { total: number }) => {
 
     return (
         <Box component="form" onSubmit={handlePaymentSubmit}>
-            <AddressElement options={addressOptions} />
+            <AddressElement
+                options={addressOptions}
+                onChange={handleAddressChange}
+            />
+            {isAddressComplete && (
+                <ShippingMethods
+                    selectedMethod={selectedShippingMethod?.id || null}
+                    onSelectMethod={handleShippingMethodSelect}
+                />
+            )}
+
             <PaymentElement options={{ layout: "accordion" }} />
             <Button
                 fullWidth
@@ -39,7 +65,7 @@ const CheckoutForm = ({ total }: { total: number }) => {
                     py: 1.5,
                 }}
             >
-                {isLoading ? "Processing..." : `Place Order (${total})`}
+                {isLoading ? "Processing..." : "Place Order"}
             </Button>
         </Box>
     );

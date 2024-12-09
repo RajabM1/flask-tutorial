@@ -1,6 +1,10 @@
 import { useFetch } from "../shared/useFetch";
 
-export const useOrderConfirmation = (addressId: string, orderCode: string) => {
+export const useOrderConfirmation = (
+    addressId: string,
+    orderCode: string,
+    selectedShippingMethodId: string
+) => {
     const {
         data: addressInformation,
         error: addressError,
@@ -13,9 +17,17 @@ export const useOrderConfirmation = (addressId: string, orderCode: string) => {
         isLoading: isOrderLoading,
     } = useFetch(`orders/${orderCode}`);
 
-    const isLoading = isAddressLoading || isOrderLoading;
+    const {
+        data: shippingMethods,
+        error: shippingMethodsError,
+        isLoading: isShippingMethodsLoading,
+    } = useFetch(`orders/shipping-methods/${selectedShippingMethodId}`);
+
+    const isLoading =
+        isAddressLoading || isOrderLoading || isShippingMethodsLoading;
     const addressData = addressInformation || null;
     const orderData = orderInformation || [];
+    const shippingMethodsData = shippingMethods || [];
 
     if (addressError) {
         console.error("Error fetching address data:", addressError);
@@ -23,6 +35,9 @@ export const useOrderConfirmation = (addressId: string, orderCode: string) => {
     if (orderError) {
         console.error("Error fetching order data:", orderError);
     }
+    if (shippingMethodsError) {
+        console.error("Error fetching shipping methods:", shippingMethodsError);
+    }
 
-    return { addressData, orderData, isLoading };
+    return { addressData, orderData, shippingMethodsData, isLoading };
 };

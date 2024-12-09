@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import HttpService from "../../service/HttpService";
 import { useFetch } from "../shared/useFetch";
 
-export const useStripeSetup = (amountInCents: number) => {
+export const useStripeSetup = (amount: number) => {
     const [stripePromise, setStripePromise] =
         useState<Promise<Stripe | null> | null>(null);
     const [clientSecret, setClientSecret] = useState("");
+    const [paymentIntentId, setPaymentIntentId] = useState("");
+
+    const amountInCents = amount * 100;
 
     const {
         data: stripeConfig,
@@ -36,13 +39,16 @@ export const useStripeSetup = (amountInCents: number) => {
                         currency: "usd",
                     }
                 );
+                setPaymentIntentId(response.data.id);
                 setClientSecret(response.data.clientSecret);
             } catch (error) {
                 console.error("Error creating payment intent:", error);
             }
         };
-        fetchPaymentIntent();
-    }, [amountInCents]);
+        if (!paymentIntentId) {
+            fetchPaymentIntent();
+        }
+    }, [amountInCents, paymentIntentId]);
 
     return { stripePromise, clientSecret };
 };

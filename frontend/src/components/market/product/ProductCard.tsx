@@ -9,8 +9,8 @@ import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid2";
 import { useNavigate } from "react-router-dom";
 import { Item } from "../../../types/item";
-import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import PriceSection from "./PriceSection";
+import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 
 const ProductCard = ({ id, name, price, image, category, discount }: Item) => {
     const navigate = useNavigate();

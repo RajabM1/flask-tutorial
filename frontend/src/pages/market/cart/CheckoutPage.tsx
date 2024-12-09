@@ -6,18 +6,19 @@ import Typography from "@mui/material/Typography";
 import CheckoutForm from "../../../components/market/cart/CheckoutForm";
 import OrderPreview from "../../../components/market/cart/OrderPreview";
 import { Elements } from "@stripe/react-stripe-js";
-import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useStripeSetup } from "../../../hooks/cart/useStripeSetup";
 import { useLocation } from "react-router-dom";
+import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
+import { useState } from "react";
 
 const CheckoutPage = () => {
     const location = useLocation();
-    const { orderTotal } = location.state || {};
-    const amountInCents = orderTotal * 100;
+    const { orderTotal, couponDiscount } = location.state || {};
     const { cartItems } = useShoppingCart();
 
-    const { stripePromise, clientSecret } = useStripeSetup(amountInCents);
+    const { stripePromise, clientSecret } = useStripeSetup(orderTotal);
 
+    const [shippingFees, setShippingFees] = useState<number | null>(null);
     return (
         <Root>
             <Container maxWidth="xl" className="cart-page">
@@ -33,7 +34,11 @@ const CheckoutPage = () => {
                                 stripe={stripePromise}
                                 options={{ clientSecret }}
                             >
-                                <CheckoutForm total={orderTotal} />
+                                <CheckoutForm
+                                    clientSecret={clientSecret}
+                                    setShippingFees={setShippingFees}
+                                    orderTotal={orderTotal}
+                                />
                             </Elements>
                         )}
                     </Grid2>
@@ -42,7 +47,11 @@ const CheckoutPage = () => {
                         sx={{ position: "relative" }}
                     >
                         <Box sx={{ position: "sticky", top: 80 }}>
-                            <OrderPreview orderItems={cartItems} />
+                            <OrderPreview
+                                orderItems={cartItems}
+                                couponDiscount={couponDiscount}
+                                shippingFees={shippingFees}
+                            />
                         </Box>
                     </Grid2>
                 </Grid2>

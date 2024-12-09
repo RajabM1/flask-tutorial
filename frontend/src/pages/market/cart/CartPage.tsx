@@ -3,7 +3,6 @@ import OrderSummary from "../../../components/market/cart/OrderSummary";
 import CustomerTrustSection from "../../../components/market/cart/CustomerTrustSection";
 import ProductList from "../../../components/market/cart/ProductList";
 import { useMarketPage } from "../../../hooks/items/useMarketPage";
-import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useTranslation } from "react-i18next";
 import ProductSlider from "../../../components/market/slider/ProductSlider";
 import Container from "@mui/material/Container";
@@ -12,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import Grid2 from "@mui/material/Grid2";
 import EmptyCart from "../../../components/market/cart/EmptyCart";
 import "../../../../styles/pages/market/cart/CartPage.scss";
+import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 
 const CartPage = () => {
     const { t } = useTranslation("cart-page");

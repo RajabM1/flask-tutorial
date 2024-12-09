@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useShoppingCart } from "./useShoppingCart";
+import { useShoppingCart } from "../../contexts/ShoppingCartContext";
 
 interface Props {
     couponCode: string;

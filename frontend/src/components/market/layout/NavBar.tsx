@@ -11,16 +11,16 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { useAuth } from "../../../hooks/auth/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import SearchAppBar from "../../shared/search/SearchBar";
 import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Badge from "@mui/material/Badge";
-import { useShoppingCart } from "../../../hooks/cart/useShoppingCart";
 import { useTranslation } from "react-i18next";
-import { useCategory } from "../../../hooks/category/useCategory";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useCategory } from "../../../contexts/CategoryContext";
+import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 
 function NavBar() {
     const { t } = useTranslation("navbar");

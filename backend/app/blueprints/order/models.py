@@ -12,6 +12,7 @@ class Order(db.Model):
     )
 
     tracking_code = db.Column(db.String(50), unique=True, nullable=True)
+    shipping_method_id = db.Column(db.String(10), nullable=False)
     total = db.Column(db.Float(), nullable=False)
     status = db.Column(
         db.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDING

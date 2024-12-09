@@ -1,8 +1,8 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "./useAuth";
 import { RegisterFormData, RegisterFormError } from "../../types/registerForm";
 import { errorFormatter } from "../../utils/errorFormatter";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const useRegisterForm = () => {
     const { t } = useTranslation("register-page");

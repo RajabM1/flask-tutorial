@@ -7,8 +7,34 @@ from app.blueprints.product import services as product_services
 
 order_schema = OrderSchema()
 
+SHIPPING_METHODS = [
+    {
+        "id": "1",
+        "name": "Standard Shipping",
+        "label": "3-4 business days",
+        "cost": 5.00,
+    },
+    {
+        "id": "2",
+        "name": "Express Shipping",
+        "label": "1-2 business days",
+        "cost": 10.00,
+    },
+    {"id": "3", "name": "Free Shipping", "label": "5-7 business days", "cost": 0.00},
+]
 
-def process_order(user_id, address_id):
+
+def get_shipping_method_by_id(method_id):
+    if 1 <= method_id <= len(SHIPPING_METHODS):
+        return SHIPPING_METHODS[method_id - 1]
+    return None
+
+
+def get_shipping_methods():
+    return SHIPPING_METHODS
+
+
+def process_order(user_id, address_id, shipping_method):
     cart = cart_services.get_user_cart(user_id)
     if not cart or not cart.cart_items:
         return {"error": "Something went wrong, Please try again"}
@@ -19,6 +45,7 @@ def process_order(user_id, address_id):
             "addressId": address_id,
             "status": "PENDING",
             "total": 0,
+            "shippingMethodId": shipping_method["id"],
         }
     )
 
@@ -26,7 +53,7 @@ def process_order(user_id, address_id):
     db.session.flush()
 
     order_items = []
-    total = 0
+    total = shipping_method["cost"]
 
     for cart_item in cart.cart_items:
         item = product_services.get_item(cart_item.item_id)
