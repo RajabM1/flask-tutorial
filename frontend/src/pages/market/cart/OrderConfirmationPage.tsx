@@ -250,7 +250,11 @@ const OrderConfirmationPage = () => {
                     </Grid2>
 
                     <Grid2 size={{ xs: 12, md: 6 }}>
-                        <OrderPreview orderItems={orderData} />
+                        <OrderPreview
+                            orderItems={orderData}
+                            couponDiscount={null}
+                            shippingFees={shippingMethodsData.cost}
+                        />
                     </Grid2>
                 </Grid2>
             </Container>

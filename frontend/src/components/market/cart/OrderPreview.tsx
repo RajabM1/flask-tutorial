@@ -7,8 +7,22 @@ import PriceSection from "../product/PriceSection";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { useOrderSummary } from "../../../hooks/cart/useOrderSummary";
 
-const OrderPreview = ({ orderItems }: { orderItems: Item[] }) => {
-    const orderSummary = useOrderSummary(orderItems, null);
+type OrderPreviewType = {
+    orderItems: Item[];
+    couponDiscount: number | null;
+    shippingFees: number | null;
+};
+
+const OrderPreview = ({
+    orderItems,
+    couponDiscount,
+    shippingFees,
+}: OrderPreviewType) => {
+    const orderSummary = useOrderSummary(
+        orderItems,
+        couponDiscount,
+        shippingFees
+    );
     return (
         <Box
             className="order-preview-section"
@@ -71,13 +85,23 @@ const OrderPreview = ({ orderItems }: { orderItems: Item[] }) => {
                         - {formatCurrency(orderSummary.saved)}
                     </Typography>
                 </Box>
-                {orderSummary.discount && (
+                {orderSummary.discount != null && (
                     <Box className="summary-item">
                         <Typography variant="body1" className="s-t-c">
                             Discount:
                         </Typography>
                         <Typography variant="body1" className="offer-t-c">
                             - {formatCurrency(orderSummary.discount)}
+                        </Typography>
+                    </Box>
+                )}
+                {orderSummary.shippingFees != null && (
+                    <Box className="summary-item">
+                        <Typography variant="body1" className="s-t-c">
+                            Shipping Fees:
+                        </Typography>
+                        <Typography variant="body1" className="p-t-c">
+                            {formatCurrency(orderSummary.shippingFees)}
                         </Typography>
                     </Box>
                 )}

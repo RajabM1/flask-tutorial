@@ -9,15 +9,16 @@ import { Elements } from "@stripe/react-stripe-js";
 import { useStripeSetup } from "../../../hooks/cart/useStripeSetup";
 import { useLocation } from "react-router-dom";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
+import { useState } from "react";
 
 const CheckoutPage = () => {
     const location = useLocation();
-    const { orderTotal } = location.state || {};
+    const { orderTotal, couponDiscount } = location.state || {};
     const { cartItems } = useShoppingCart();
 
-    const { stripePromise, clientSecret } =
-        useStripeSetup(orderTotal);
+    const { stripePromise, clientSecret } = useStripeSetup(orderTotal);
 
+    const [shippingFees, setShippingFees] = useState<number | null>(null);
     return (
         <Root>
             <Container maxWidth="xl" className="cart-page">
@@ -33,7 +34,11 @@ const CheckoutPage = () => {
                                 stripe={stripePromise}
                                 options={{ clientSecret }}
                             >
-                                <CheckoutForm clientSecret={clientSecret} />
+                                <CheckoutForm
+                                    clientSecret={clientSecret}
+                                    setShippingFees={setShippingFees}
+                                    orderTotal={orderTotal}
+                                />
                             </Elements>
                         )}
                     </Grid2>
@@ -42,7 +47,11 @@ const CheckoutPage = () => {
                         sx={{ position: "relative" }}
                     >
                         <Box sx={{ position: "sticky", top: 80 }}>
-                            <OrderPreview orderItems={cartItems} />
+                            <OrderPreview
+                                orderItems={cartItems}
+                                couponDiscount={couponDiscount}
+                                shippingFees={shippingFees}
+                            />
                         </Box>
                     </Grid2>
                 </Grid2>

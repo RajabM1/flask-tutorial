@@ -25,12 +25,13 @@ const OrderSummary = ({ cartItems }: Props) => {
     const [discount, setDiscount] = useState<number | null>(null);
     const [couponCode, setCouponCode] = useState<string | null>(null);
 
-    const cartSummary = useOrderSummary(cartItems, discount);
+    const cartSummary = useOrderSummary(cartItems, discount, null);
 
     const handleCheckout = () => {
         navigate("/cart/confirm", {
             state: {
                 orderTotal: cartSummary.total,
+                couponDiscount: discount,
             },
         });
     };
@@ -65,7 +66,7 @@ const OrderSummary = ({ cartItems }: Props) => {
                 <>
                     <Box className="summary-item">
                         <Typography variant="body1" className="s-t-c">
-                            Discount:
+                            Coupon:
                         </Typography>
                     </Box>
                     <Box className="summary-item">

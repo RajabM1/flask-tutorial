@@ -5,16 +5,24 @@ import { useCheckoutForm } from "../../../hooks/cart/useCheckoutForm";
 import Box from "@mui/material/Box";
 import ShippingMethods from "./ShippingMethods";
 
-const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
+const CheckoutForm = ({
+    clientSecret,
+    setShippingFees,
+    orderTotal,
+}: {
+    clientSecret: string;
+    setShippingFees: React.Dispatch<React.SetStateAction<number | null>>;
+    orderTotal: number;
+}) => {
     const {
         isLoading,
         handlePaymentSubmit,
-        address,
+        isAddressComplete,
         handleAddressChange,
-        selectedShippingMethodId,
+        selectedShippingMethod,
         handleShippingMethodSelect,
-    } = useCheckoutForm(clientSecret);
-
+    } = useCheckoutForm(clientSecret, orderTotal);
+    setShippingFees(selectedShippingMethod?.cost ?? null);
     const addressOptions: StripeAddressElementOptions = {
         mode: "shipping",
         fields: {
@@ -37,9 +45,9 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
                 options={addressOptions}
                 onChange={handleAddressChange}
             />
-            {address && (
+            {isAddressComplete && (
                 <ShippingMethods
-                    selectedMethod={selectedShippingMethodId}
+                    selectedMethod={selectedShippingMethod?.id || null}
                     onSelectMethod={handleShippingMethodSelect}
                 />
             )}
