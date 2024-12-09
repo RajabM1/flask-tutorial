@@ -13,10 +13,10 @@ import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 const CheckoutPage = () => {
     const location = useLocation();
     const { orderTotal } = location.state || {};
-    const amountInCents = orderTotal * 100;
     const { cartItems } = useShoppingCart();
 
-    const { stripePromise, clientSecret } = useStripeSetup(amountInCents);
+    const { stripePromise, clientSecret } =
+        useStripeSetup(orderTotal);
 
     return (
         <Root>
@@ -33,7 +33,7 @@ const CheckoutPage = () => {
                                 stripe={stripePromise}
                                 options={{ clientSecret }}
                             >
-                                <CheckoutForm total={orderTotal} />
+                                <CheckoutForm clientSecret={clientSecret} />
                             </Elements>
                         )}
                     </Grid2>

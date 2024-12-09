@@ -22,13 +22,12 @@ import "../../../../styles/components/market/cart/OrderConfirmation.scss";
 
 const OrderConfirmationPage = () => {
     const location = useLocation();
-    const { addressId, trackingCode } = location.state || {};
+    const { addressId, trackingCode, selectedShippingMethodId } =
+        location.state || {};
     const navigate = useNavigate();
 
-    const { addressData, isLoading, orderData } = useOrderConfirmation(
-        addressId,
-        trackingCode
-    );
+    const { isLoading, addressData, orderData, shippingMethodsData } =
+        useOrderConfirmation(addressId, trackingCode, selectedShippingMethodId);
 
     const orderCode = trackingCode;
 
@@ -216,7 +215,8 @@ const OrderConfirmationPage = () => {
                                     variant="body2"
                                     color="text.secondary"
                                 >
-                                    Standard Shipping (5-7 business days)
+                                    {shippingMethodsData?.name} (
+                                    {shippingMethodsData?.label})
                                 </Typography>
                             </Box>
                         </Box>

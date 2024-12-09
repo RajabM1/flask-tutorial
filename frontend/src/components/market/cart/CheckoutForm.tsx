@@ -3,9 +3,17 @@ import { StripeAddressElementOptions } from "@stripe/stripe-js";
 import Button from "@mui/material/Button";
 import { useCheckoutForm } from "../../../hooks/cart/useCheckoutForm";
 import Box from "@mui/material/Box";
+import ShippingMethods from "./ShippingMethods";
 
-const CheckoutForm = ({ total }: { total: number }) => {
-    const { isLoading, handlePaymentSubmit } = useCheckoutForm();
+const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
+    const {
+        isLoading,
+        handlePaymentSubmit,
+        address,
+        handleAddressChange,
+        selectedShippingMethodId,
+        handleShippingMethodSelect,
+    } = useCheckoutForm(clientSecret);
 
     const addressOptions: StripeAddressElementOptions = {
         mode: "shipping",
@@ -25,7 +33,17 @@ const CheckoutForm = ({ total }: { total: number }) => {
 
     return (
         <Box component="form" onSubmit={handlePaymentSubmit}>
-            <AddressElement options={addressOptions} />
+            <AddressElement
+                options={addressOptions}
+                onChange={handleAddressChange}
+            />
+            {address && (
+                <ShippingMethods
+                    selectedMethod={selectedShippingMethodId}
+                    onSelectMethod={handleShippingMethodSelect}
+                />
+            )}
+
             <PaymentElement options={{ layout: "accordion" }} />
             <Button
                 fullWidth
@@ -39,7 +57,7 @@ const CheckoutForm = ({ total }: { total: number }) => {
                     py: 1.5,
                 }}
             >
-                {isLoading ? "Processing..." : `Place Order (${total})`}
+                {isLoading ? "Processing..." : "Place Order"}
             </Button>
         </Box>
     );

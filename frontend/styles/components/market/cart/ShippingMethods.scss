@@ -1,0 +1,40 @@
+.shipping-methods-container {
+    margin: 16px 0;
+    padding: 16px 0;
+
+    .header {
+        font-weight: bold;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 8px;
+        margin-bottom: 16px;
+    }
+
+    .methods {
+        display: flex;
+        gap: 16px;
+
+        .method {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+
+            &.selected {
+                border-color: #0570DE;
+            }
+
+            &:hover {
+                border-color: #0570DE;
+                transform: scale(1.02);
+            }
+
+            .name {
+                font-weight: bold;
+            }
+        }
+    }
+}

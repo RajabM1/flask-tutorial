@@ -21,7 +21,13 @@ def create_order():
     if not user:
         return jsonify({"message": "Something went wrong, Please try again"}), 400
 
-    order_result = services.process_order(user.id, json_data["addressId"])
+    shipping_method = services.get_shipping_method_by_id(json_data["shippingMethodId"])
+    if not shipping_method:
+        return jsonify({"message": "Invalid shipping method ID"}), 400
+
+    order_result = services.process_order(
+        user.id, json_data["addressId"], shipping_method
+    )
     if isinstance(order_result, dict):
         return jsonify({"message": order_result["error"]}), 400
 
@@ -67,6 +73,37 @@ def get_order_items(order_code):
             {
                 "message": "Order items retrieved successfully",
                 "data": items_schema.dump(order_items_data),
+            }
+        ),
+        200,
+    )
+
+
+@order_bp.route("/shipping-methods", methods=["GET"])
+@jwt_required()
+def get_shipping_methods():
+    return (
+        jsonify(
+            {
+                "message": "Shipping methods retrieved successfully",
+                "data": services.get_shipping_methods(),
+            }
+        ),
+        200,
+    )
+
+
+@order_bp.route("/shipping-methods/<int:method_id>", methods=["GET"])
+@jwt_required()
+def get_shipping_method(method_id):
+    shipping_method = services.get_shipping_method_by_id(method_id)
+    if not shipping_method:
+        return jsonify({"message": "Invalid shipping method ID"}), 400
+    return (
+        jsonify(
+            {
+                "message": "Shipping methods retrieved successfully",
+                "data": shipping_method,
             }
         ),
         200,

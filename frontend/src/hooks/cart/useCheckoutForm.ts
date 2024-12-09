@@ -2,15 +2,22 @@ import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { AddressElement } from "@stripe/react-stripe-js";
 import HttpService from "../../service/HttpService";
-import { StripeAddressElement } from "@stripe/stripe-js";
+import {
+    StripeAddressElement,
+    StripeAddressElementChangeEvent,
+} from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
+import { ShippingMethodType } from "../../types/shippingMethods";
 
-export const useCheckoutForm = () => {
+export const useCheckoutForm = (clientSecret: string) => {
     const navigate = useNavigate();
     const stripe = useStripe();
     const elements = useElements();
-
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [selectedShippingMethodId, setSelectedShippingMethodId] = useState<
+        string | null
+    >(null);
+    const [address, setAddress] = useState<string | null>(null);
 
     const saveAddressAndOrder = async (
         addressElement: StripeAddressElement
@@ -25,6 +32,7 @@ export const useCheckoutForm = () => {
 
         const orderResponse = await HttpService.postRequest("orders", {
             addressId,
+            shippingMethodId: Number(selectedShippingMethodId),
         });
         const trackingCode = orderResponse.data.tracking_code;
         await HttpService.deleteRequest("cart");
@@ -56,7 +64,11 @@ export const useCheckoutForm = () => {
                     const { addressId, trackingCode } =
                         await saveAddressAndOrder(addressElement);
                     navigate("/order/confirmation", {
-                        state: { addressId, trackingCode },
+                        state: {
+                            addressId,
+                            trackingCode,
+                            selectedShippingMethodId,
+                        },
                     });
                 }
             }
@@ -67,8 +79,29 @@ export const useCheckoutForm = () => {
         }
     };
 
+    const handleShippingMethodSelect = async (method: ShippingMethodType) => {
+        setSelectedShippingMethodId(method.id);
+        const s = await stripe?.retrievePaymentIntent(clientSecret);
+        const paymentIntentId = s?.paymentIntent?.id;
+        const amountInCents = s?.paymentIntent?.amount;
+        await HttpService.postRequest("stripe/update-payment-intent", {
+            paymentIntentId: paymentIntentId,
+            amount: Number(amountInCents) + method.cost * 100,
+            currency: "usd",
+        });
+    };
+
+    const handleAddressChange = (event: StripeAddressElementChangeEvent) => {
+        const addressLine1 = event.complete ? event.value.address.line1 : null;
+        setAddress(addressLine1);
+    };
+
     return {
         isLoading,
         handlePaymentSubmit,
+        handleShippingMethodSelect,
+        handleAddressChange,
+        selectedShippingMethodId,
+        address,
     };
 };

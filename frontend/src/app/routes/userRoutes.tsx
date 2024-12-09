@@ -25,19 +25,11 @@ const userRoutes = [
     },
     {
         path: "/login",
-        element: (
-            <ProtectedRoute allowedRoles={["guest"]}>
-                <LoginPage />
-            </ProtectedRoute>
-        ),
+        element: <LoginPage />,
     },
     {
         path: "/register",
-        element: (
-            <ProtectedRoute allowedRoles={["guest"]}>
-                <RegisterPage />
-            </ProtectedRoute>
-        ),
+        element: <RegisterPage />,
     },
     {
         path: "/market/product/:id",

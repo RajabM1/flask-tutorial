@@ -14,6 +14,7 @@ class OrderSchema(ma.SQLAlchemyAutoSchema):
         required=True,
         validate=OneOf([status.name for status in OrderStatus]),
     )
+    shipping_method_id = fields.Str(required=True, data_key="shippingMethodId")
 
     created_at = fields.DateTime(dump_only=True, data_key="createdAt")
     updated_at = fields.DateTime(dump_only=True, data_key="updatedAt")
