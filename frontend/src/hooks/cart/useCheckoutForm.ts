@@ -8,6 +8,8 @@ import {
 } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
 import { ShippingMethodType } from "../../types/shippingMethods";
+import endpoints from "../../config/api";
+import { paths } from "../../config/paths";
 
 export const useCheckoutForm = (clientSecret: string, orderTotal: number) => {
     const navigate = useNavigate();
@@ -24,17 +26,20 @@ export const useCheckoutForm = (clientSecret: string, orderTotal: number) => {
         const addressData = await addressElement.getValue();
 
         const addressResponse = await HttpService.postRequest(
-            "users/addresses",
+            endpoints.USER.ADDRESSES,
             addressData
         );
         const addressId = addressResponse.data.id;
 
-        const orderResponse = await HttpService.postRequest("orders", {
-            addressId,
-            shippingMethodId: Number(selectedShippingMethod?.id),
-        });
+        const orderResponse = await HttpService.postRequest(
+            endpoints.ORDER.CREATE,
+            {
+                addressId,
+                shippingMethodId: Number(selectedShippingMethod?.id),
+            }
+        );
         const trackingCode = orderResponse.data.tracking_code;
-        await HttpService.deleteRequest("cart");
+        await HttpService.deleteRequest(endpoints.SHIPPING_CART.DELETE);
 
         return {
             addressId,
@@ -62,7 +67,7 @@ export const useCheckoutForm = (clientSecret: string, orderTotal: number) => {
                 if (addressElement) {
                     const { addressId, trackingCode } =
                         await saveAddressAndOrder(addressElement);
-                    navigate("/order/confirmation", {
+                    navigate(paths.ORDER.CONFIRMATION, {
                         state: {
                             addressId,
                             trackingCode,
@@ -86,7 +91,7 @@ export const useCheckoutForm = (clientSecret: string, orderTotal: number) => {
             clientSecret
         );
         const paymentIntentId = stripeResponse?.paymentIntent?.id;
-        await HttpService.postRequest("stripe/update-payment-intent", {
+        await HttpService.postRequest(endpoints.STRIPE.UPDATE_PAYMENT_INTENT, {
             paymentIntentId: paymentIntentId,
             amount: (orderTotal + method.cost) * 100,
             currency: "usd",

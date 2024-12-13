@@ -2,6 +2,7 @@ import { loadStripe, Stripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import HttpService from "../../service/HttpService";
 import { useFetch } from "../shared/useFetch";
+import endpoints from "../../config/api";
 
 export const useStripeSetup = (amount: number) => {
     const [stripePromise, setStripePromise] =
@@ -15,7 +16,7 @@ export const useStripeSetup = (amount: number) => {
         data: stripeConfig,
         error: stripeConfigError,
         isLoading,
-    } = useFetch("stripe/config");
+    } = useFetch(endpoints.STRIPE.CONFIG);
     useEffect(() => {
         if (!isLoading && stripeConfig && stripeConfig.publishableKey) {
             setStripePromise(loadStripe(stripeConfig.publishableKey));
@@ -33,7 +34,7 @@ export const useStripeSetup = (amount: number) => {
         const fetchPaymentIntent = async () => {
             try {
                 const response = await HttpService.postRequest(
-                    "stripe/create-payment-intent",
+                    endpoints.STRIPE.CREATE_PAYMENT_INTENT,
                     {
                         amount: amountInCents,
                         currency: "usd",

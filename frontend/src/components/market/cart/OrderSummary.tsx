@@ -9,6 +9,7 @@ import CouponSection from "./CouponSection";
 import { useState } from "react";
 import DiscountIcon from "@mui/icons-material/Discount";
 import { useOrderSummary } from "../../../hooks/cart/useOrderSummary";
+import { paths } from "../../../config/paths";
 
 interface Props {
     cartItems: {
@@ -28,7 +29,7 @@ const OrderSummary = ({ cartItems }: Props) => {
     const cartSummary = useOrderSummary(cartItems, discount, null);
 
     const handleCheckout = () => {
-        navigate("/cart/confirm", {
+        navigate(paths.CART.CHECKOUT, {
             state: {
                 orderTotal: cartSummary.total,
                 couponDiscount: discount,

@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useCategory } from "../../../contexts/CategoryContext";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
+import { paths } from "../../../config/paths";
 
 function NavBar() {
     const { t } = useTranslation("navbar");
@@ -45,7 +46,7 @@ function NavBar() {
 
     const handleCloseUserMenu = () => setAnchorElUser(null);
 
-    const handleOpenCart = () => navigate("/cart");
+    const handleOpenCart = () => navigate(paths.CART.SHIPPING_CART);
 
     const settings = [
         { label: t("settings.profile"), to: "#" },
@@ -125,7 +126,11 @@ function NavBar() {
                                 <MenuItem
                                     key={category.id}
                                     onClick={() => {
-                                        navigate(`/market/${category.name}`);
+                                        navigate(
+                                            paths.MARKET.BY_CATEGORY(
+                                                category.name
+                                            )
+                                        );
                                         handleCloseNavMenu();
                                     }}
                                 >
@@ -199,7 +204,11 @@ function NavBar() {
                                 <MenuItem
                                     key={category.id}
                                     onClick={() => {
-                                        navigate(`/market/${category.name}`);
+                                        navigate(
+                                            paths.MARKET.BY_CATEGORY(
+                                                category.name
+                                            )
+                                        );
                                         handleCloseNavMenu();
                                     }}
                                 >

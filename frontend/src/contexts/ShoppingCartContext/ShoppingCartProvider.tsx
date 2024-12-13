@@ -3,31 +3,42 @@ import { Item } from "../../types/item";
 import { useFetch } from "../../hooks/shared/useFetch";
 import HttpService from "../../service/HttpService";
 import ShoppingCartContext from "./ShoppingCartContext";
+import endpoints from "../../config/api";
 
 const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
     const [cartItems, setCartItems] = useState<Item[]>([]);
 
-    const { data: cartResponse, isLoading } = useFetch("cart");
+    const { data: cartResponse, isLoading } = useFetch(
+        endpoints.SHIPPING_CART.GET
+    );
     useEffect(() => {
         if (!isLoading && cartResponse) {
             setCartItems(cartResponse);
         }
     }, [cartResponse, isLoading]);
-    const cartQuantity = cartItems.length;
+
+    const calculateCartQuantity = () => {
+        return cartItems.reduce(
+            (total, item) => total + (item.quantity || 0),
+            0
+        );
+    };
+
+    const cartQuantity = calculateCartQuantity();
 
     const addItemToCart = async (
         id: number,
         quantity: number,
         price: number
     ) => {
-        await HttpService.postRequest("cart/items", {
+        await HttpService.postRequest(endpoints.SHIPPING_CART.CART_ITEMS, {
             itemId: id,
             quantity,
             price,
         });
     };
     const updateCartItemQuantity = async (id: number, quantity: number) => {
-        await HttpService.patchRequest("cart/items", {
+        await HttpService.patchRequest(endpoints.SHIPPING_CART.CART_ITEMS, {
             itemId: id,
             quantity,
         });
@@ -70,7 +81,9 @@ const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
 
     const removeFromCart = async (id: number) => {
         try {
-            await HttpService.deleteRequest(`cart/items/${id}`);
+            await HttpService.deleteRequest(
+                endpoints.SHIPPING_CART.DELETE_CART_ITEMS_BY_ID(id)
+            );
             setCartItems((currentItem) =>
                 currentItem.filter((item) => item.id !== id)
             );
@@ -80,16 +93,21 @@ const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
     };
 
     const fetchItemById = async (id: number) => {
-        const response = await HttpService.getRequest(`items/${id}`);
+        const response = await HttpService.getRequest(
+            endpoints.PRODUCT.BY_ID(id)
+        );
         return response.data;
     };
 
     const handleCouponApply = async (couponCode: string, cartTotal: number) => {
         try {
-            const response = await HttpService.postRequest("coupons/apply", {
-                couponCode,
-                cartTotal,
-            });
+            const response = await HttpService.postRequest(
+                endpoints.COUPONS.APPLY,
+                {
+                    couponCode,
+                    cartTotal,
+                }
+            );
 
             return response.data?.discountAmount || 0;
         } catch (error) {

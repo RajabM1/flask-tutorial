@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Item } from "../../types/item";
 import HttpService from "../../service/HttpService";
+import endpoints from "../../config/api";
 
 export const useMarketPage = () => {
     const { t } = useTranslation("market-page");
@@ -17,7 +18,9 @@ export const useMarketPage = () => {
         const fetchItems = async () => {
             setPageMessage({ message: "", type: "" });
             try {
-                const responseItems = await HttpService.getRequest("items");                
+                const responseItems = await HttpService.getRequest(
+                    endpoints.PRODUCT.ALL
+                );
                 setItems(responseItems.data);
 
                 const discountedItems = responseItems.data.filter(

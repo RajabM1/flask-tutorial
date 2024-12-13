@@ -1,13 +1,18 @@
 export const paths = {
-    auth: {
-        register: {
-            path: "/register",
-        },
-        login: {
-            path: "/login",
-        },
+    HOME: "/",
+    AUTH: {
+        REGISTER: "/register",
+        LOGIN: "/login",
     },
-    home: {
-        path: "/",
+    CART: {
+        SHIPPING_CART: "/cart",
+        CHECKOUT: "/cart/confirm",
+    },
+    ORDER: {
+        CONFIRMATION: "/order/confirmation",
+    },
+    MARKET: {
+        BY_CATEGORY: (category: string) => `/market/${category}`,
+        BY_PRODUCT_ID: (id: number) => `/market/product/${id}`,
     },
 };

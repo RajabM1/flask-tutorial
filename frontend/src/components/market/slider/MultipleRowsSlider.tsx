@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Category } from "../../../types/category";
 import { useNavigate } from "react-router-dom";
+import { paths } from "../../../config/paths";
 
 interface Props {
     data: Category[];
@@ -55,7 +56,7 @@ function MultipleRowsSlider({ data }: Props) {
                     >
                         <ButtonBase
                             onClick={() => {
-                                navigate(`/market/${item.name}`);
+                                navigate(paths.MARKET.BY_CATEGORY(item.name));
                             }}
                         >
                             <Box sx={{ width: "100px", height: "150px" }}>
