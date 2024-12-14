@@ -40,37 +40,29 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     }, [authToken]);
 
     const handleLogin = async (formData: LoginFormData) => {
-        try {
-            const response = await HttpService.postRequest(
-                endpoints.AUTH.LOGIN,
-                formData
-            );
-            setAuthToken(response.data.access_token);
-            setCurrentUser(response.data.current_user);
-            setTokens(response.data.access_token, response.data.refresh_token);
-            router.navigate(paths.HOME, { replace: true });
-        } catch (error) {
-            return error;
-        }
+        const response = await HttpService.postRequest(
+            endpoints.AUTH.LOGIN,
+            formData
+        );
+        setAuthToken(response.data.access_token);
+        setCurrentUser(response.data.current_user);
+        setTokens(response.data.access_token, response.data.refresh_token);
+        router.navigate(paths.HOME, { replace: true });
     };
 
     const handleRegister = async (formData: RegisterFormData) => {
-        try {
-            const response = await HttpService.postRequest(
-                endpoints.AUTH.REGISTER,
-                {
-                    username: formData.username,
-                    email: formData.email,
-                    password: formData.password,
-                }
-            );
-            setAuthToken(response.data.access_token);
-            setCurrentUser(response.data.current_user);
-            setTokens(response.data.access_token, response.data.refresh_token);
-            router.navigate(paths.HOME, { replace: true });
-        } catch (error) {
-            return error;
-        }
+        const response = await HttpService.postRequest(
+            endpoints.AUTH.REGISTER,
+            {
+                username: formData.username,
+                email: formData.email,
+                password: formData.password,
+            }
+        );
+        setAuthToken(response.data.access_token);
+        setCurrentUser(response.data.current_user);
+        setTokens(response.data.access_token, response.data.refresh_token);
+        router.navigate(paths.HOME, { replace: true });
     };
 
     const handleLogout = async () => {

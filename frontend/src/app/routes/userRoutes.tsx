@@ -1,8 +1,8 @@
 import { lazy } from "react";
 import ProtectedRoute from "./ProtectedRoute";
 
-const LoginPage = lazy(() => import("../../pages/auth/LoginPage"));
-const RegisterPage = lazy(() => import("../../pages/auth/RegisterPage"));
+const LoginPage = lazy(() => import("../../features/auth/pages/LoginPage"));
+const RegisterPage = lazy(() => import("../../features/auth/pages/RegisterPage"));
 const Home = lazy(() => import("../../pages/market/Home"));
 const ProductPage = lazy(() => import("../../pages/market/items/ProductPage"));
 const CategoryPage = lazy(

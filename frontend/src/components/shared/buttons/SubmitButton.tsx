@@ -1,13 +1,29 @@
 import Button from "@mui/material/Button";
 
-const SubmitButton = ({ label, color }: { label: string; color: string }) => {
+interface Props {
+    label: string;
+    color?: string;
+    isSubmitting?: boolean;
+    fullWidth?: boolean;
+}
+
+const SubmitButton = ({
+    label,
+    color = "black",
+    isSubmitting = false,
+    fullWidth = true,
+}: Props) => {
     return (
         <Button
             variant="contained"
             type="submit"
-            sx={{ width: "100%", backgroundColor: `${color}` }}
+            fullWidth={fullWidth}
+            disabled={isSubmitting}
+            sx={{
+                backgroundColor: color,
+            }}
         >
-            {label}
+            {isSubmitting ? "Loading..." : label}
         </Button>
     );
 };
