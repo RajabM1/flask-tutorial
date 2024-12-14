@@ -122,21 +122,22 @@ function NavBar() {
                                 mt: "20px",
                             }}
                         >
-                            {categories.map((category) => (
-                                <MenuItem
-                                    key={category.id}
-                                    onClick={() => {
-                                        navigate(
-                                            paths.MARKET.BY_CATEGORY(
-                                                category.name
-                                            )
-                                        );
-                                        handleCloseNavMenu();
-                                    }}
-                                >
-                                    <Typography>{category.name}</Typography>
-                                </MenuItem>
-                            ))}
+                            {categories &&
+                                categories.map((category) => (
+                                    <MenuItem
+                                        key={category.id}
+                                        onClick={() => {
+                                            navigate(
+                                                paths.MARKET.BY_CATEGORY(
+                                                    category.name
+                                                )
+                                            );
+                                            handleCloseNavMenu();
+                                        }}
+                                    >
+                                        <Typography>{category.name}</Typography>
+                                    </MenuItem>
+                                ))}
                         </Menu>
                     </Box>
                     <Typography
@@ -200,21 +201,22 @@ function NavBar() {
                                 horizontal: "left",
                             }}
                         >
-                            {categories.map((category) => (
-                                <MenuItem
-                                    key={category.id}
-                                    onClick={() => {
-                                        navigate(
-                                            paths.MARKET.BY_CATEGORY(
-                                                category.name
-                                            )
-                                        );
-                                        handleCloseNavMenu();
-                                    }}
-                                >
-                                    <Typography>{category.name}</Typography>
-                                </MenuItem>
-                            ))}
+                            {categories &&
+                                categories.map((category) => (
+                                    <MenuItem
+                                        key={category.id}
+                                        onClick={() => {
+                                            navigate(
+                                                paths.MARKET.BY_CATEGORY(
+                                                    category.name
+                                                )
+                                            );
+                                            handleCloseNavMenu();
+                                        }}
+                                    >
+                                        <Typography>{category.name}</Typography>
+                                    </MenuItem>
+                                ))}
                         </Menu>
                     </Box>
 

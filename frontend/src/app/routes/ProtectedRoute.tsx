@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { getUserRole } from "../../utils/jwtHelpers";
-import UnauthorizedPage from "../../pages/errors/UnauthorizedPage";
+import UnauthorizedPage from "../../features/errors/pages/UnauthorizedPage";
 import { useAuth } from "../../contexts/AuthContext";
 import LoginPage from "../../features/auth/pages/LoginPage";
 
