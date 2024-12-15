@@ -6,6 +6,9 @@ const endpoints = {
         REGISTER: `${API_BASE_URL}/auth/register`,
         ME: `${API_BASE_URL}/auth/me`,
         LOGOUT: `${API_BASE_URL}/auth/logout`,
+        FORGET_PASSWORD: `${API_BASE_URL}/auth/forget-password`,
+        RESET_PASSWORD: (token: string) =>
+            `${API_BASE_URL}/auth/reset-password/${token}`,
     },
     PRODUCT: {
         BY_CATEGORY: (category: string) => `${API_BASE_URL}/items/${category}`,

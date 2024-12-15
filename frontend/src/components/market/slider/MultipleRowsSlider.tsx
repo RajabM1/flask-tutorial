@@ -44,7 +44,7 @@ function MultipleRowsSlider({ data }: Props) {
             style={{ backgroundColor: "#F5F5F5" }}
         >
             <Slider {...settings}>
-                {data.map((item) => (
+                {data?.map((item) => (
                     <Box
                         key={item.name}
                         sx={{

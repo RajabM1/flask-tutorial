@@ -96,3 +96,34 @@ def get_current_user_information():
         )
 
     return jsonify({"message": "User not found"}), 404
+
+
+@auth_bp.route("/forget-password", methods=["POST"])
+def forget_password():
+    json_data = request.get_json()
+    if not json_data:
+        return jsonify({"message": "No input data provided"}), 400
+
+    services.forget_password(json_data)
+    return (
+        jsonify(
+            {
+                "message": "Reset request sent. Please check your email",
+            }
+        ),
+        201,
+    )
+
+
+@auth_bp.route("/reset-password/<string:token>", methods=["POST"])
+def reset_password(token):
+    json_data = request.get_json()
+    services.reset_password(token, json_data["password"])
+    return (
+        jsonify(
+            {
+                "message": "Password updated successfully",
+            }
+        ),
+        201,
+    )

@@ -18,7 +18,7 @@ import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Badge from "@mui/material/Badge";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "../../../features/auth/context/AuthContext";
 import { useCategory } from "../../../contexts/CategoryContext";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 import { paths } from "../../../config/paths";

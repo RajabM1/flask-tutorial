@@ -10,7 +10,7 @@ import { paths } from "../../../config/paths";
 import AuthHeader from "../components/AuthHeader";
 import FormInput from "../../../components/shared/form/FormInput";
 import SubmitButton from "../../../components/shared/buttons/SubmitButton";
-import "../../../../styles/pages/auth/RegisterPage.scss";
+import "../styles/RegisterPage.scss";
 
 const RegisterPage = () => {
     const { t } = useTranslation("register-page");

@@ -1,8 +1,8 @@
 import { PropsWithChildren } from "react";
 import { getUserRole } from "../../utils/jwtHelpers";
 import UnauthorizedPage from "../../features/errors/pages/UnauthorizedPage";
-import { useAuth } from "../../contexts/AuthContext";
-import LoginPage from "../../features/auth/pages/LoginPage";
+import { useAuth } from "../../features/auth/context/AuthContext";
+
 
 type ProtectedRouteProps = PropsWithChildren & {
     allowedRoles: Array<string>;
@@ -13,10 +13,6 @@ export default function ProtectedRoute({
     children,
 }: ProtectedRouteProps) {
     const { currentUser } = useAuth();
-
-    if (currentUser === null) {
-        return <LoginPage />;
-    }
 
     if (currentUser === undefined) {
         return <div>Loading...</div>;

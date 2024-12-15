@@ -13,7 +13,7 @@ import { paths } from "../../../config/paths";
 import AuthHeader from "../components/AuthHeader";
 import SubmitButton from "../../../components/shared/buttons/SubmitButton";
 import FormInput from "../../../components/shared/form/FormInput";
-import "../../../../styles/pages/auth/LoginPage.scss";
+import "../styles/LoginPage.scss";
 
 const LoginPage = () => {
     const { t } = useTranslation("login-page");
@@ -62,7 +62,7 @@ const LoginPage = () => {
                         control={<Checkbox />}
                         label={t("labels.remember_me")}
                     />
-                    <Link href="#" variant="body2">
+                    <Link href={paths.AUTH.FORGET_PASSWORD} variant="body2">
                         {t("labels.forget_password")}
                     </Link>
                 </Box>

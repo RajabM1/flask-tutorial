@@ -1,9 +1,16 @@
 import { lazy } from "react";
 import ProtectedRoute from "./ProtectedRoute";
+import { paths } from "../../config/paths";
 
 const LoginPage = lazy(() => import("../../features/auth/pages/LoginPage"));
 const RegisterPage = lazy(
     () => import("../../features/auth/pages/RegisterPage")
+);
+const ForgetPasswordPage = lazy(
+    () => import("../../features/auth/pages/ForgetPasswordPage")
+);
+const ResetPasswordPage = lazy(
+    () => import("../../features/auth/pages/ResetPasswordPage")
 );
 const Home = lazy(() => import("../../pages/market/Home"));
 const ProductPage = lazy(() => import("../../pages/market/items/ProductPage"));
@@ -18,7 +25,7 @@ const OrderConfirmationPage = lazy(
 
 const userRoutes = [
     {
-        path: "/",
+        path: paths.HOME,
         element: (
             <ProtectedRoute allowedRoles={["user"]}>
                 <Home />
@@ -26,7 +33,7 @@ const userRoutes = [
         ),
     },
     {
-        path: "/login",
+        path: paths.AUTH.LOGIN,
         element: (
             <ProtectedRoute allowedRoles={["guest"]}>
                 <LoginPage />
@@ -34,7 +41,7 @@ const userRoutes = [
         ),
     },
     {
-        path: "/register",
+        path: paths.AUTH.REGISTER,
         element: (
             <ProtectedRoute allowedRoles={["guest"]}>
                 <RegisterPage />
@@ -42,7 +49,23 @@ const userRoutes = [
         ),
     },
     {
-        path: "/market/product/:id",
+        path: paths.AUTH.FORGET_PASSWORD,
+        element: (
+            <ProtectedRoute allowedRoles={["guest"]}>
+                <ForgetPasswordPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: paths.AUTH.RESET_PASSWORD,
+        element: (
+            <ProtectedRoute allowedRoles={["guest"]}>
+                <ResetPasswordPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: paths.MARKET.PRODUCT,
         element: (
             <ProtectedRoute allowedRoles={["user"]}>
                 <ProductPage />
@@ -50,7 +73,7 @@ const userRoutes = [
         ),
     },
     {
-        path: "/market/:category",
+        path: paths.MARKET.CATEGORY,
         element: (
             <ProtectedRoute allowedRoles={["user"]}>
                 <CategoryPage />
@@ -58,7 +81,7 @@ const userRoutes = [
         ),
     },
     {
-        path: "/cart",
+        path: paths.CART.SHIPPING_CART,
         element: (
             <ProtectedRoute allowedRoles={["user"]}>
                 <CartPage />
@@ -66,7 +89,7 @@ const userRoutes = [
         ),
     },
     {
-        path: "/cart/confirm",
+        path: paths.CART.CHECKOUT,
         element: (
             <ProtectedRoute allowedRoles={["user"]}>
                 <CheckoutPage />
@@ -74,7 +97,7 @@ const userRoutes = [
         ),
     },
     {
-        path: "/order/confirmation",
+        path: paths.ORDER.CONFIRMATION,
         element: (
             <ProtectedRoute allowedRoles={["user"]}>
                 <OrderConfirmationPage />

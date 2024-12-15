@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerForm, registerSchema } from "../schemas/registerSchema";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { errorFormatter } from "../../../utils/errorFormatter";
 import { useTranslation } from "react-i18next";

@@ -18,7 +18,8 @@ export const getRefreshToken = () => {
     return localStorage.getItem("refreshToken");
 };
 
-export const getUserRole = (currentUser: User): string => {
+export const getUserRole = (currentUser: User | null): string => {
+    if (!currentUser) return "guest";
     switch (currentUser.role) {
         case "ADMIN":
             return "admin";

@@ -3,15 +3,17 @@ import {
     getAccessToken,
     removeTokens,
     setTokens,
-} from "../../utils/jwtHelpers";
-import { User } from "../../types/user";
-import HttpService from "../../service/HttpService";
-import { LoginFormData } from "../../types/loginForm";
-import { router } from "../../app/routes/routes";
-import { RegisterFormData } from "../../types/registerForm";
+} from "../../../../utils/jwtHelpers";
+import { User } from "../../../../types/user";
+import HttpService from "../../../../service/HttpService";
+import { router } from "../../../../app/routes/routes";
 import AuthContext from "./AuthContext";
-import endpoints from "../../config/api";
-import { paths } from "../../config/paths";
+import endpoints from "../../../../config/api";
+import { paths } from "../../../../config/paths";
+import { registerForm } from "../../../../features/auth/schemas/registerSchema";
+import { loginForm } from "../../../../features/auth/schemas/loginSchema";
+import { forgetPasswordForm } from "../../schemas/forgetPasswordSchema";
+import { resetPasswordForm } from "../../schemas/resetPasswordSchema";
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
     const [authToken, setAuthToken] = useState<string | null>(getAccessToken());
@@ -39,7 +41,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         fetchUser();
     }, [authToken]);
 
-    const handleLogin = async (formData: LoginFormData) => {
+    const handleLogin = async (formData: loginForm) => {
         const response = await HttpService.postRequest(
             endpoints.AUTH.LOGIN,
             formData
@@ -50,7 +52,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         router.navigate(paths.HOME, { replace: true });
     };
 
-    const handleRegister = async (formData: RegisterFormData) => {
+    const handleRegister = async (formData: registerForm) => {
         const response = await HttpService.postRequest(
             endpoints.AUTH.REGISTER,
             {
@@ -63,6 +65,21 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         setCurrentUser(response.data.current_user);
         setTokens(response.data.access_token, response.data.refresh_token);
         router.navigate(paths.HOME, { replace: true });
+    };
+
+    const handleForgetPassword = async (formData: forgetPasswordForm) => {
+        await HttpService.postRequest(endpoints.AUTH.FORGET_PASSWORD, {
+            email: formData.email,
+        });
+    };
+
+    const handleResetPassword = async (
+        formData: resetPasswordForm,
+        token: string
+    ) => {
+        await HttpService.postRequest(endpoints.AUTH.RESET_PASSWORD(token), {
+            password: formData.password,
+        });
     };
 
     const handleLogout = async () => {
@@ -85,6 +102,8 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
                 currentUser,
                 handleRegister,
                 handleLogin,
+                handleForgetPassword,
+                handleResetPassword,
                 handleLogout,
             }}
         >

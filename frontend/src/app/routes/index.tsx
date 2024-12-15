@@ -1,6 +1,6 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes";
-import { AuthProvider } from "../../contexts/AuthContext";
+import { AuthProvider } from "../../features/auth/context/AuthContext";
 import { ShoppingCartProvider } from "../../contexts/ShoppingCartContext";
 import { CategoryProvider } from "../../contexts/CategoryContext";
 
