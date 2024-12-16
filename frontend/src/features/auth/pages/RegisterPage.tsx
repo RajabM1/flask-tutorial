@@ -11,6 +11,7 @@ import AuthHeader from "../components/AuthHeader";
 import FormInput from "../../../components/shared/form/FormInput";
 import SubmitButton from "../../../components/shared/buttons/SubmitButton";
 import "../styles/RegisterPage.scss";
+import PasswordInput from "../../../components/shared/form/PasswordInput";
 
 const RegisterPage = () => {
     const { t } = useTranslation("register-page");
@@ -20,12 +21,17 @@ const RegisterPage = () => {
         isSubmitting,
         handleSubmit,
         onSubmit,
-        registerError,
+        pageMessage,
     } = useRegisterForm();
 
     return (
         <Container className="register-page" maxWidth="sm">
-            {registerError && <Message message={registerError} type="danger" />}
+            {pageMessage && (
+                <Message
+                    message={pageMessage.message}
+                    type={pageMessage.type}
+                />
+            )}
 
             <AuthHeader
                 page={t("labels.sign_up")}
@@ -54,8 +60,7 @@ const RegisterPage = () => {
                     />
                 </Box>
                 <Box mt={3}>
-                    <FormInput
-                        type="password"
+                    <PasswordInput
                         id="password"
                         label={t("labels.password")}
                         error={!!errors.password}
@@ -64,8 +69,7 @@ const RegisterPage = () => {
                     />
                 </Box>
                 <Box mt={3}>
-                    <FormInput
-                        type="password"
+                    <PasswordInput
                         id="confirmPassword"
                         label={t("labels.confirm_password")}
                         error={!!errors.confirmPassword}

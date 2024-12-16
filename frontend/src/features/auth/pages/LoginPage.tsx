@@ -14,6 +14,7 @@ import AuthHeader from "../components/AuthHeader";
 import SubmitButton from "../../../components/shared/buttons/SubmitButton";
 import FormInput from "../../../components/shared/form/FormInput";
 import "../styles/LoginPage.scss";
+import PasswordInput from "../../../components/shared/form/PasswordInput";
 
 const LoginPage = () => {
     const { t } = useTranslation("login-page");
@@ -23,12 +24,17 @@ const LoginPage = () => {
         isSubmitting,
         handleSubmit,
         onSubmit,
-        loginError,
+        pageMessage,
     } = useLoginForm();
 
     return (
         <Container className="login-page" maxWidth="sm">
-            {loginError && <Message message={loginError} type="danger" />}
+            {pageMessage && (
+                <Message
+                    message={pageMessage.message}
+                    type={pageMessage.type}
+                />
+            )}
 
             <AuthHeader
                 page={t("labels.sign_in")}
@@ -47,9 +53,8 @@ const LoginPage = () => {
                     />
                 </Box>
                 <Box mt={3}>
-                    <FormInput
-                        type="password"
-                        id="confirmPassword"
+                    <PasswordInput
+                        id="password"
                         label={t("labels.password")}
                         error={!!errors.password}
                         helperText={errors.password?.message}

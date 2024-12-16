@@ -1,6 +1,5 @@
 import { Box, Container } from "@mui/material";
 import AuthHeader from "../components/AuthHeader";
-import FormInput from "../../../components/shared/form/FormInput";
 import SubmitButton from "../../../components/shared/buttons/SubmitButton";
 import TextWithLink from "../../../components/shared/navigation/TextWithLink";
 import { useTranslation } from "react-i18next";
@@ -8,6 +7,7 @@ import { paths } from "../../../config/paths";
 import Message from "../../../components/shared/feedback/Message";
 import { useResetPasswordForm } from "../hooks/useResetPasswordForm";
 import "../styles/ForgetPasswordPage.scss";
+import PasswordInput from "../../../components/shared/form/PasswordInput";
 
 const ResetPasswordPage = () => {
     const { t } = useTranslation("reset-password-page");
@@ -34,8 +34,7 @@ const ResetPasswordPage = () => {
             />
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
                 <Box className="form-input">
-                    <FormInput
-                        type="password"
+                    <PasswordInput
                         id="password"
                         label={t("labels.password")}
                         error={!!errors.password}
@@ -44,8 +43,7 @@ const ResetPasswordPage = () => {
                     />
                 </Box>
                 <Box className="form-input">
-                    <FormInput
-                        type="password"
+                    <PasswordInput
                         id="confirmPassword"
                         label={t("labels.confirm_password")}
                         error={!!errors.confirmPassword}

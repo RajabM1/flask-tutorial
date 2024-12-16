@@ -4,11 +4,14 @@ import { loginForm, loginSchema } from "../schemas/loginSchema";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { PageMessageType } from "../../../types/pageMessage";
 
 export const useLoginForm = () => {
     const { t } = useTranslation("login-page");
     const { handleLogin } = useAuth();
-    const [loginError, setLoginError] = useState<string | null>(null);
+    const [pageMessage, setPageMessage] = useState<PageMessageType | null>(
+        null
+    );
     const {
         register,
         handleSubmit,
@@ -18,11 +21,14 @@ export const useLoginForm = () => {
     });
 
     const onSubmit: SubmitHandler<loginForm> = async (data) => {
-        setLoginError(null);
+        setPageMessage(null);
         try {
             await handleLogin(data);
         } catch {
-            setLoginError(t("messages.invalid_data"));
+            setPageMessage({
+                message: t("messages.invalid_data"),
+                type: "error",
+            });
         }
     };
 
@@ -32,6 +38,6 @@ export const useLoginForm = () => {
         isSubmitting,
         handleSubmit,
         onSubmit,
-        loginError,
+        pageMessage,
     };
 };

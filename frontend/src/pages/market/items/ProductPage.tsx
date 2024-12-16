@@ -28,7 +28,12 @@ const ProductPage = () => {
 
     return (
         <Root>
-            <Message message={pageMessage.message} type={pageMessage.type} />
+            {pageMessage && (
+                <Message
+                    message={pageMessage.message}
+                    type={pageMessage.type}
+                />
+            )}
             <Container maxWidth="xl" className="product-container">
                 <Box className="product-box">
                     <ImageSection

@@ -52,14 +52,9 @@ def forget_password(json_data):
 
 
 def reset_password(token, new_password):
-    try:
-        email = serializer.loads(token, salt="reset-password", max_age=600)
-        current_user = User.query.filter_by(email=email).first()
-        if not current_user:
-            return {"message": "Something went wrong, Please try again"}, 400
-        current_user.password = new_password
-        db.session.commit()
-    except SignatureExpired:
-        return {"message": "The reset link has expired."}, 400
-    except BadSignature:
-        return {"message": "Invalid or tampered token."}, 400
+    email = serializer.loads(token, salt="reset-password", max_age=600)
+    current_user = User.query.filter_by(email=email).first()
+    if not current_user:
+        return {"message": "Something went wrong, Please try again"}, 400
+    current_user.password = new_password
+    db.session.commit()

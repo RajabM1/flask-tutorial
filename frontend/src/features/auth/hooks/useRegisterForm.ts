@@ -5,11 +5,14 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { errorFormatter } from "../../../utils/errorFormatter";
 import { useTranslation } from "react-i18next";
+import { PageMessageType } from "../../../types/pageMessage";
 
 export const useRegisterForm = () => {
     const { t } = useTranslation("register-page");
     const { handleRegister } = useAuth();
-    const [registerError, setRegisterError] = useState<string | null>(null);
+    const [pageMessage, setPageMessage] = useState<PageMessageType | null>(
+        null
+    );
     const {
         register,
         handleSubmit,
@@ -20,7 +23,7 @@ export const useRegisterForm = () => {
     });
 
     const onSubmit: SubmitHandler<registerForm> = async (data) => {
-        setRegisterError(null);
+        setPageMessage(null);
         try {
             await handleRegister(data);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,7 +37,10 @@ export const useRegisterForm = () => {
                     });
                 });
             } else {
-                setRegisterError(t("messages.register_error"));
+                setPageMessage({
+                    message: t("messages.register_error"),
+                    type: "error",
+                });
             }
         }
     };
@@ -45,6 +51,6 @@ export const useRegisterForm = () => {
         isSubmitting,
         handleSubmit,
         onSubmit,
-        registerError,
+        pageMessage,
     };
 };

@@ -2,6 +2,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
 from app.extensions import db
 from app.blueprints.auth.models import TokenBlacklist
+from itsdangerous import SignatureExpired, BadSignature
 
 
 def register_error_handler(app, jwt):
@@ -60,5 +61,19 @@ def register_error_handler(app, jwt):
     def handle_unexpected_error(err):
         return {
             "error": "An unexpected error occurred. Please try again later.",
+            "message": str(err),
+        }, 500
+
+    @app.errorhandler(SignatureExpired)
+    def handle_signature_expired(err):
+        return {
+            "error": "The reset link has expired.",
+            "message": str(err),
+        }, 500
+
+    @app.errorhandler(BadSignature)
+    def handle_bad_signature(err):
+        return {
+            "error": "Invalid or tampered token.",
             "message": str(err),
         }, 500
