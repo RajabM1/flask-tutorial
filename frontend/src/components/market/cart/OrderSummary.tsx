@@ -9,17 +9,12 @@ import CouponSection from "./CouponSection";
 import { useState } from "react";
 import DiscountIcon from "@mui/icons-material/Discount";
 import { useOrderSummary } from "../../../hooks/cart/useOrderSummary";
+import { paths } from "../../../config/paths";
+import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 
-interface Props {
-    cartItems: {
-        price: number;
-        quantity?: number;
-        discount?: number;
-    }[];
-}
-
-const OrderSummary = ({ cartItems }: Props) => {
+const OrderSummary = () => {
     const { t } = useTranslation("order-summary");
+    const { cartItems, cartQuantity } = useShoppingCart();
     const navigate = useNavigate();
 
     const [discount, setDiscount] = useState<number | null>(null);
@@ -28,7 +23,7 @@ const OrderSummary = ({ cartItems }: Props) => {
     const cartSummary = useOrderSummary(cartItems, discount, null);
 
     const handleCheckout = () => {
-        navigate("/cart/confirm", {
+        navigate(paths.CART.CHECKOUT, {
             state: {
                 orderTotal: cartSummary.total,
                 couponDiscount: discount,
@@ -92,7 +87,7 @@ const OrderSummary = ({ cartItems }: Props) => {
                 className="checkout-button"
                 onClick={handleCheckout}
             >
-                {t("button.checkout")} ({cartItems.length})
+                {t("button.checkout")} ({cartQuantity})
             </Button>
         </Box>
     );

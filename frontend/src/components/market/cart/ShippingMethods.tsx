@@ -7,13 +7,14 @@ import {
     ShippingMethodType,
 } from "../../../types/shippingMethods";
 import "../../../../styles/components/market/cart/ShippingMethods.scss";
+import endpoints from "../../../config/api";
 
 const ShippingMethods = ({
     selectedMethod,
     onSelectMethod,
 }: IShippingMethods) => {
     const { data: shippingMethods, isLoading } = useFetch(
-        "orders/shipping-methods"
+        endpoints.ORDER.SHIPPING_METHODS
     );
 
     if (isLoading || shippingMethods == null) {

@@ -3,14 +3,14 @@ import { getAccessToken } from "../utils/jwtHelpers";
 class HttpService {
     private static getHeader() {
         return {
-            Authorization: "Bearer " + getAccessToken()
-        }
+            Authorization: "Bearer " + getAccessToken(),
+        };
     }
 
     public static getRequest(url: string) {
         const xhr = axios({
             method: "GET",
-            url: `${import.meta.env.VITE_BASE_URL}${url}`,
+            url: url,
             headers: HttpService.getHeader(),
         }).then((res) => res.data);
 
@@ -20,12 +20,12 @@ class HttpService {
     public static postRequest(url: string, body: object) {
         const xhr = axios({
             method: "POST",
-            url: `${import.meta.env.VITE_BASE_URL}${url}`,
+            url: url,
             headers: {
                 "Content-Type": "application/json",
                 ...HttpService.getHeader(),
             },
-            data: JSON.stringify(body)
+            data: JSON.stringify(body),
         }).then((res) => res.data);
 
         return xhr;
@@ -34,12 +34,12 @@ class HttpService {
     public static patchRequest(url: string, body: object) {
         const xhr = axios({
             method: "PATCH",
-            url: `${import.meta.env.VITE_BASE_URL}${url}`,
+            url: url,
             headers: {
                 "Content-Type": "application/json",
                 ...HttpService.getHeader(),
             },
-            data: JSON.stringify(body)
+            data: JSON.stringify(body),
         }).then((res) => res.data);
 
         return xhr;
@@ -48,7 +48,7 @@ class HttpService {
     public static deleteRequest(url: string) {
         const xhr = axios({
             method: "DELETE",
-            url: `${import.meta.env.VITE_BASE_URL}${url}`,
+            url: url,
             headers: HttpService.getHeader(),
         }).then((res) => res.data);
 

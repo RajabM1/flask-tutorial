@@ -48,7 +48,7 @@ const ProductList = ({ data }: { data: Item[] }) => {
             </Box>
             <Grid size={{ xs: 12, md: 9 }}>
                 <Grid container spacing={3}>
-                    {paginatedData.map((item) => (
+                    {paginatedData?.map((item) => (
                         <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item.id}>
                             <ProductCard
                                 id={item.id ?? 0}

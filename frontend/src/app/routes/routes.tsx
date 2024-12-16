@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import NotFoundPage from "../../pages/errors/NotFoundPage";
+import NotFoundPage from "../../features/errors/pages/NotFoundPage";
 import userRoutes from "./userRoutes";
 
 const routes = [

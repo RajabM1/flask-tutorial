@@ -18,9 +18,10 @@ import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Badge from "@mui/material/Badge";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "../../../features/auth/context/AuthContext";
 import { useCategory } from "../../../contexts/CategoryContext";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
+import { paths } from "../../../config/paths";
 
 function NavBar() {
     const { t } = useTranslation("navbar");
@@ -45,7 +46,7 @@ function NavBar() {
 
     const handleCloseUserMenu = () => setAnchorElUser(null);
 
-    const handleOpenCart = () => navigate("/cart");
+    const handleOpenCart = () => navigate(paths.CART.SHIPPING_CART);
 
     const settings = [
         { label: t("settings.profile"), to: "#" },
@@ -68,7 +69,7 @@ function NavBar() {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="/"
+                        href={paths.HOME}
                         sx={{
                             mr: 2,
                             display: { xs: "none", md: "flex" },
@@ -121,24 +122,29 @@ function NavBar() {
                                 mt: "20px",
                             }}
                         >
-                            {categories.map((category) => (
-                                <MenuItem
-                                    key={category.id}
-                                    onClick={() => {
-                                        navigate(`/market/${category.name}`);
-                                        handleCloseNavMenu();
-                                    }}
-                                >
-                                    <Typography>{category.name}</Typography>
-                                </MenuItem>
-                            ))}
+                            {categories &&
+                                categories.map((category) => (
+                                    <MenuItem
+                                        key={category.id}
+                                        onClick={() => {
+                                            navigate(
+                                                paths.MARKET.BY_CATEGORY(
+                                                    category.name
+                                                )
+                                            );
+                                            handleCloseNavMenu();
+                                        }}
+                                    >
+                                        <Typography>{category.name}</Typography>
+                                    </MenuItem>
+                                ))}
                         </Menu>
                     </Box>
                     <Typography
                         variant="h5"
                         noWrap
                         component="a"
-                        href="/"
+                        href={paths.HOME}
                         sx={{
                             mr: 2,
                             display: { xs: "flex", md: "none" },
@@ -195,17 +201,22 @@ function NavBar() {
                                 horizontal: "left",
                             }}
                         >
-                            {categories.map((category) => (
-                                <MenuItem
-                                    key={category.id}
-                                    onClick={() => {
-                                        navigate(`/market/${category.name}`);
-                                        handleCloseNavMenu();
-                                    }}
-                                >
-                                    <Typography>{category.name}</Typography>
-                                </MenuItem>
-                            ))}
+                            {categories &&
+                                categories.map((category) => (
+                                    <MenuItem
+                                        key={category.id}
+                                        onClick={() => {
+                                            navigate(
+                                                paths.MARKET.BY_CATEGORY(
+                                                    category.name
+                                                )
+                                            );
+                                            handleCloseNavMenu();
+                                        }}
+                                    >
+                                        <Typography>{category.name}</Typography>
+                                    </MenuItem>
+                                ))}
                         </Menu>
                     </Box>
 

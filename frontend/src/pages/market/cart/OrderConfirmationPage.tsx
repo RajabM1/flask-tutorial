@@ -19,6 +19,7 @@ import OrderPreview from "../../../components/market/cart/OrderPreview";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useOrderConfirmation } from "../../../hooks/cart/useOrderConfirmation";
 import "../../../../styles/components/market/cart/OrderConfirmation.scss";
+import { paths } from "../../../config/paths";
 
 const OrderConfirmationPage = () => {
     const location = useLocation();
@@ -120,7 +121,7 @@ const OrderConfirmationPage = () => {
                             px: 4,
                         }}
                         onClick={() => {
-                            navigate("/");
+                            navigate(paths.HOME);
                         }}
                     >
                         Continue Shopping

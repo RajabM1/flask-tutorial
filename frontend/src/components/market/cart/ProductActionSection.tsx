@@ -5,6 +5,7 @@ import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useNavigate } from "react-router-dom";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
+import { paths } from "../../../config/paths";
 
 const ProductActionSection = ({
     id,
@@ -17,7 +18,7 @@ const ProductActionSection = ({
     const { removeFromCart } = useShoppingCart();
 
     const handleSimilarItem = (category: string) => {
-        navigate(`/market/${category}`);
+        navigate(paths.MARKET.BY_CATEGORY(category));
     };
     const handleWishList = (id: number) =>
         alert(`This feature does not available for item_id ${id}`);

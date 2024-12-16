@@ -1,14 +1,16 @@
+import { Button } from "@mui/material";
+
 interface Props {
     label: string;
-    color: string;
+    className: string;
     onClick?: (e: React.MouseEvent) => void;
 }
 
-const ActionButton = ({ label, color, onClick }: Props) => {
+const ActionButton = ({ label, className, onClick }: Props) => {
     return (
-        <button className={`btn btn-outline btn-${color} me-2`} onClick={onClick}>
+        <Button className={className} onClick={onClick}>
             {label}
-        </button>
+        </Button>
     );
 };
 

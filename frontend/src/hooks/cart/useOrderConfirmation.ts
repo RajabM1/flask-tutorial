@@ -1,3 +1,4 @@
+import endpoints from "../../config/api";
 import { useFetch } from "../shared/useFetch";
 
 export const useOrderConfirmation = (
@@ -9,19 +10,21 @@ export const useOrderConfirmation = (
         data: addressInformation,
         error: addressError,
         isLoading: isAddressLoading,
-    } = useFetch(`users/addresses/${addressId}`);
+    } = useFetch(endpoints.USER.ADDRESSES_BY_ID(addressId));
 
     const {
         data: orderInformation,
         error: orderError,
         isLoading: isOrderLoading,
-    } = useFetch(`orders/${orderCode}`);
+    } = useFetch(endpoints.ORDER.BY_TRACKING_CODE(orderCode));
 
     const {
         data: shippingMethods,
         error: shippingMethodsError,
         isLoading: isShippingMethodsLoading,
-    } = useFetch(`orders/shipping-methods/${selectedShippingMethodId}`);
+    } = useFetch(
+        endpoints.ORDER.SHIPPING_METHODS_BY_ID(selectedShippingMethodId)
+    );
 
     const isLoading =
         isAddressLoading || isOrderLoading || isShippingMethodsLoading;

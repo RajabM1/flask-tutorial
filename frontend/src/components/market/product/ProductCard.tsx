@@ -11,10 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { Item } from "../../../types/item";
 import PriceSection from "./PriceSection";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
+import { paths } from "../../../config/paths";
 
 const ProductCard = ({ id, name, price, image, category, discount }: Item) => {
     const navigate = useNavigate();
-    const onCardClick = () => navigate(`/market/product/${id}`);
+    const onCardClick = () => navigate(paths.MARKET.BY_PRODUCT_ID(id ?? 1));
     const { addToCart } = useShoppingCart();
     return (
         <Grid>

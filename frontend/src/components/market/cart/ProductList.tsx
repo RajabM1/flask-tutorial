@@ -8,6 +8,7 @@ import ProductActionSection from "./ProductActionSection";
 import PriceSection from "../product/PriceSection";
 import { useCategory } from "../../../contexts/CategoryContext";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
+import { paths } from "../../../config/paths";
 
 const ProductList = ({ data }: { data: Item[] }) => {
     const navigate = useNavigate();
@@ -27,7 +28,8 @@ const ProductList = ({ data }: { data: Item[] }) => {
 
     const getCategoryById = (id: number) =>
         categories.find((category) => category.id === id);
-    const handleNavigate = (id: number) => navigate(`/market/product/${id}`);
+    const handleNavigate = (id: number) =>
+        navigate(paths.MARKET.BY_PRODUCT_ID(id));
 
     return (
         <Box className="product-list">
