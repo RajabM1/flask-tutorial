@@ -15,12 +15,12 @@ import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 
 const CartPage = () => {
     const { t } = useTranslation("cart-page");
-    const { cartItems } = useShoppingCart();
+    const { cartItems, cartQuantity } = useShoppingCart();
     const { itemsOnDiscount } = useMarketPage();
     return (
         <Root>
             <Container maxWidth="xl" className="cart-page">
-                {cartItems.length ? (
+                {cartQuantity ? (
                     <>
                         <Box className="header-box">
                             <Typography
@@ -28,7 +28,7 @@ const CartPage = () => {
                                 component="h1"
                                 className="cart-title"
                             >
-                                {t("title")} ({cartItems.length})
+                                {t("title")} ({cartQuantity})
                             </Typography>
                         </Box>
                         <Grid2 container spacing={2} p={2}>
@@ -41,7 +41,7 @@ const CartPage = () => {
                                 size={{ xs: 12, md: 4 }}
                             >
                                 <Box className="side-section">
-                                    <OrderSummary cartItems={cartItems} />
+                                    <OrderSummary />
                                     <CustomerTrustSection />
                                 </Box>
                             </Grid2>
