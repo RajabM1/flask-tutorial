@@ -51,7 +51,13 @@ function NavBar() {
     const settings = [
         { label: t("settings.profile"), to: "#" },
         { label: t("settings.wishlist"), to: "#" },
-        { label: t("settings.logout"), onClick: () => handleLogout() },
+        {
+            label: t("settings.logout"),
+            onClick: () => {
+                navigate(paths.AUTH.LOGIN, { replace: true });
+                handleLogout();
+            },
+        },
     ];
 
     return (

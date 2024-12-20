@@ -6,6 +6,8 @@ import { useState } from "react";
 import { errorFormatter } from "../../../utils/errorFormatter";
 import { useTranslation } from "react-i18next";
 import { PageMessageType } from "../../../types/pageMessage";
+import { useNavigate } from "react-router-dom";
+import { paths } from "../../../config/paths";
 
 export const useRegisterForm = () => {
     const { t } = useTranslation("register-page");
@@ -13,6 +15,7 @@ export const useRegisterForm = () => {
     const [pageMessage, setPageMessage] = useState<PageMessageType | null>(
         null
     );
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -26,6 +29,7 @@ export const useRegisterForm = () => {
         setPageMessage(null);
         try {
             await handleRegister(data);
+            navigate(paths.HOME, { replace: true });
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error?.status == 400) {
