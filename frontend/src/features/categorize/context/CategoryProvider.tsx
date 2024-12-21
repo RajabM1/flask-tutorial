@@ -1,8 +1,8 @@
 import { PropsWithChildren } from "react";
-import { useFetch } from "../../hooks/shared/useFetch";
-import HttpService from "../../service/HttpService";
+import { useFetch } from "../../../hooks/shared/useFetch";
+import HttpService from "../../../service/HttpService";
 import CategoryContext from "./CategoryContext";
-import endpoints from "../../config/api";
+import endpoints from "../../../config/api";
 
 const CategoryProvider = ({ children }: PropsWithChildren) => {
     const {

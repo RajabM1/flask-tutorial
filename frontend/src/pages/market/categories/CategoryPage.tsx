@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Item } from "../../../types/item";
 import "../../../../styles/pages/market/categories/CategoryPage.scss";
-import { useCategory } from "../../../contexts/CategoryContext";
+import { useCategory } from "../../../features/categorize/context";
 
 const CategoryPage = () => {
     const { category } = useParams();

@@ -1,5 +1,5 @@
-import { Category } from "../../types/category";
-import { Item } from "../../types/item";
+import { Category } from "../../../types/category";
+import { Item } from "../../../types/item";
 
 export interface ICategoryContext {
     categories: Category[];

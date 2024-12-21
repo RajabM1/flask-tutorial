@@ -19,7 +19,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Badge from "@mui/material/Badge";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../features/auth/context";
-import { useCategory } from "../../../contexts/CategoryContext";
+import { useCategory } from "../../../features/categorize/context";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 import { paths } from "../../../config/paths";
 
