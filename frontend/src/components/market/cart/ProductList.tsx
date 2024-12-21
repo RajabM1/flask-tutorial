@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import ProductActionSection from "./ProductActionSection";
 import PriceSection from "../product/PriceSection";
-import { useCategory } from "../../../contexts/CategoryContext";
+import { useCategory } from "../../../features/categories/context";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 import { paths } from "../../../config/paths";
 

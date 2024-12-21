@@ -9,7 +9,7 @@ import { NextArrow } from "./layout/NextArrow";
 import { PrevArrow } from "./layout/PrevArrow";
 import { Item } from "../../../types/item";
 import ProductCard from "../product/ProductCard";
-import { useCategory } from "../../../features/categorize/context";
+import { useCategory } from "../../../features/categories/context";
 
 interface Props {
     label: string;

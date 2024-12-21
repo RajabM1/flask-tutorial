@@ -7,7 +7,7 @@ import {
 import AuthContext from "./AuthContext";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import * as Services from "./services";
-import { query } from "../../../config/query";
+import { queryKeys } from "../../../config/query";
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
     const queryClient = useQueryClient();
@@ -16,7 +16,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     const { data: currentUser } = useQuery({
         initialData: null,
         enabled: !!authToken,
-        queryKey: [query.CURRENT_USER],
+        queryKey: [queryKeys.CURRENT_USER],
         queryFn: () => Services.fetchCurrentUser(authToken),
     });
 
@@ -24,7 +24,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         mutationFn: Services.login,
         onSuccess: (data) => {
             setTokens(data.access_token, data.refresh_token);
-            queryClient.invalidateQueries({ queryKey: [query.CURRENT_USER] });
+            queryClient.invalidateQueries({ queryKey: [queryKeys.CURRENT_USER] });
         },
     });
 
@@ -32,7 +32,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         mutationFn: Services.register,
         onSuccess: (data) => {
             setTokens(data.access_token, data.refresh_token);
-            queryClient.invalidateQueries({ queryKey: [query.CURRENT_USER] });
+            queryClient.invalidateQueries({ queryKey: [queryKeys.CURRENT_USER] });
         },
     });
 

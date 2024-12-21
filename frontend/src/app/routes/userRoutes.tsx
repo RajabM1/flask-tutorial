@@ -15,7 +15,7 @@ const ResetPasswordPage = lazy(
 const Home = lazy(() => import("../../pages/market/Home"));
 const ProductPage = lazy(() => import("../../pages/market/items/ProductPage"));
 const CategoryPage = lazy(
-    () => import("../../pages/market/categories/CategoryPage")
+    () => import("../../features/categories/pages/CategoryPage")
 );
 const CartPage = lazy(() => import("../../pages/market/cart/CartPage"));
 const CheckoutPage = lazy(() => import("../../pages/market/cart/CheckoutPage"));

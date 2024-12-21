@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Item } from "../../../types/item";
 import { useEffect, useState } from "react";
 import SearchAppBar from "../../shared/search/SearchBar";
-import { useCategory } from "../../../features/categorize/context";
+import { useCategory } from "../../../features/categories/context";
 
 const ProductList = ({ data }: { data: Item[] }) => {
     const { categories } = useCategory();
