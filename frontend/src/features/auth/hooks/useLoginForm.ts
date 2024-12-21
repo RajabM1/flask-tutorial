@@ -5,6 +5,8 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PageMessageType } from "../../../types/pageMessage";
+import { useNavigate } from "react-router-dom";
+import { paths } from "../../../config/paths";
 
 export const useLoginForm = () => {
     const { t } = useTranslation("login-page");
@@ -12,6 +14,7 @@ export const useLoginForm = () => {
     const [pageMessage, setPageMessage] = useState<PageMessageType | null>(
         null
     );
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -24,6 +27,7 @@ export const useLoginForm = () => {
         setPageMessage(null);
         try {
             await handleLogin(data);
+            navigate(paths.HOME, { replace: true });
         } catch {
             setPageMessage({
                 message: t("messages.invalid_data"),

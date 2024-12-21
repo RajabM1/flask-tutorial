@@ -1,112 +1,68 @@
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren } from "react";
 import {
     getAccessToken,
     removeTokens,
     setTokens,
 } from "../../../../utils/jwtHelpers";
-import { User } from "../../../../types/user";
-import HttpService from "../../../../service/HttpService";
-import { router } from "../../../../app/routes/routes";
 import AuthContext from "./AuthContext";
-import endpoints from "../../../../config/api";
-import { paths } from "../../../../config/paths";
-import { registerForm } from "../../../../features/auth/schemas/registerSchema";
-import { loginForm } from "../../../../features/auth/schemas/loginSchema";
-import { forgetPasswordForm } from "../../schemas/forgetPasswordSchema";
-import { resetPasswordForm } from "../../schemas/resetPasswordSchema";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
+import * as Services from "./services";
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
-    const [authToken, setAuthToken] = useState<string | null>(getAccessToken());
-    const [currentUser, setCurrentUser] = useState<User | null>();
+    const queryClient = useQueryClient();
+    const authToken = getAccessToken();
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            if (!authToken) {
-                setCurrentUser(null);
-                return;
-            }
+    const { data: currentUser } = useQuery({
+        initialData: null,
+        enabled: !!authToken,
+        queryKey: ["CurrentUser"],
+        queryFn: () => Services.fetchCurrentUser(authToken),
+    });
 
-            try {
-                const response = await HttpService.getRequest(
-                    endpoints.AUTH.ME
-                );
-                setCurrentUser(response.data.current_user);
-            } catch {
-                setCurrentUser(null);
-                setAuthToken(null);
-                removeTokens();
-            }
-        };
+    const loginMutation = useMutation({
+        mutationFn: Services.login,
+        onSuccess: (data) => {
+            setTokens(data.access_token, data.refresh_token);
+            queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+        },
+    });
 
-        fetchUser();
-    }, [authToken]);
+    const registerMutation = useMutation({
+        mutationFn: Services.register,
+        onSuccess: (data) => {
+            setTokens(data.access_token, data.refresh_token);
+            queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+        },
+    });
 
-    const handleLogin = async (formData: loginForm) => {
-        const response = await HttpService.postRequest(
-            endpoints.AUTH.LOGIN,
-            formData
-        );
-        setAuthToken(response.data.access_token);
-        setCurrentUser(response.data.current_user);
-        setTokens(response.data.access_token, response.data.refresh_token);
-        router.navigate(paths.HOME, { replace: true });
-    };
+    const forgetPasswordMutation = useMutation({
+        mutationFn: Services.forgetPassword,
+    });
 
-    const handleRegister = async (formData: registerForm) => {
-        const response = await HttpService.postRequest(
-            endpoints.AUTH.REGISTER,
-            {
-                username: formData.username,
-                email: formData.email,
-                password: formData.password,
-            }
-        );
-        setAuthToken(response.data.access_token);
-        setCurrentUser(response.data.current_user);
-        setTokens(response.data.access_token, response.data.refresh_token);
-        router.navigate(paths.HOME, { replace: true });
-    };
+    const resetPasswordMutation = useMutation({
+        mutationFn: Services.resetPassword,
+    });
 
-    const handleForgetPassword = async (formData: forgetPasswordForm) => {
-        await HttpService.postRequest(endpoints.AUTH.FORGET_PASSWORD, {
-            email: formData.email,
-        });
-    };
-
-    const handleResetPassword = async (
-        formData: resetPasswordForm,
-        token: string
-    ) => {
-        await HttpService.postRequest(endpoints.AUTH.RESET_PASSWORD(token), {
-            password: formData.password,
-        });
-    };
-
-    const handleLogout = async () => {
-        try {
-            await HttpService.deleteRequest(endpoints.AUTH.LOGOUT);
-        } catch {
-            console.error("Failed to logout");
-        } finally {
-            router.navigate(paths.AUTH.LOGIN, { replace: true });
-            setAuthToken(null);
-            setCurrentUser(null);
+    const logoutMutation = useMutation({
+        mutationFn: Services.logout,
+        onSettled: () => {
+            queryClient.clear();
             removeTokens();
-        }
+        },
+    });
+
+    const valueToReturn = {
+        authToken,
+        currentUser,
+        handleRegister: registerMutation.mutateAsync,
+        handleLogin: loginMutation.mutateAsync,
+        handleForgetPassword: forgetPasswordMutation.mutateAsync,
+        handleResetPassword: resetPasswordMutation.mutateAsync,
+        handleLogout: logoutMutation.mutateAsync,
     };
 
     return (
-        <AuthContext.Provider
-            value={{
-                authToken,
-                currentUser,
-                handleRegister,
-                handleLogin,
-                handleForgetPassword,
-                handleResetPassword,
-                handleLogout,
-            }}
-        >
+        <AuthContext.Provider value={valueToReturn}>
             {children}
         </AuthContext.Provider>
     );
