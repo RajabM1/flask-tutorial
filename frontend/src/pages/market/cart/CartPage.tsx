@@ -2,7 +2,7 @@ import Root from "../Root";
 import OrderSummary from "../../../components/market/cart/OrderSummary";
 import CustomerTrustSection from "../../../components/market/cart/CustomerTrustSection";
 import ProductList from "../../../components/market/cart/ProductList";
-import { useMarketPage } from "../../../hooks/items/useMarketPage";
+import { useMarketPage } from "../../../features/product/hooks/useMarketPage";
 import { useTranslation } from "react-i18next";
 import ProductSlider from "../../../components/market/slider/ProductSlider";
 import Container from "@mui/material/Container";

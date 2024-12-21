@@ -13,7 +13,7 @@ const ResetPasswordPage = lazy(
     () => import("../../features/auth/pages/ResetPasswordPage")
 );
 const Home = lazy(() => import("../../pages/market/Home"));
-const ProductPage = lazy(() => import("../../pages/market/items/ProductPage"));
+const ProductPage = lazy(() => import("../../features/product/pages/ProductPage"));
 const CategoryPage = lazy(
     () => import("../../features/categories/pages/CategoryPage")
 );

@@ -1,18 +1,18 @@
 import { Link, useParams } from "react-router-dom";
-import ImageSection from "../../../components/market/product/ImageSection";
-import Rating from "../../../components/market/product/Rating";
-import { useUpdateItemForm } from "../../../hooks/items/useUpdateItemForm";
-import Root from "../Root";
-import { useMarketPage } from "../../../hooks/items/useMarketPage";
+import ImageSection from "../../../features/product/components/ImageSection";
+import Rating from "../../../features/product/components/Rating";
+import { useUpdateItemForm } from "../../../features/product/hooks/useUpdateItemForm";
+import { useMarketPage } from "../../../features/product/hooks/useMarketPage";
 import QuantitySelector from "../../../components/market/product/QuantitySelector";
 import { useState } from "react";
 import Message from "../../../components/shared/feedback/Message";
 import { Box, Button, Container, Typography } from "@mui/material";
 import ProductSlider from "../../../components/market/slider/ProductSlider";
 import { useTranslation } from "react-i18next";
-import "../../../../styles/pages/market/items/ProductPage.scss";
 import PriceSection from "../../../components/market/product/PriceSection";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
+import Root from "../../../pages/market/Root";
+import "../styles/ProductPage.scss";
 
 const ProductPage = () => {
     const { t } = useTranslation("product-page");

@@ -1,4 +1,3 @@
-import { Item } from "../../../types/item";
 import QuantitySelector from "../product/QuantitySelector";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -9,6 +8,7 @@ import PriceSection from "../product/PriceSection";
 import { useCategory } from "../../../features/categories/context";
 import { useShoppingCart } from "../../../contexts/ShoppingCartContext";
 import { paths } from "../../../config/paths";
+import { Item } from "../../../features/product/schemas/itemSchema";
 
 const ProductList = ({ data }: { data: Item[] }) => {
     const navigate = useNavigate();

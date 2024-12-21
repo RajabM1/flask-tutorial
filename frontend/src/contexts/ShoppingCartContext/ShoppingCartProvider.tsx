@@ -1,9 +1,9 @@
 import { PropsWithChildren, useEffect, useState } from "react";
-import { Item } from "../../types/item";
 import { useFetch } from "../../hooks/shared/useFetch";
 import HttpService from "../../service/HttpService";
 import ShoppingCartContext from "./ShoppingCartContext";
 import endpoints from "../../config/api";
+import { Item } from "../../features/product/schemas/itemSchema";
 
 const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
     const [cartItems, setCartItems] = useState<Item[]>([]);

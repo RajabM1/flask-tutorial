@@ -1,7 +1,7 @@
-@use "../../../components/market/product/ImageSection.scss";
-@use "../../../components/market/product/ProductCard.scss";
-@use "../../../components/market/product/ProductList.scss";
-@use "../../../components/market/product/QuantitySelector.scss";
+@use "./ImageSection.scss";
+@use "../../../../styles/components/market/product/ProductCard.scss";
+@use "../../../../styles/components/market/product/ProductList.scss";
+@use "../../../../styles/components/market/product/QuantitySelector.scss";
 
 .product-container {
     margin: 2rem auto;

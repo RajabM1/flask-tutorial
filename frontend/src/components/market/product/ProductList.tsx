@@ -3,10 +3,10 @@ import ProductCard from "./ProductCard";
 import Pagination from "@mui/material/Pagination";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Item } from "../../../types/item";
 import { useEffect, useState } from "react";
 import SearchAppBar from "../../shared/search/SearchBar";
 import { useCategory } from "../../../features/categories/context";
+import { Item } from "../../../features/product/schemas/itemSchema";
 
 const ProductList = ({ data }: { data: Item[] }) => {
     const { categories } = useCategory();
@@ -56,7 +56,7 @@ const ProductList = ({ data }: { data: Item[] }) => {
                                 price={item.price}
                                 image={item.image ?? ""}
                                 category={
-                                    getCategoryById(Number(item.category))?.name
+                                    getCategoryById(Number(item.category))?.name ?? "Other"
                                 }
                                 discount={item.discount}
                             />

@@ -1,4 +1,4 @@
-import { Item } from "../../types/item";
+import { Item } from "../../features/product/schemas/itemSchema";
 
 export interface IShoppingCartContext {
     cartQuantity: number;

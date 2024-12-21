@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import HttpService from "../../service/HttpService";
-import { Item } from "../../types/item";
-import endpoints from "../../config/api";
+import HttpService from "../../../service/HttpService";
+import endpoints from "../../../config/api";
+import { Item } from "../schemas/itemSchema";
 
 export const useUpdateItemForm = (id: number) => {
     const [formData, setFormData] = useState<Item | null>(null);

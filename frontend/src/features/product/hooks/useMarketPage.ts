@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Item } from "../../types/item";
-import HttpService from "../../service/HttpService";
-import endpoints from "../../config/api";
-import { PageMessageType } from "../../types/pageMessage";
+import HttpService from "../../../service/HttpService";
+import endpoints from "../../../config/api";
+import { PageMessageType } from "../../../types/pageMessage";
+import { Item } from "../schemas/itemSchema";
 
 export const useMarketPage = () => {
     const { t } = useTranslation("market-page");
