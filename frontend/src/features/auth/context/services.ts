@@ -1,16 +1,14 @@
-import endpoints from "../../../../config/api";
-import HttpService from "../../../../service/HttpService";
-import { removeTokens } from "../../../../utils/jwtHelpers";
-import { forgetPasswordForm } from "../../schemas/forgetPasswordSchema";
-import { loginForm } from "../../schemas/loginSchema";
-import { registerForm } from "../../schemas/registerSchema";
-import { resetPasswordForm } from "../../schemas/resetPasswordSchema";
+import endpoints from "../../../config/api";
+import HttpService from "../../../service/HttpService";
+import { removeTokens } from "../../../utils/jwtHelpers";
+import { forgetPasswordForm } from "../schemas/forgetPasswordSchema";
+import { loginForm } from "../schemas/loginSchema";
+import { registerForm } from "../schemas/registerSchema";
+import { resetPasswordForm } from "../schemas/resetPasswordSchema";
 
 export const fetchCurrentUser = async (authToken: string | null) => {
     if (!authToken) return null;
     try {
-        console.log("fetchCurrentUser");
-        
         const response = await HttpService.getRequest(endpoints.AUTH.ME);
         return response.data.current_user;
     } catch {

@@ -1,8 +1,8 @@
-import { loginForm } from "../../schemas/loginSchema";
-import { registerForm } from "../../schemas/registerSchema";
-import { forgetPasswordForm } from "../../schemas/forgetPasswordSchema";
-import { User } from "../../../../types/user";
-import { resetPasswordForm } from "../../schemas/resetPasswordSchema";
+import { loginForm } from "../schemas/loginSchema";
+import { registerForm } from "../schemas/registerSchema";
+import { forgetPasswordForm } from "../schemas/forgetPasswordSchema";
+import { User } from "../../../types/user";
+import { resetPasswordForm } from "../schemas/resetPasswordSchema";
 import { UseMutateFunction } from "@tanstack/react-query";
 
 export interface IAuthContext {

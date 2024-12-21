@@ -1,8 +1,7 @@
 import { PropsWithChildren } from "react";
 import { getUserRole } from "../../utils/jwtHelpers";
 import UnauthorizedPage from "../../features/errors/pages/UnauthorizedPage";
-import { useAuth } from "../../features/auth/context/AuthContext";
-
+import { useAuth } from "../../features/auth/context";
 
 type ProtectedRouteProps = PropsWithChildren & {
     allowedRoles: Array<string>;
